@@ -1,0 +1,629 @@
+/* ==========================================
+   静心书斋 - 主样式文件
+   ========================================== */
+
+/* CSS变量 - 动态取色会更新这些值 */
+:root {
+    /* 默认配色（文艺书香风格） */
+    --primary-color: #4a4a4a;
+    --secondary-color: #6b5b4f;
+    --accent-color: #8b7355;
+    --text-color: #3d3d3d;
+    --text-light: #f5f5f0;
+    --bg-overlay: rgba(245, 245, 240, 0.85);
+    --bg-overlay-dark: rgba(30, 30, 28, 0.6);
+    
+    /* 字体 */
+    --font-title: 'Ma Shan Zheng', cursive;
+    --font-body: 'LXGW WenKai', serif;
+    --font-quote-1: 'Ma Shan Zheng', cursive;
+    --font-quote-2: 'Zhi Mang Xing', cursive;
+    --font-quote-3: 'LXGW WenKai', 'KaiTi', 'STKaiti', serif;
+    --font-quote-4: 'Klee One', 'LXGW WenKai', 'KaiTi', serif;
+    --font-quote-5: 'Iansui', 'LXGW WenKai', 'KaiTi', serif;
+    --font-quote-6: 'Free HK Kai 4700', 'LXGW WenKai', 'KaiTi', serif;
+    --font-quote-7: 'KaiTi', 'STKaiti', 'Kaiti SC', 'DFKai-SB', 'BiauKai', serif;
+    
+    /* 动画时间 */
+    --transition-slow: 0.8s ease;
+    --transition-normal: 0.4s ease;
+    --transition-fast: 0.2s ease;
+}
+
+/* ==========================================
+   基础重置
+   ========================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-body);
+    color: var(--text-color);
+    line-height: 1.8;
+    overflow-x: hidden;
+}
+
+/* ==========================================
+   背景层 - Ken Burns 效果
+   ========================================== */
+.background-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.background-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+}
+
+.background-slide.active {
+    opacity: 1;
+}
+
+/* Ken Burns 动画 - 只放大不缩小，持续整个显示周期 */
+@keyframes kenburns-1 {
+    0% {
+        transform: scale(1) translate(0, 0);
+    }
+    100% {
+        transform: scale(1.15) translate(-2%, -1%);
+    }
+}
+
+@keyframes kenburns-2 {
+    0% {
+        transform: scale(1) translate(0, 0);
+    }
+    100% {
+        transform: scale(1.12) translate(1%, -2%);
+    }
+}
+
+@keyframes kenburns-3 {
+    0% {
+        transform: scale(1) translate(0, 0);
+    }
+    100% {
+        transform: scale(1.18) translate(-1%, 1%);
+    }
+}
+
+@keyframes kenburns-4 {
+    0% {
+        transform: scale(1) translate(0, 0);
+    }
+    100% {
+        transform: scale(1.14) translate(2%, 1%);
+    }
+}
+
+/* 动画持续时间与背景切换间隔一致，使用 forwards 保持最终状态 */
+.background-slide.kenburns-1 {
+    animation: kenburns-1 12s ease-out forwards;
+}
+
+.background-slide.kenburns-2 {
+    animation: kenburns-2 12s ease-out forwards;
+}
+
+.background-slide.kenburns-3 {
+    animation: kenburns-3 12s ease-out forwards;
+}
+
+.background-slide.kenburns-4 {
+    animation: kenburns-4 12s ease-out forwards;
+}
+
+/* ==========================================
+   导航栏
+   ========================================== */
+.nav-trigger-zone {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 150px;
+    height: 80px;
+    z-index: 1001;
+    /* 调试时可取消注释查看触发区 */
+    /* background: rgba(255,0,0,0.2); */
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.3), transparent);
+    transform: translateY(-100%);
+    opacity: 0;
+    transition: transform var(--transition-normal), opacity var(--transition-normal);
+}
+
+.navbar.visible {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.navbar.at-top {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.nav-logo {
+    font-family: var(--font-title);
+    font-size: 1.8rem;
+    color: var(--text-light);
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 40px;
+}
+
+.nav-links a {
+    font-family: var(--font-body);
+    font-size: 1.1rem;
+    color: var(--text-light);
+    text-decoration: none;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+    position: relative;
+    padding: 5px 0;
+    transition: color var(--transition-fast);
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: var(--text-light);
+    transition: width var(--transition-normal), left var(--transition-normal);
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+    left: 0;
+}
+
+/* ==========================================
+   通用 Section 样式
+   ========================================== */
+.section {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    padding: 80px 50px;
+}
+
+.section-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg-overlay);
+    z-index: 0;
+    transition: background var(--transition-slow);
+}
+
+.section-title {
+    font-family: var(--font-title);
+    font-size: 3rem;
+    color: var(--secondary-color);
+    margin-bottom: 40px;
+    position: relative;
+    z-index: 1;
+    text-align: center;
+}
+
+.section-title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 3px;
+    background: var(--accent-color);
+    margin: 15px auto 0;
+}
+
+/* ==========================================
+   首页 Section
+   ========================================== */
+.home-section {
+    justify-content: center;
+    text-align: center;
+    background: transparent;
+}
+
+.home-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg-overlay-dark);
+    z-index: 0;
+    transition: background var(--transition-slow);
+}
+
+.home-content {
+    position: relative;
+    z-index: 1;
+    transition: opacity 1.5s ease-out;
+}
+
+.home-content.fade-out {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.site-title {
+    font-family: var(--font-title);
+    font-size: 5rem;
+    color: #1a1a1a;
+    text-shadow: 2px 2px 8px rgba(255,255,255,0.5);
+    margin-bottom: 20px;
+    letter-spacing: 0.1em;
+}
+
+.site-slogan {
+    font-family: var(--font-body);
+    font-size: 1.5rem;
+    color: #2a2a2a;
+    text-shadow: 1px 1px 4px rgba(255,255,255,0.5);
+    letter-spacing: 0.3em;
+    opacity: 0.9;
+}
+
+/* 诗词展示区 - 避开中心站名区域 */
+.quote-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    pointer-events: none;
+    /* 中心区域预留给站名标语 */
+}
+
+.quote-text {
+    position: absolute;
+    max-width: 600px;
+    font-size: 1.8rem; /* 默认值，会被JS覆盖 */
+    color: var(--text-light);
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+    line-height: 1.6;
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+    text-align: center;
+    white-space: pre-wrap; /* 保留换行 */
+}
+
+.quote-text.visible {
+    opacity: 1;
+}
+
+.quote-text.font-1 {
+    font-family: var(--font-quote-1);
+}
+
+.quote-text.font-2 {
+    font-family: var(--font-quote-2);
+}
+
+.quote-text.font-3 {
+    font-family: var(--font-quote-3);
+}
+
+.quote-text.font-4 {
+    font-family: var(--font-quote-4);
+}
+
+.quote-text.font-5 {
+    font-family: var(--font-quote-5);
+}
+
+.quote-text.font-6 {
+    font-family: var(--font-quote-6);
+}
+
+.quote-text.font-7 {
+    font-family: var(--font-quote-7);
+}
+
+.quote-author {
+    position: absolute;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    max-width: 600px;
+    text-align: center;
+    color: var(--text-light);
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+}
+
+.quote-author.visible {
+    opacity: 0.8;
+}
+
+.quote-author.font-1 {
+    font-family: var(--font-quote-1);
+}
+
+.quote-author.font-2 {
+    font-family: var(--font-quote-2);
+}
+
+.quote-author.font-3 {
+    font-family: var(--font-quote-3);
+}
+
+.quote-author.font-4 {
+    font-family: var(--font-quote-4);
+}
+
+.quote-author.font-5 {
+    font-family: var(--font-quote-5);
+}
+
+.quote-author.font-6 {
+    font-family: var(--font-quote-6);
+}
+
+.quote-author.font-7 {
+    font-family: var(--font-quote-7);
+}
+
+/* 向下滚动提示 */
+.scroll-hint {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+    text-align: center;
+    color: var(--text-light);
+    opacity: 0.7;
+    animation: bounce 2s infinite;
+    transition: opacity 1.5s ease-out;
+}
+
+.scroll-hint.fade-out {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.scroll-hint span {
+    font-size: 0.9rem;
+    letter-spacing: 0.2em;
+}
+
+.scroll-arrow {
+    width: 30px;
+    height: 30px;
+    margin: 10px auto 0;
+    border-right: 2px solid var(--text-light);
+    border-bottom: 2px solid var(--text-light);
+    transform: rotate(45deg);
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateX(-50%) translateY(0);
+    }
+    40% {
+        transform: translateX(-50%) translateY(-10px);
+    }
+    60% {
+        transform: translateX(-50%) translateY(-5px);
+    }
+}
+
+/* ==========================================
+   书斋 Section
+   ========================================== */
+.bookshelf-section {
+    background: transparent;
+}
+
+.bookshelf-content {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    width: 100%;
+    text-align: center;
+}
+
+.reading-benefits {
+    margin-bottom: 50px;
+}
+
+.benefits-text {
+    font-size: 1.2rem;
+    line-height: 2.2;
+    color: var(--text-color);
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: justify;
+    text-indent: 2em;
+}
+
+/* 书籍预览网格 */
+.book-preview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 30px;
+    margin-bottom: 50px;
+    padding: 20px;
+}
+
+.book-card {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+}
+
+.book-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.book-cover {
+    width: 100%;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+    border-bottom: 1px solid #eee;
+}
+
+.book-info {
+    padding: 15px;
+    text-align: left;
+}
+
+.book-title {
+    font-family: var(--font-title);
+    font-size: 1.2rem;
+    color: var(--secondary-color);
+    margin-bottom: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.book-author {
+    font-size: 0.9rem;
+    color: #888;
+}
+
+/* 进入书斋按钮 */
+.enter-bookshelf-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px 40px;
+    font-family: var(--font-body);
+    font-size: 1.1rem;
+    color: var(--text-light);
+    background: var(--secondary-color);
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background var(--transition-normal), transform var(--transition-fast);
+}
+
+.enter-bookshelf-btn:hover {
+    background: var(--accent-color);
+    transform: scale(1.05);
+}
+
+.btn-arrow {
+    width: 20px;
+    height: 20px;
+    transition: transform var(--transition-fast);
+}
+
+.enter-bookshelf-btn:hover .btn-arrow {
+    transform: translateX(5px);
+}
+
+/* ==========================================
+   关于我 Section
+   ========================================== */
+.about-section {
+    background: transparent;
+}
+
+.about-content {
+    position: relative;
+    z-index: 1;
+    max-width: 800px;
+    text-align: center;
+}
+
+.about-text {
+    font-size: 1.1rem;
+    line-height: 2;
+    color: var(--text-color);
+}
+
+/* ==========================================
+   页脚
+   ========================================== */
+.footer {
+    background: var(--primary-color);
+    color: var(--text-light);
+    text-align: center;
+    padding: 30px;
+    font-size: 0.9rem;
+}
+
+/* ==========================================
+   响应式（预留，后续启用）
+   ========================================== */
+/*
+@media (max-width: 768px) {
+    .site-title {
+        font-size: 3rem;
+    }
+    
+    .site-slogan {
+        font-size: 1.2rem;
+    }
+    
+    .navbar {
+        padding: 15px 20px;
+    }
+    
+    .nav-links {
+        gap: 20px;
+    }
+    
+    .section {
+        padding: 60px 20px;
+    }
+    
+    .book-preview-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+}
+*/

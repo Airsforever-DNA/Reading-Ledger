@@ -1,0 +1,330 @@
+/* ==========================================
+   读书笔记详情页样式
+   ========================================== */
+
+.book-detail-page {
+    background: linear-gradient(135deg, #f5f5f0 0%, #e8e4df 100%);
+    min-height: 100vh;
+}
+
+.book-detail-page .navbar {
+    position: fixed;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.book-detail-page .nav-logo a {
+    color: var(--secondary-color);
+    text-decoration: none;
+}
+
+.book-detail-page .nav-links a {
+    color: var(--text-color);
+    text-shadow: none;
+}
+
+.book-detail-page .nav-links a:hover {
+    color: var(--accent-color);
+}
+
+/* 主内容区 */
+.book-detail-main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 100px 30px 60px;
+}
+
+/* 书籍头部 */
+.book-header {
+    background: white;
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    margin-bottom: 40px;
+}
+
+.book-header-content {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+}
+
+.book-cover-wrapper {
+    flex-shrink: 0;
+}
+
+.book-detail-cover {
+    width: 200px;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.book-meta {
+    flex: 1;
+}
+
+.book-detail-title {
+    font-family: var(--font-title);
+    font-size: 2.5rem;
+    color: var(--secondary-color);
+    margin-bottom: 25px;
+    line-height: 1.3;
+}
+
+.book-info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.info-label {
+    font-size: 0.85rem;
+    color: #999;
+    letter-spacing: 0.05em;
+}
+
+.info-value {
+    font-size: 1rem;
+    color: var(--text-color);
+}
+
+/* 内容区块 */
+.book-section {
+    background: white;
+    border-radius: 16px;
+    padding: 35px 40px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    margin-bottom: 30px;
+}
+
+.section-heading {
+    font-family: var(--font-title);
+    font-size: 1.6rem;
+    color: var(--secondary-color);
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #f0ebe6;
+}
+
+.heading-icon {
+    font-size: 1.4rem;
+}
+
+.section-content {
+    line-height: 2;
+}
+
+.book-summary {
+    text-indent: 2em;
+    color: var(--text-color);
+    font-size: 1.05rem;
+}
+
+/* 手风琴样式 */
+.accordion {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.accordion-item {
+    border: 1px solid #e8e4df;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: box-shadow var(--transition-normal);
+}
+
+.accordion-item:hover {
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+
+.accordion-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 24px;
+    background: #faf9f7;
+    cursor: pointer;
+    transition: background var(--transition-fast);
+    user-select: none;
+}
+
+.accordion-header:hover {
+    background: #f5f3f0;
+}
+
+.accordion-title {
+    font-family: var(--font-title);
+    font-size: 1.2rem;
+    color: var(--secondary-color);
+}
+
+.accordion-icon {
+    width: 24px;
+    height: 24px;
+    transition: transform var(--transition-normal);
+    color: var(--accent-color);
+}
+
+.accordion-item.active .accordion-icon {
+    transform: rotate(180deg);
+}
+
+.accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-out;
+}
+
+.accordion-item.active .accordion-content {
+    max-height: 2000px;
+}
+
+.accordion-body {
+    padding: 20px 24px 25px;
+    border-top: 1px solid #e8e4df;
+}
+
+.chapter-overview {
+    color: var(--text-color);
+    line-height: 1.9;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px dashed #e8e4df;
+}
+
+/* 子章节 */
+.sub-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.sub-section {
+    padding-left: 20px;
+    border-left: 3px solid var(--accent-color);
+}
+
+.sub-section-title {
+    font-weight: 600;
+    color: var(--secondary-color);
+    margin-bottom: 8px;
+    font-size: 1.05rem;
+}
+
+.sub-section-content {
+    color: #666;
+    line-height: 1.8;
+    font-size: 0.95rem;
+}
+
+/* 经典回顾 */
+.highlights-list {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.highlight-item {
+    padding: 25px;
+    background: linear-gradient(135deg, #faf9f7 0%, #f5f3f0 100%);
+    border-radius: 12px;
+    border-left: 4px solid var(--accent-color);
+}
+
+.highlight-text {
+    font-family: var(--font-title);
+    font-size: 1.3rem;
+    color: var(--secondary-color);
+    line-height: 1.6;
+    margin-bottom: 12px;
+}
+
+.highlight-text::before {
+    content: '"';
+    color: var(--accent-color);
+    font-size: 1.5rem;
+    margin-right: 5px;
+}
+
+.highlight-text::after {
+    content: '"';
+    color: var(--accent-color);
+    font-size: 1.5rem;
+    margin-left: 5px;
+}
+
+.highlight-note {
+    color: #777;
+    font-size: 0.95rem;
+    padding-left: 20px;
+    position: relative;
+}
+
+.highlight-note::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--accent-color);
+}
+
+/* 返回按钮 */
+.back-button-wrapper {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 30px;
+    background: white;
+    color: var(--secondary-color);
+    text-decoration: none;
+    border-radius: 50px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: all var(--transition-normal);
+}
+
+.back-button:hover {
+    background: var(--secondary-color);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+.back-button svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* 页脚调整 */
+.book-detail-page .footer {
+    margin-top: 60px;
+}
+
+/* 空状态 */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #999;
+}
+
+.empty-state h2 {
+    font-family: var(--font-title);
+    color: var(--secondary-color);
+    margin-bottom: 15px;
+}

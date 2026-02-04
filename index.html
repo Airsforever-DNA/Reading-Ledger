@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>静心书斋 - 修身养性，博闻强识</title>
+    
+    <!-- 字体引入 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- 马善政毛笔楷书用于标题 -->
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+    <!-- 霞鹜文楷用于正文 -->
+    <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai&display=swap" rel="stylesheet">
+    <!-- Liu Jian Mao Cao 用于诗词变体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Liu+Jian+Mao+Cao&display=swap" rel="stylesheet">
+    <!-- Zhi Mang Xing 用于诗词变体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Zhi+Mang+Xing&display=swap" rel="stylesheet">
+    <!-- Klee One（类楷/手写风格） -->
+    <link href="https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Iansui（手写风格） -->
+    <link href="https://fonts.googleapis.com/css2?family=Iansui&display=swap" rel="stylesheet">
+    <!-- Free HK Kai 4700（开源楷书，若加载失败会自动回退） -->
+    <link href="https://fonts.zeoseven.com/items/80/?format=css" rel="stylesheet">
+    
+    <!-- Color Thief 用于动态取色 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
+    
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- 背景层 -->
+    <div class="background-container">
+        <div class="background-slide active" id="bg-slide-1"></div>
+        <div class="background-slide" id="bg-slide-2"></div>
+    </div>
+
+    <!-- 导航栏触发区 -->
+    <div class="nav-trigger-zone" id="navTrigger"></div>
+    
+    <!-- 导航栏 -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-logo">静心书斋</div>
+        <ul class="nav-links">
+            <li><a href="#home">首页</a></li>
+            <li><a href="#bookshelf">书斋</a></li>
+            <li><a href="#about">关于我</a></li>
+        </ul>
+    </nav>
+
+    <!-- 第一屏：首页 -->
+    <section class="section home-section" id="home">
+        <div class="home-content">
+            <h1 class="site-title">静心书斋</h1>
+            <p class="site-slogan">修身养性，博闻强识</p>
+        </div>
+        
+        <!-- 诗词名句展示区 -->
+        <div class="quote-container" id="quoteContainer">
+            <div class="quote-text" id="quoteText"></div>
+            <div class="quote-author" id="quoteAuthor"></div>
+        </div>
+        
+        <!-- 向下滚动提示 -->
+        <div class="scroll-hint">
+            <span>向下探索</span>
+            <div class="scroll-arrow"></div>
+        </div>
+    </section>
+
+    <!-- 第二屏：书斋入口 -->
+    <section class="section bookshelf-section" id="bookshelf">
+        <div class="section-overlay"></div>
+        <div class="bookshelf-content">
+            <h2 class="section-title">书斋</h2>
+            <div class="reading-benefits">
+                <p class="benefits-text">
+                    读书，是给心灵留一盏灯。浮躁时翻开一页，呼吸就慢下来；喧嚣里守住一段安静，修身养性，自有定力。书使人博闻强识，不困于眼前，不囿于成见；点滴积累，终会厚积薄发。更重要的是，书把他人的命运与思想递到你手中，让你在字里行间理解生命的辽阔与温柔，从而活得更清明、更从容。
+                </p>
+            </div>
+            
+            <div class="book-preview-grid" id="bookPreviewGrid">
+                <!-- 书籍卡片将由JS动态生成 -->
+            </div>
+            
+            <a href="books.html" class="enter-bookshelf-btn">
+                <span>进入书斋</span>
+                <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </a>
+        </div>
+    </section>
+
+    <!-- 关于我（简单占位） -->
+    <section class="section about-section" id="about">
+        <div class="section-overlay"></div>
+        <div class="about-content">
+            <h2 class="section-title">关于我</h2>
+            <p class="about-text">
+                此处可填写个人简介...
+            </p>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <p>© 2024 静心书斋 | 修身养性，博闻强识</p>
+    </footer>
+
+    <!-- 引入脚本 -->
+    <script src="js/images.js"></script>
+    <script src="js/quotes.js"></script>
+    <script src="js/books.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>书斋 - 静心书斋</title>
+    
+    <!-- 字体引入 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Iansui&display=swap" rel="stylesheet">
+    <link href="https://fonts.zeoseven.com/items/80/?format=css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/books.css">
+</head>
+<body class="books-page">
+    <!-- 导航栏 -->
+    <nav class="navbar visible" id="navbar">
+        <div class="nav-logo">
+            <a href="index.html">静心书斋</a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">首页</a></li>
+            <li><a href="books.html" class="active">书斋</a></li>
+            <li><a href="index.html#about">关于我</a></li>
+        </ul>
+    </nav>
+
+    <!-- 主内容 -->
+    <main class="books-main">
+        <header class="books-header">
+            <h1 class="books-title">书斋</h1>
+            <p class="books-subtitle">修身养性，博闻强识</p>
+            
+            <!-- 统计信息 -->
+            <div class="books-stats">
+                <span class="stat-item">
+                    共 <strong id="totalBooks">0</strong> 本藏书
+                </span>
+            </div>
+        </header>
+
+        <!-- 筛选/排序（预留） -->
+        <div class="books-toolbar">
+            <div class="sort-options">
+                <span>排序：</span>
+                <button class="sort-btn active" data-sort="date">按日期</button>
+                <button class="sort-btn" data-sort="title">按书名</button>
+            </div>
+        </div>
+
+        <!-- 书籍网格 -->
+        <div class="books-grid" id="booksGrid">
+            <!-- 由JS动态生成 -->
+        </div>
+        
+        <!-- 空状态 -->
+        <div class="empty-state" id="emptyState" style="display: none;">
+            <p>书斋暂无藏书，敬请期待...</p>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <p>© 2024 静心书斋 | 修身养性，博闻强识</p>
+    </footer>
+
+    <script src="js/books.js"></script>
+    <script src="js/books-page.js"></script>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>读书笔记 - 静心书斋</title>
+    
+    <!-- 字体引入 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Iansui&display=swap" rel="stylesheet">
+    <link href="https://fonts.zeoseven.com/items/80/?format=css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/book-detail.css">
+</head>
+<body class="book-detail-page">
+    <!-- 导航栏 -->
+    <nav class="navbar visible" id="navbar">
+        <div class="nav-logo">
+            <a href="index.html">静心书斋</a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">首页</a></li>
+            <li><a href="books.html">书斋</a></li>
+            <li><a href="index.html#about">关于我</a></li>
+        </ul>
+    </nav>
+
+    <!-- 主内容 -->
+    <main class="book-detail-main">
+        <!-- 书籍信息头部 -->
+        <header class="book-header" id="bookHeader">
+            <div class="book-header-content">
+                <div class="book-cover-wrapper">
+                    <img src="" alt="" class="book-detail-cover" id="bookCover">
+                </div>
+                <div class="book-meta">
+                    <h1 class="book-detail-title" id="bookTitle">书名</h1>
+                    <div class="book-info-grid">
+                        <div class="info-item">
+                            <span class="info-label">作者</span>
+                            <span class="info-value" id="bookAuthor">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">国籍</span>
+                            <span class="info-value" id="bookNationality">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">出版社</span>
+                            <span class="info-value" id="bookPublisher">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">ISBN</span>
+                            <span class="info-value" id="bookIsbn">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">阅读日期</span>
+                            <span class="info-value" id="bookDate">-</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- 内容概述 -->
+        <section class="book-section">
+            <h2 class="section-heading">
+                <span class="heading-icon">📖</span>
+                内容概述
+            </h2>
+            <div class="section-content">
+                <p class="book-summary" id="bookSummary">-</p>
+            </div>
+        </section>
+
+        <!-- 结构框架（手风琴） -->
+        <section class="book-section">
+            <h2 class="section-heading">
+                <span class="heading-icon">📚</span>
+                结构框架
+            </h2>
+            <div class="accordion" id="structureAccordion">
+                <!-- 由JS动态生成 -->
+            </div>
+        </section>
+
+        <!-- 经典回顾 -->
+        <section class="book-section">
+            <h2 class="section-heading">
+                <span class="heading-icon">✨</span>
+                经典回顾
+            </h2>
+            <div class="highlights-list" id="highlightsList">
+                <!-- 由JS动态生成 -->
+            </div>
+        </section>
+
+        <!-- 返回按钮 -->
+        <div class="back-button-wrapper">
+            <a href="books.html" class="back-button">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+                <span>返回书斋</span>
+            </a>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <p>© 2024 静心书斋 | 修身养性，博闻强识</p>
+    </footer>
+
+    <script src="js/books.js"></script>
+    <script src="js/book-detail.js"></script>
+</body>
+</html>
