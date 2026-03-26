@@ -104,7 +104,7 @@
     padding: 20px 10px;
 }
 
-/* 每一列诗句 - 无背景，直接显示在图片上 */
+/* 每一列诗句 - 无背景无边框，直接显示在图片上 */
 .poem-column {
     display: flex;
     flex-direction: column;
@@ -114,25 +114,21 @@
     padding: 30px 20px;
     background: transparent;
     border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: none;
     transition: all 0.3s ease;
     height: 90%;
 }
 
 .poem-column:hover {
-    background: rgba(255, 255, 255, 0.05);
     transform: translateY(-8px);
-    border-color: rgba(255, 255, 255, 0.2);
 }
 
 .poem-column.highlight {
-    background: rgba(255, 215, 0, 0.1);
-    border-color: rgba(255, 215, 0, 0.3);
     box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
 }
 
 .poem-column.highlight:hover {
-    background: rgba(255, 215, 0, 0.18);
+    box-shadow: 0 0 40px rgba(255, 215, 0, 0.3);
 }
 
 /* 每个字 - 变大 */
@@ -166,8 +162,8 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background: rgba(248, 246, 241, 0.55);
-    backdrop-filter: blur(4px);
+    background: rgba(248, 246, 241, 0.35);
+    backdrop-filter: blur(3px);
 }
 
 .poet-header {
@@ -203,22 +199,24 @@
 .poet-name {
     font-family: 'Ma Shan Zheng', cursive;
     font-size: 1.8rem;
-    color: #4a4035;
+    color: #2a2015;
     margin: 0 0 5px 0;
     font-weight: 400;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
 }
 
 .poet-era {
     font-family: 'LXGW WenKai', serif;
     font-size: 0.95rem;
-    color: #8b7765;
+    color: #5a4030;
     margin: 0 0 3px 0;
+    font-weight: 600;
 }
 
 .poet-zi {
     font-family: 'LXGW WenKai', serif;
     font-size: 0.85rem;
-    color: #a09080;
+    color: #6b5040;
     margin: 0;
     font-style: italic;
 }
@@ -232,17 +230,18 @@
     font-family: 'LXGW WenKai', serif;
     font-size: 0.95rem;
     line-height: 1.9;
-    color: #5a5045;
+    color: #3a3025;
     margin: 0 0 15px 0;
     text-align: justify;
+    font-weight: 500;
 }
 
 .poet-family {
     margin-top: 20px;
     padding: 18px;
-    background: rgba(139, 119, 101, 0.08);
+    background: rgba(139, 119, 101, 0.12);
     border-radius: 10px;
-    border-left: 3px solid #8b7765;
+    border-left: 3px solid #6b5b4f;
 }
 
 .family-label {
@@ -277,9 +276,10 @@
     font-family: 'LXGW WenKai', serif;
     font-size: 0.9rem;
     line-height: 1.8;
-    color: #6b6055;
+    color: #4a4035;
     margin: 0;
     font-style: italic;
+    font-weight: 500;
 }
 
 /* 响应式设计 */
