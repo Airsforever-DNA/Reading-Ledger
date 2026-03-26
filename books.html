@@ -4,18 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>书斋 - 静心书斋</title>
-    
+
     <!-- 字体引入 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Zhi+Mang+Xing&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Iansui&display=swap" rel="stylesheet">
     <link href="https://fonts.zeoseven.com/items/80/?format=css" rel="stylesheet">
-    
+
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/books.css">
+    <link rel="stylesheet" href="css/poetry.css">
 </head>
 <body class="books-page">
     <!-- 导航栏 -->
@@ -35,7 +37,7 @@
         <header class="books-header">
             <h1 class="books-title">书斋</h1>
             <p class="books-subtitle">修身养性，博闻强识</p>
-            
+
             <!-- 统计信息 -->
             <div class="books-stats">
                 <span class="stat-item">
@@ -57,12 +59,125 @@
         <div class="books-grid" id="booksGrid">
             <!-- 由JS动态生成 -->
         </div>
-        
+
         <!-- 空状态 -->
         <div class="empty-state" id="emptyState" style="display: none;">
             <p>书斋暂无藏书，敬请期待...</p>
         </div>
     </main>
+
+    <!-- 诗词雅集区域 -->
+    <section class="poetry-section" id="poetry">
+        <div class="poetry-container">
+            <div class="poetry-header">
+                <span class="poetry-badge">诗词雅集</span>
+                <h2 class="poetry-section-title">满船清梦压星河</h2>
+                <p class="poetry-section-subtitle">元 · 唐珙《题龙阳县青草湖》</p>
+            </div>
+
+            <div class="poetry-content-wrapper">
+                <!-- 诗词展示卡片 -->
+                <div class="poetry-card">
+                    <div class="poetry-card-inner">
+                        <!-- 左侧：诗词正文（竖排） -->
+                        <div class="poetry-text-container">
+                            <div class="poetry-vertical-text">
+                                <div class="poetry-line">
+                                    <span class="poetry-char">西</span>
+                                    <span class="poetry-char">风</span>
+                                    <span class="poetry-char">吹</span>
+                                    <span class="poetry-char">老</span>
+                                    <span class="poetry-char">洞</span>
+                                    <span class="poetry-char">庭</span>
+                                    <span class="poetry-char">波</span>
+                                </div>
+                                <div class="poetry-line">
+                                    <span class="poetry-char">一</span>
+                                    <span class="poetry-char">夜</span>
+                                    <span class="poetry-char">湘</span>
+                                    <span class="poetry-char">君</span>
+                                    <span class="poetry-char">白</span>
+                                    <span class="poetry-char">发</span>
+                                    <span class="poetry-char">多</span>
+                                </div>
+                                <div class="poetry-line">
+                                    <span class="poetry-char">醉</span>
+                                    <span class="poetry-char">后</span>
+                                    <span class="poetry-char">不</span>
+                                    <span class="poetry-char">知</span>
+                                    <span class="poetry-char">天</span>
+                                    <span class="poetry-char">在</span>
+                                    <span class="poetry-char">水</span>
+                                </div>
+                                <div class="poetry-line highlight-line">
+                                    <span class="poetry-char">满</span>
+                                    <span class="poetry-char">船</span>
+                                    <span class="poetry-char">清</span>
+                                    <span class="poetry-char">梦</span>
+                                    <span class="poetry-char">压</span>
+                                    <span class="poetry-char">星</span>
+                                    <span class="poetry-char">河</span>
+                                </div>
+                            </div>
+                            <div class="poetry-title-vertical">
+                                <span>题</span>
+                                <span>龙</span>
+                                <span>阳</span>
+                                <span>县</span>
+                                <span>青</span>
+                                <span>草</span>
+                                <span>湖</span>
+                            </div>
+                        </div>
+
+                        <!-- 右侧：诗人介绍 -->
+                        <div class="poet-info-container">
+                            <div class="poet-header">
+                                <div class="poet-avatar">
+                                    <span class="avatar-text">珙</span>
+                                </div>
+                                <div class="poet-meta">
+                                    <h3 class="poet-name">唐珙</h3>
+                                    <p class="poet-era">元末明初 · 会稽山阴</p>
+                                    <p class="poet-zi">字温如</p>
+                                </div>
+                            </div>
+
+                            <div class="poet-bio">
+                                <p class="bio-paragraph">
+                                    唐珙，字温如，是元末明初的诗人，会稽山阴（今浙江绍兴）人。历史上关于他的记载极少，没有留下专门的传记。
+                                </p>
+                                <p class="bio-paragraph">
+                                    他流传下来的诗作仅有八首，但仅凭这一首《题龙阳县青草湖》，便足以在文学史上留下浓墨重彩的一笔。
+                                </p>
+                                <div class="poet-family">
+                                    <span class="family-label">家世</span>
+                                    <p class="bio-paragraph">
+                                        他的父亲唐珏是南宋著名的义士。在宋元之际，曾有元僧盗掘南宋皇陵，唐珏冒险收拾并重新安葬了先帝的遗骨，其气节为人敬重。唐珙生长在这样的家庭环境中，诗作中也常流露出一种遗民情怀和对故国的追思。
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="poetry-note">
+                                <span class="note-icon">❝</span>
+                                <p class="note-text">
+                                    "醉后不知天在水，满船清梦压星河"——此句以梦境与实景交融，营造出空灵缥缈的意境，被誉为元代诗歌中最富想象力的名句之一。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 装饰元素 -->
+            <div class="poetry-decoration">
+                <div class="ink-wash ink-1"></div>
+                <div class="ink-wash ink-2"></div>
+                <div class="floating-cloud cloud-1"></div>
+                <div class="floating-cloud cloud-2"></div>
+            </div>
+        </div>
+    </section>
 
     <!-- 页脚 -->
     <footer class="footer">
