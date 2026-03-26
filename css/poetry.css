@@ -104,7 +104,7 @@
     padding: 20px 10px;
 }
 
-/* 每一列诗句 */
+/* 每一列诗句 - 无背景，直接显示在图片上 */
 .poem-column {
     display: flex;
     flex-direction: column;
@@ -112,27 +112,27 @@
     justify-content: center;
     gap: 15px;
     padding: 30px 20px;
-    background: rgba(255, 255, 255, 0.12);
-    backdrop-filter: blur(3px);
+    background: transparent;
     border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     transition: all 0.3s ease;
     height: 90%;
 }
 
 .poem-column:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.05);
     transform: translateY(-8px);
+    border-color: rgba(255, 255, 255, 0.2);
 }
 
 .poem-column.highlight {
-    background: rgba(255, 215, 0, 0.18);
-    border-color: rgba(255, 215, 0, 0.35);
-    box-shadow: 0 0 30px rgba(255, 215, 0, 0.25);
+    background: rgba(255, 215, 0, 0.1);
+    border-color: rgba(255, 215, 0, 0.3);
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
 }
 
 .poem-column.highlight:hover {
-    background: rgba(255, 215, 0, 0.28);
+    background: rgba(255, 215, 0, 0.18);
 }
 
 /* 每个字 - 变大 */
@@ -160,14 +160,14 @@
     transform: scale(1.08);
 }
 
-/* 右侧：诗人介绍 - 半透明背景 */
+/* 右侧：诗人介绍 - 更透明的背景 */
 .poet-info-container {
     padding: 45px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background: rgba(248, 246, 241, 0.88);
-    backdrop-filter: blur(8px);
+    background: rgba(248, 246, 241, 0.55);
+    backdrop-filter: blur(4px);
 }
 
 .poet-header {
