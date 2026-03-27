@@ -17,7 +17,7 @@
 
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/books.css">
-    <link rel="stylesheet" href="css/poetry.css?v=9">
+    <link rel="stylesheet" href="css/poetry.css?v=10">
 </head>
 <body class="books-page">
     <!-- 导航栏 -->
@@ -102,25 +102,23 @@
                                         <span class="poem-char">发</span>
                                         <span class="poem-char">多</span>
                                     </div>
-                                    <div class="poem-column highlight">
-                                        <span class="poem-char">醉</span>
-                                        <span class="poem-char">后</span>
-                                        <span class="poem-char">不</span>
-                                        <span class="poem-char">知</span>
-                                        <span class="poem-char">天</span>
-                                        <span class="poem-char">在</span>
-                                        <span class="poem-char">水</span>
-                                        <div class="ripple-layer"></div>
+                                    <div class="poem-column highlight" data-poem="line3">
+                                        <span class="poem-char">醉</span><div class="ripple-layer"></div>
+                                        <span class="poem-char">后</span><div class="ripple-layer"></div>
+                                        <span class="poem-char">不</span><div class="ripple-layer"></div>
+                                        <span class="poem-char">知</span><div class="ripple-layer"></div>
+                                        <span class="poem-char">天</span><div class="ripple-layer"></div>
+                                        <span class="poem-char">在</span><div class="ripple-layer"></div>
+                                        <span class="poem-char">水</span><div class="ripple-layer"></div>
                                     </div>
-                                    <div class="poem-column highlight">
-                                        <span class="poem-char">满</span>
-                                        <span class="poem-char">船</span>
-                                        <span class="poem-char">清</span>
-                                        <span class="poem-char">梦</span>
-                                        <span class="poem-char">压</span>
-                                        <span class="poem-char">星</span>
-                                        <span class="poem-char">河</span>
-                                        <div class="ripple-layer"></div>
+                                    <div class="poem-column highlight" data-poem="line4">
+                                        <span class="poem-char">满</span><div class="ripple-layer"></div>
+                                        <span class="poem-char">船</span><div class="ripple-layer"></div>
+                                        <span class="poem-char">清</span><div class="ripple-layer"></div>
+                                        <span class="poem-char">梦</span><div class="ripple-layer"></div>
+                                        <span class="poem-char">压</span><div class="ripple-layer"></div>
+                                        <span class="poem-char">星</span><div class="ripple-layer"></div>
+                                        <span class="poem-char">河</span><div class="ripple-layer"></div>
                                     </div>
                                 </div>
                             </div>
@@ -174,5 +172,25 @@
 
     <script src="js/books.js"></script>
     <script src="js/books-page.js"></script>
+    <script>
+    // 诗词高亮列悬停动画（一次性触发）
+    document.querySelectorAll('.poem-column.highlight').forEach(column => {
+        let isAnimating = false;
+        
+        column.addEventListener('mouseenter', function() {
+            if (isAnimating) return;
+            isAnimating = true;
+            
+            // 添加动画类
+            this.classList.add('hover-active');
+            
+            // 动画结束后移除类（约1.5秒）
+            setTimeout(() => {
+                this.classList.remove('hover-active');
+                isAnimating = false;
+            }, 1500);
+        });
+    });
+    </script>
 </body>
 </html>
