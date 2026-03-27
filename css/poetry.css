@@ -181,7 +181,7 @@
     50%       { opacity: 1;   transform: scaleX(1.05); }
 }
 
-/* ===== 高亮列悬停：水波 + 星光爆发 ===== */
+/* ===== 高亮列悬停：一次性水波 + 字符放大动画 ===== */
 .poem-column.highlight:hover {
     transform: translateY(-8px);
 }
@@ -196,45 +196,43 @@
     );
 }
 
-/* 水波涟漪 —— 用 box-shadow 模拟，悬停触发 */
-.poem-column.highlight:hover .ripple-layer {
-    animation: water-ripple 1.2s ease-out forwards;
+/* 字符动画：悬停时依次放大再缩小（一次性） */
+.poem-column.highlight.hover-active .poem-char {
+    animation: char-pulse 0.5s ease-out forwards;
 }
 
-/* 星光粒子：每个字符在悬停时随机闪烁 */
-.poem-column.highlight:hover .poem-char {
-    animation: star-twinkle 0.6s ease-in-out infinite alternate;
-}
+/* 依次延迟：从第1字到第7字 */
+.poem-column.highlight.hover-active .poem-char:nth-child(1) { animation-delay: 0s; }
+.poem-column.highlight.hover-active .poem-char:nth-child(2) { animation-delay: 0.12s; }
+.poem-column.highlight.hover-active .poem-char:nth-child(3) { animation-delay: 0.24s; }
+.poem-column.highlight.hover-active .poem-char:nth-child(4) { animation-delay: 0.36s; }
+.poem-column.highlight.hover-active .poem-char:nth-child(5) { animation-delay: 0.48s; }
+.poem-column.highlight.hover-active .poem-char:nth-child(6) { animation-delay: 0.60s; }
+.poem-column.highlight.hover-active .poem-char:nth-child(7) { animation-delay: 0.72s; }
 
-.poem-column.highlight:hover .poem-char:nth-child(2) { animation-delay: 0.1s; }
-.poem-column.highlight:hover .poem-char:nth-child(3) { animation-delay: 0.2s; }
-.poem-column.highlight:hover .poem-char:nth-child(4) { animation-delay: 0.05s; }
-.poem-column.highlight:hover .poem-char:nth-child(5) { animation-delay: 0.15s; }
-.poem-column.highlight:hover .poem-char:nth-child(6) { animation-delay: 0.25s; }
-.poem-column.highlight:hover .poem-char:nth-child(7) { animation-delay: 0.08s; }
-
-@keyframes star-twinkle {
+/* 字符放大→缩小动画 */
+@keyframes char-pulse {
     0%   {
+        transform: scale(1);
+        text-shadow: 0 0 10px rgba(255, 215, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.7);
+    }
+    50%  {
+        transform: scale(1.25);
         text-shadow:
-            0 0 8px rgba(255, 215, 0, 0.8),
-            0 0 20px rgba(255, 200, 50, 0.5),
-            0 2px 6px rgba(0, 0, 0, 0.6);
-        transform: scale(1.0);
+            0 0 20px rgba(255, 240, 100, 1),
+            0 0 40px rgba(255, 215, 0, 0.8),
+            0 0 70px rgba(255, 180, 0, 0.5),
+            0 2px 6px rgba(0, 0, 0, 0.7);
     }
     100% {
-        text-shadow:
-            0 0 16px rgba(255, 240, 100, 1),
-            0 0 35px rgba(255, 215, 0, 0.8),
-            0 0 60px rgba(255, 180, 0, 0.4),
-            0 2px 6px rgba(0, 0, 0, 0.6);
-        transform: scale(1.12);
+        transform: scale(1);
+        text-shadow: 0 0 10px rgba(255, 215, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.7);
     }
 }
 
-/* 水波容器层 */
+/* 水波涟漪层：每个字符对应一个涟漪 */
 .poem-column.highlight .ripple-layer {
     position: absolute;
-    bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
     width: 0;
@@ -242,10 +240,29 @@
     pointer-events: none;
 }
 
-@keyframes water-ripple {
-    0%   { box-shadow: 0 0 0 0 rgba(255,215,0,0.5), 0 0 0 0 rgba(255,215,0,0.3); }
-    50%  { box-shadow: 0 0 0 20px rgba(255,215,0,0.15), 0 0 0 10px rgba(255,215,0,0.2); }
-    100% { box-shadow: 0 0 0 40px rgba(255,215,0,0), 0 0 0 20px rgba(255,215,0,0); }
+/* 涟漪动画（一次性） */
+.poem-column.highlight.hover-active .ripple-layer {
+    animation: water-ripple-once 0.8s ease-out forwards;
+}
+
+/* 涟漪依次从第1字到第7字位置扩散 */
+.poem-column.highlight.hover-active .ripple-layer:nth-of-type(1) { animation-delay: 0s;    top: calc(0 * (100% / 7) + 10%); }
+.poem-column.highlight.hover-active .ripple-layer:nth-of-type(2) { animation-delay: 0.12s; top: calc(1 * (100% / 7) + 10%); }
+.poem-column.highlight.hover-active .ripple-layer:nth-of-type(3) { animation-delay: 0.24s; top: calc(2 * (100% / 7) + 10%); }
+.poem-column.highlight.hover-active .ripple-layer:nth-of-type(4) { animation-delay: 0.36s; top: calc(3 * (100% / 7) + 10%); }
+.poem-column.highlight.hover-active .ripple-layer:nth-of-type(5) { animation-delay: 0.48s; top: calc(4 * (100% / 7) + 10%); }
+.poem-column.highlight.hover-active .ripple-layer:nth-of-type(6) { animation-delay: 0.60s; top: calc(5 * (100% / 7) + 10%); }
+.poem-column.highlight.hover-active .ripple-layer:nth-of-type(7) { animation-delay: 0.72s; top: calc(6 * (100% / 7) + 10%); }
+
+@keyframes water-ripple-once {
+    0%   {
+        box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.6), 0 0 0 0 rgba(255, 215, 0, 0.4);
+        opacity: 1;
+    }
+    100% {
+        box-shadow: 0 0 0 50px rgba(255, 215, 0, 0), 0 0 0 30px rgba(255, 215, 0, 0);
+        opacity: 0;
+    }
 }
 
 /* 每个字 - 变大 */
