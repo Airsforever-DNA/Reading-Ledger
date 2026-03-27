@@ -11,9 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Zhi+Mang+Xing&display=swap" rel="stylesheet">
-    <link href="https://fonts.zeoseven.com/items/80/?format=css" rel="stylesheet">
 
-    <link rel="stylesheet" href="css/style.css">
     <style>
         * {
             margin: 0;
@@ -28,6 +26,69 @@
         body {
             font-family: 'LXGW WenKai', serif;
             overflow-x: hidden;
+            background: #f8f6f1;
+        }
+
+        /* ===== 导航栏 ===== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: rgba(248, 246, 241, 0.95);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .nav-logo a {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.5rem;
+            color: #4a4035;
+            text-decoration: none;
+            letter-spacing: 4px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #6b5b4f;
+            font-size: 0.95rem;
+            letter-spacing: 2px;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #4a4035;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #8b7355;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
         }
 
         /* ===== 第一屏 - 动态背景区域 ===== */
@@ -66,12 +127,8 @@
         }
 
         @keyframes zoomIn {
-            0% {
-                transform: scale(1);
-            }
-            100% {
-                transform: scale(1.15);
-            }
+            0% { transform: scale(1); }
+            100% { transform: scale(1.15); }
         }
 
         /* 背景遮罩 */
@@ -115,18 +172,8 @@
         }
 
         @keyframes titleGlow {
-            0% {
-                text-shadow: 
-                    0 0 20px rgba(0, 0, 0, 0.5),
-                    0 0 40px rgba(0, 0, 0, 0.3),
-                    2px 2px 4px rgba(0, 0, 0, 0.8);
-            }
-            100% {
-                text-shadow: 
-                    0 0 30px rgba(255, 255, 255, 0.2),
-                    0 0 60px rgba(0, 0, 0, 0.4),
-                    2px 2px 4px rgba(0, 0, 0, 0.8);
-            }
+            0% { text-shadow: 0 0 20px rgba(0, 0, 0, 0.5), 0 0 40px rgba(0, 0, 0, 0.3), 2px 2px 4px rgba(0, 0, 0, 0.8); }
+            100% { text-shadow: 0 0 30px rgba(255, 255, 255, 0.2), 0 0 60px rgba(0, 0, 0, 0.4), 2px 2px 4px rgba(0, 0, 0, 0.8); }
         }
 
         /* 随机诗句容器 */
@@ -180,15 +227,9 @@
         }
 
         @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {
-                transform: translateX(-50%) translateY(0);
-            }
-            40% {
-                transform: translateX(-50%) translateY(-10px);
-            }
-            60% {
-                transform: translateX(-50%) translateY(-5px);
-            }
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
         }
 
         /* ===== 第二屏 - 入口区域 ===== */
@@ -323,8 +364,60 @@
             color: #fff;
         }
 
+        /* ===== 关于我区域 ===== */
+        .about-section {
+            padding: 100px 20px;
+            background: linear-gradient(135deg, #f8f6f1 0%, #e8e4d9 100%);
+            text-align: center;
+        }
+
+        .about-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .about-title {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 2.5rem;
+            color: #4a4035;
+            margin-bottom: 30px;
+            letter-spacing: 8px;
+        }
+
+        .about-text {
+            font-size: 1.1rem;
+            color: #6b5b4f;
+            line-height: 2;
+            letter-spacing: 2px;
+        }
+
+        /* ===== 页脚 ===== */
+        .footer {
+            padding: 30px 20px;
+            background: #4a4035;
+            text-align: center;
+        }
+
+        .footer p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+        }
+
         /* 响应式 */
         @media (max-width: 768px) {
+            .navbar {
+                padding: 0 20px;
+            }
+
+            .nav-links {
+                gap: 15px;
+            }
+
+            .nav-links a {
+                font-size: 0.85rem;
+            }
+
             .center-title h1 {
                 font-size: 3.5rem;
                 letter-spacing: 10px;
@@ -353,6 +446,10 @@
         }
 
         @media (max-width: 480px) {
+            .nav-links {
+                display: none;
+            }
+
             .center-title h1 {
                 font-size: 2.5rem;
                 letter-spacing: 6px;
@@ -376,7 +473,7 @@
 </head>
 <body>
     <!-- 导航栏 -->
-    <nav class="navbar visible" id="navbar">
+    <nav class="navbar" id="navbar">
         <div class="nav-logo">
             <a href="index.html">静心书斋</a>
         </div>
@@ -455,21 +552,35 @@
         <p>© 2024 静心书斋 | 修身养性，博闻强识</p>
     </footer>
 
-    <script src="js/main.js"></script>
     <script>
         // ===== 配置 =====
         const CONFIG = {
-        // 背景图片路径（GitHub raw URL）
-        backgroundImages: [
-            'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/Ammonite%20fossil%20from%20Madagascar.jpg',
-            'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/Merced%20River%2C%20Yosemite%20Natioanl%20Park%2C%20California.jpg',
-            'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E4%BC%8A%E6%96%AF%E7%89%B9%E6%9C%AC%E6%B5%B7%E5%B2%B8%EF%BC%8C%E4%B8%9C%E8%90%A8%E5%A1%9E%E5%85%8B%E6%96%AF%E9%83%A1%EF%BC%8C%E8%8B%B1%E6%A0%BC%E5%85%B0.jpg',
-            'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E5%9C%A3%E8%AF%9E%E6%98%9F%E5%BD%A2%E7%81%AF%E7%AC%BC%EF%BC%8C%E5%BE%B7%E5%9B%BD.jpg',
-            'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E6%97%A5%E5%87%BA%E6%97%B6%E5%88%86%EF%BC%8C%E9%A9%AC%E7%89%B9%E6%B4%AA%E5%B3%B0%E7%9A%84%E5%80%92%E5%BD%B1%E6%98%A0%E7%85%A7%E5%9C%A8%E6%96%AF%E7%89%B9%E5%88%A9%E6%B9%96%E4%B8%AD%EF%BC%8C%E9%87%87%E5%B0%94%E9%A9%AC%E7%89%B9%EF%BC%8C%E7%91%9E%E5%A3%AB.jpg',
-            'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E6%96%B0%E5%A4%A9%E9%B9%85%E5%A0%A1%EF%BC%8C%E5%B7%B4%E4%BC%90%E5%88%A9%E4%BA%9A%E5%B7%9E%EF%BC%8C%E5%BE%B7%E5%9B%BD.jpg',
-            'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E7%99%BD%E6%B2%99%E5%9B%BD%E5%AE%B6%E5%85%AC%E5%9B%AD%EF%BC%8C%E6%96%B0%E5%A2%A8%E8%A5%BF%E5%93%A5%E5%B7%9E%EF%BC%8C%E7%BE%8E%E5%9B%BD.jpg',
-            'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E8%88%8D%E5%A4%AB%E6%B2%99%E4%B8%87%E7%9A%84%E8%93%9D%E8%89%B2%E5%A2%99%E5%A3%81%EF%BC%8C%E6%91%A9%E6%B4%9B%E5%93%A5.jpg'
-        ],
+            // GitHub API 获取图片列表
+            githubApiUrl: 'https://api.github.com/repos/Airsforever-DNA/Reading-Ledger/contents/images/backgrounds',
+            // 诗句库
+            poems: [
+                '西风吹老洞庭波',
+                '一夜湘君白发多',
+                '醉后不知天在水',
+                '满船清梦压星河',
+                '床前明月光',
+                '疑是地上霜',
+                '举头望明月',
+                '低头思故乡',
+                '国破山河在',
+                '城春草木深',
+                '感时花溅泪',
+                '恨别鸟惊心'
+            ],
+            // 标题显示时间（毫秒）
+            titleDisplayTime: 20000,
+            // 每张图片显示时间（毫秒）
+            imageDisplayTime: 8000,
+            // 每句诗显示时间（毫秒）
+            poemDisplayTime: 5000,
+            // 同时显示的诗句数量
+            poemCount: 6
+        };
             // 诗句库
             poems: [
                 '西风吹老洞庭波',
@@ -503,12 +614,28 @@
                 this.images = [];
                 this.currentIndex = 0;
                 this.usedIndices = new Set();
-                this.init();
+                this.backgroundImages = [];
             }
 
-            init() {
+            async init() {
+                // 从 GitHub API 获取图片列表
+                try {
+                    const response = await fetch(CONFIG.githubApiUrl);
+                    const data = await response.json();
+                    this.backgroundImages = data
+                        .filter(item => item.type === 'file' && item.name !== '.gitkeep')
+                        .map(item => item.download_url);
+                } catch (error) {
+                    console.error('Failed to load background images:', error);
+                    // 使用备用图片
+                    this.backgroundImages = [
+                        'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/Ammonite%20fossil%20from%20Madagascar.jpg',
+                        'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/Merced%20River%2C%20Yosemite%20Natioanl%20Park%2C%20California.jpg'
+                    ];
+                }
+
                 // 创建背景图片元素
-                CONFIG.backgroundImages.forEach((src, index) => {
+                this.backgroundImages.forEach((src, index) => {
                     const div = document.createElement('div');
                     div.className = 'bg-image';
                     div.style.backgroundImage = `url('${src}')`;
@@ -517,8 +644,8 @@
                 });
 
                 // 设置第二屏背景为第一张图
-                if (CONFIG.backgroundImages.length > 0) {
-                    this.entriesBg.style.backgroundImage = `url('${CONFIG.backgroundImages[0]}')`;
+                if (this.backgroundImages.length > 0) {
+                    this.entriesBg.style.backgroundImage = `url('${this.backgroundImages[0]}')`;
                 }
 
                 this.start();
@@ -563,7 +690,7 @@
                 this.currentIndex = index;
 
                 // 同步更新第二屏背景
-                const currentSrc = CONFIG.backgroundImages[index];
+                const currentSrc = this.backgroundImages[index];
                 this.entriesBg.style.backgroundImage = `url('${currentSrc}')`;
             }
         }
@@ -716,8 +843,9 @@
         }
 
         // ===== 初始化 =====
-        document.addEventListener('DOMContentLoaded', () => {
-            new BackgroundSlider();
+        document.addEventListener('DOMContentLoaded', async () => {
+            const slider = new BackgroundSlider();
+            await slider.init();
             new TitleController();
             new FloatingPoems();
             new EntriesAnimation();
