@@ -17,7 +17,7 @@
 
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/books.css">
-    <link rel="stylesheet" href="css/poetry.css?v=11">
+    <link rel="stylesheet" href="css/poetry.css?v=12">
 </head>
 <body class="books-page">
     <!-- 导航栏 -->
@@ -184,11 +184,11 @@
             // 添加动画类
             this.classList.add('hover-active');
             
-            // 动画结束后移除类（约3秒，等涟漪完全扩散）
+            // 动画结束后移除类（约5.5秒，等涟漪完全扩散）
             setTimeout(() => {
                 this.classList.remove('hover-active');
                 isAnimating = false;
-            }, 3000);
+            }, 5500);
         });
     });
     </script>
