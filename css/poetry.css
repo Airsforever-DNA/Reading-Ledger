@@ -247,13 +247,13 @@
 }
 
 /* 涟漪依次从第1字到第7字位置扩散，间隔0.25秒 */
-.poem-column.highlight.hover-active .ripple-layer:nth-of-type(1) { animation-delay: 0s;    top: calc(0 * (100% / 7) + 10%); }
-.poem-column.highlight.hover-active .ripple-layer:nth-of-type(2) { animation-delay: 0.25s; top: calc(1 * (100% / 7) + 10%); }
-.poem-column.highlight.hover-active .ripple-layer:nth-of-type(3) { animation-delay: 0.50s; top: calc(2 * (100% / 7) + 10%); }
-.poem-column.highlight.hover-active .ripple-layer:nth-of-type(4) { animation-delay: 0.75s; top: calc(3 * (100% / 7) + 10%); }
-.poem-column.highlight.hover-active .ripple-layer:nth-of-type(5) { animation-delay: 1.00s; top: calc(4 * (100% / 7) + 10%); }
-.poem-column.highlight.hover-active .ripple-layer:nth-of-type(6) { animation-delay: 1.25s; top: calc(5 * (100% / 7) + 10%); }
-.poem-column.highlight.hover-active .ripple-layer:nth-of-type(7) { animation-delay: 1.50s; top: calc(6 * (100% / 7) + 10%); }
+.poem-column.highlight.hover-active .poem-char:nth-child(1) .ripple-layer { animation-delay: 0s; }
+.poem-column.highlight.hover-active .poem-char:nth-child(2) .ripple-layer { animation-delay: 0.25s; }
+.poem-column.highlight.hover-active .poem-char:nth-child(3) .ripple-layer { animation-delay: 0.50s; }
+.poem-column.highlight.hover-active .poem-char:nth-child(4) .ripple-layer { animation-delay: 0.75s; }
+.poem-column.highlight.hover-active .poem-char:nth-child(5) .ripple-layer { animation-delay: 1.00s; }
+.poem-column.highlight.hover-active .poem-char:nth-child(6) .ripple-layer { animation-delay: 1.25s; }
+.poem-column.highlight.hover-active .poem-char:nth-child(7) .ripple-layer { animation-delay: 1.50s; }
 
 /* 水波扩散：圆形，半径约为字框3倍，快速匀减速，单圈，中等粗细波纹 */
 @keyframes water-ripple-once {
