@@ -15,58 +15,235 @@
 
     <link rel="stylesheet" href="css/style.css">
     <style>
-        /* 首页专用样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'LXGW WenKai', serif;
+            overflow-x: hidden;
+        }
+
+        /* ===== 第一屏 - 动态背景区域 ===== */
         .hero-section {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(135deg, #f8f6f1 0%, #e8e4d9 50%, #f0ece3 100%);
+            height: 100vh;
             position: relative;
             overflow: hidden;
         }
 
-        .hero-section::before {
+        /* 背景图片容器 */
+        .bg-slider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .bg-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transform: scale(1);
+            transition: opacity 1s ease-in-out;
+        }
+
+        .bg-image.active {
+            opacity: 1;
+            animation: zoomIn 8s ease-out forwards;
+        }
+
+        @keyframes zoomIn {
+            0% {
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(1.15);
+            }
+        }
+
+        /* 背景遮罩 */
+        .bg-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: 1;
+        }
+
+        /* 中心标题 */
+        .center-title {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            text-align: center;
+            opacity: 1;
+            transition: opacity 1s ease-out;
+        }
+
+        .center-title.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .center-title h1 {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 6rem;
+            color: #f8f6f1;
+            letter-spacing: 20px;
+            text-shadow: 
+                0 0 20px rgba(0, 0, 0, 0.5),
+                0 0 40px rgba(0, 0, 0, 0.3),
+                2px 2px 4px rgba(0, 0, 0, 0.8);
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes titleGlow {
+            0% {
+                text-shadow: 
+                    0 0 20px rgba(0, 0, 0, 0.5),
+                    0 0 40px rgba(0, 0, 0, 0.3),
+                    2px 2px 4px rgba(0, 0, 0, 0.8);
+            }
+            100% {
+                text-shadow: 
+                    0 0 30px rgba(255, 255, 255, 0.2),
+                    0 0 60px rgba(0, 0, 0, 0.4),
+                    2px 2px 4px rgba(0, 0, 0, 0.8);
+            }
+        }
+
+        /* 随机诗句容器 */
+        .poetry-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        .floating-poem {
+            position: absolute;
+            font-family: 'Zhi Mang Xing', cursive;
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.85);
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out;
+            letter-spacing: 3px;
+        }
+
+        .floating-poem.visible {
+            opacity: 1;
+        }
+
+        /* 向下滚动提示 */
+        .scroll-hint {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 20;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            letter-spacing: 3px;
+            animation: bounce 2s infinite;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .scroll-hint::after {
+            content: '↓';
+            display: block;
+            text-align: center;
+            margin-top: 5px;
+            font-size: 1.5rem;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            40% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+            60% {
+                transform: translateX(-50%) translateY(-5px);
+            }
+        }
+
+        /* ===== 第二屏 - 入口区域 ===== */
+        .entries-section {
+            min-height: 100vh;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* 第二屏背景 */
+        .entries-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            z-index: 0;
+        }
+
+        .entries-bg::after {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(139, 119, 101, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(107, 91, 79, 0.06) 0%, transparent 50%);
-            pointer-events: none;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
         }
 
-        .hero-content {
+        /* 三个入口 */
+        .entries-content {
+            position: relative;
+            z-index: 10;
             text-align: center;
-            z-index: 1;
             padding: 40px 20px;
         }
 
-        .hero-title {
+        .entries-title {
             font-family: 'Ma Shan Zheng', cursive;
-            font-size: 4.5rem;
-            color: #4a4035;
-            margin-bottom: 15px;
-            letter-spacing: 12px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.05);
-        }
-
-        .hero-subtitle {
-            font-family: 'LXGW WenKai', serif;
-            font-size: 1.3rem;
-            color: #8b7765;
+            font-size: 2.5rem;
+            color: #f8f6f1;
             margin-bottom: 60px;
-            letter-spacing: 6px;
+            letter-spacing: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
 
-        /* 三个入口按钮 */
         .hero-entries {
             display: flex;
-            gap: 40px;
+            gap: 60px;
             justify-content: center;
             flex-wrap: wrap;
         }
@@ -77,33 +254,42 @@
             align-items: center;
             text-decoration: none;
             transition: transform 0.4s ease;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .hero-entry.visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.6s ease, transform 0.6s ease;
         }
 
         .hero-entry:hover {
-            transform: translateY(-10px);
+            transform: translateY(-10px) scale(1.05);
         }
 
         .entry-circle {
-            width: 140px;
-            height: 140px;
+            width: 160px;
+            height: 160px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #8b7765 0%, #6b5b4f 100%);
+            background: linear-gradient(135deg, rgba(139, 119, 101, 0.9) 0%, rgba(107, 91, 79, 0.9) 100%);
             display: flex;
             align-items: center;
             justify-content: center;
             box-shadow: 
-                0 10px 40px rgba(107, 91, 79, 0.3),
+                0 10px 40px rgba(0, 0, 0, 0.3),
                 inset 0 2px 4px rgba(255, 255, 255, 0.1);
             transition: all 0.4s ease;
             position: relative;
             overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.2);
         }
 
         .hero-entry:hover .entry-circle {
             box-shadow: 
-                0 15px 50px rgba(107, 91, 79, 0.4),
+                0 15px 50px rgba(0, 0, 0, 0.4),
                 inset 0 2px 4px rgba(255, 255, 255, 0.2);
-            transform: scale(1.05);
+            border-color: rgba(255, 255, 255, 0.4);
         }
 
         .entry-circle::before {
@@ -119,81 +305,71 @@
 
         .entry-text {
             font-family: 'Ma Shan Zheng', cursive;
-            font-size: 1.8rem;
+            font-size: 2rem;
             color: #f8f6f1;
-            letter-spacing: 4px;
+            letter-spacing: 6px;
         }
 
         .entry-label {
             font-family: 'LXGW WenKai', serif;
             font-size: 1rem;
-            color: #6b5b4f;
+            color: rgba(255, 255, 255, 0.9);
             margin-top: 20px;
-            letter-spacing: 3px;
+            letter-spacing: 4px;
             transition: color 0.3s ease;
         }
 
         .hero-entry:hover .entry-label {
-            color: #4a4035;
-        }
-
-        /* 装饰性元素 */
-        .decoration-line {
-            position: absolute;
-            width: 200px;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(139, 119, 101, 0.3), transparent);
-        }
-
-        .decoration-line.top {
-            top: 30%;
-            left: 10%;
-        }
-
-        .decoration-line.bottom {
-            bottom: 30%;
-            right: 10%;
+            color: #fff;
         }
 
         /* 响应式 */
         @media (max-width: 768px) {
-            .hero-title {
-                font-size: 3rem;
-                letter-spacing: 8px;
+            .center-title h1 {
+                font-size: 3.5rem;
+                letter-spacing: 10px;
             }
 
-            .hero-subtitle {
-                font-size: 1rem;
-                letter-spacing: 4px;
+            .floating-poem {
+                font-size: 1.1rem;
+            }
+
+            .entries-title {
+                font-size: 1.8rem;
             }
 
             .hero-entries {
-                gap: 30px;
+                gap: 40px;
             }
 
             .entry-circle {
-                width: 120px;
-                height: 120px;
+                width: 130px;
+                height: 130px;
             }
 
             .entry-text {
-                font-size: 1.5rem;
+                font-size: 1.6rem;
             }
         }
 
         @media (max-width: 480px) {
+            .center-title h1 {
+                font-size: 2.5rem;
+                letter-spacing: 6px;
+            }
+
             .hero-entries {
                 flex-direction: column;
-                gap: 25px;
+                gap: 30px;
             }
 
             .entry-circle {
-                width: 100px;
-                height: 100px;
+                width: 110px;
+                height: 110px;
             }
 
             .entry-text {
-                font-size: 1.3rem;
+                font-size: 1.4rem;
             }
         }
     </style>
@@ -213,31 +389,47 @@
         </ul>
     </nav>
 
-    <!-- 首页主区域 -->
-    <section class="hero-section">
-        <div class="decoration-line top"></div>
-        <div class="decoration-line bottom"></div>
+    <!-- 第一屏 - 动态背景与诗句 -->
+    <section class="hero-section" id="hero">
+        <!-- 背景图片轮播 -->
+        <div class="bg-slider" id="bgSlider"></div>
+        <div class="bg-overlay"></div>
+
+        <!-- 中心标题 -->
+        <div class="center-title" id="centerTitle">
+            <h1>静心书斋</h1>
+        </div>
+
+        <!-- 随机诗句 -->
+        <div class="poetry-container" id="poetryContainer"></div>
+
+        <!-- 向下滚动提示 -->
+        <a href="#entries" class="scroll-hint">向下探索</a>
+    </section>
+
+    <!-- 第二屏 - 三个入口 -->
+    <section class="entries-section" id="entries">
+        <div class="entries-bg" id="entriesBg"></div>
         
-        <div class="hero-content">
-            <h1 class="hero-title">静心书斋</h1>
-            <p class="hero-subtitle">修身养性，博闻强识</p>
+        <div class="entries-content">
+            <h2 class="entries-title">探寻书斋</h2>
             
             <div class="hero-entries">
-                <a href="chengweiweixiang.html" class="hero-entry">
+                <a href="chengweiweixiang.html" class="hero-entry" data-delay="0">
                     <div class="entry-circle">
                         <span class="entry-text">澄怀味象</span>
                     </div>
                     <span class="entry-label">洗心养神</span>
                 </a>
                 
-                <a href="jingshizhiyong.html" class="hero-entry">
+                <a href="jingshizhiyong.html" class="hero-entry" data-delay="150">
                     <div class="entry-circle">
                         <span class="entry-text">经世致用</span>
                     </div>
                     <span class="entry-label">学以致用</span>
                 </a>
                 
-                <a href="shiciyaji.html" class="hero-entry">
+                <a href="shiciyaji.html" class="hero-entry" data-delay="300">
                     <div class="entry-circle">
                         <span class="entry-text">诗词雅集</span>
                     </div>
@@ -264,5 +456,269 @@
     </footer>
 
     <script src="js/main.js"></script>
+    <script>
+        // ===== 配置 =====
+        const CONFIG = {
+        // 背景图片路径（GitHub raw URL）
+        backgroundImages: [
+            'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/bg1.jpg',
+            'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/bg2.jpg',
+            'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/bg3.jpg',
+            'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/bg4.jpg',
+            'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/bg5.jpg'
+        ],
+            // 诗句库
+            poems: [
+                '西风吹老洞庭波',
+                '一夜湘君白发多',
+                '醉后不知天在水',
+                '满船清梦压星河',
+                '床前明月光',
+                '疑是地上霜',
+                '举头望明月',
+                '低头思故乡',
+                '国破山河在',
+                '城春草木深',
+                '感时花溅泪',
+                '恨别鸟惊心'
+            ],
+            // 标题显示时间（毫秒）
+            titleDisplayTime: 20000,
+            // 每张图片显示时间（毫秒）
+            imageDisplayTime: 8000,
+            // 每句诗显示时间（毫秒）
+            poemDisplayTime: 5000,
+            // 同时显示的诗句数量
+            poemCount: 6
+        };
+
+        // ===== 背景图片轮播 =====
+        class BackgroundSlider {
+            constructor() {
+                this.container = document.getElementById('bgSlider');
+                this.entriesBg = document.getElementById('entriesBg');
+                this.images = [];
+                this.currentIndex = 0;
+                this.usedIndices = new Set();
+                this.init();
+            }
+
+            init() {
+                // 创建背景图片元素
+                CONFIG.backgroundImages.forEach((src, index) => {
+                    const div = document.createElement('div');
+                    div.className = 'bg-image';
+                    div.style.backgroundImage = `url('${src}')`;
+                    this.container.appendChild(div);
+                    this.images.push(div);
+                });
+
+                // 设置第二屏背景为第一张图
+                if (CONFIG.backgroundImages.length > 0) {
+                    this.entriesBg.style.backgroundImage = `url('${CONFIG.backgroundImages[0]}')`;
+                }
+
+                this.start();
+            }
+
+            getNextIndex() {
+                // 如果所有图片都播放过，重置
+                if (this.usedIndices.size >= this.images.length) {
+                    this.usedIndices.clear();
+                }
+
+                // 随机选择一个未播放的图片
+                let availableIndices = [];
+                for (let i = 0; i < this.images.length; i++) {
+                    if (!this.usedIndices.has(i)) {
+                        availableIndices.push(i);
+                    }
+                }
+
+                const nextIndex = availableIndices[Math.floor(Math.random() * availableIndices.length)];
+                this.usedIndices.add(nextIndex);
+                return nextIndex;
+            }
+
+            start() {
+                // 显示第一张
+                this.showImage(0);
+                this.usedIndices.add(0);
+
+                // 定时切换
+                setInterval(() => {
+                    const nextIndex = this.getNextIndex();
+                    this.showImage(nextIndex);
+                }, CONFIG.imageDisplayTime);
+            }
+
+            showImage(index) {
+                // 移除所有 active
+                this.images.forEach(img => img.classList.remove('active'));
+                // 添加 active 到当前图片
+                this.images[index].classList.add('active');
+                this.currentIndex = index;
+
+                // 同步更新第二屏背景
+                const currentSrc = CONFIG.backgroundImages[index];
+                this.entriesBg.style.backgroundImage = `url('${currentSrc}')`;
+            }
+        }
+
+        // ===== 中心标题控制 =====
+        class TitleController {
+            constructor() {
+                this.title = document.getElementById('centerTitle');
+                this.init();
+            }
+
+            init() {
+                // 20秒后隐藏标题
+                setTimeout(() => {
+                    this.hide();
+                }, CONFIG.titleDisplayTime);
+            }
+
+            hide() {
+                this.title.classList.add('hidden');
+                // 触发诗句范围扩展事件
+                window.dispatchEvent(new CustomEvent('titleHidden'));
+            }
+
+            isVisible() {
+                return !this.title.classList.contains('hidden');
+            }
+        }
+
+        // ===== 随机诗句管理 =====
+        class FloatingPoems {
+            constructor() {
+                this.container = document.getElementById('poetryContainer');
+                this.poems = CONFIG.poems;
+                this.activePoems = [];
+                this.titleVisible = true;
+                this.init();
+            }
+
+            init() {
+                // 监听标题隐藏事件
+                window.addEventListener('titleHidden', () => {
+                    this.titleVisible = false;
+                });
+
+                // 开始显示诗句
+                this.start();
+            }
+
+            getRandomPosition() {
+                const viewportW = window.innerWidth;
+                const viewportH = window.innerHeight;
+                const margin = 100;
+
+                if (this.titleVisible) {
+                    // 标题显示期间：在周边显示（避开中心区域）
+                    const centerX = viewportW / 2;
+                    const centerY = viewportH / 2;
+                    const excludeRadius = Math.min(viewportW, viewportH) * 0.35;
+
+                    let x, y, distance;
+                    do {
+                        x = margin + Math.random() * (viewportW - margin * 2);
+                        y = margin + Math.random() * (viewportH - margin * 2);
+                        distance = Math.sqrt(Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2));
+                    } while (distance < excludeRadius);
+
+                    return { x, y };
+                } else {
+                    // 标题消失后：全屏范围内随机
+                    return {
+                        x: margin + Math.random() * (viewportW - margin * 2),
+                        y: margin + Math.random() * (viewportH - margin * 2)
+                    };
+                }
+            }
+
+            createPoem() {
+                const poemText = this.poems[Math.floor(Math.random() * this.poems.length)];
+                const pos = this.getRandomPosition();
+
+                const poemEl = document.createElement('div');
+                poemEl.className = 'floating-poem';
+                poemEl.textContent = poemText;
+                poemEl.style.left = pos.x + 'px';
+                poemEl.style.top = pos.y + 'px';
+
+                this.container.appendChild(poemEl);
+
+                // 触发动画
+                requestAnimationFrame(() => {
+                    poemEl.classList.add('visible');
+                });
+
+                // 5秒后移除
+                setTimeout(() => {
+                    poemEl.classList.remove('visible');
+                    setTimeout(() => {
+                        poemEl.remove();
+                    }, 800);
+                }, CONFIG.poemDisplayTime);
+            }
+
+            start() {
+                // 初始显示一批诗句（每隔5秒显示一句）
+                for (let i = 0; i < CONFIG.poemCount; i++) {
+                    setTimeout(() => this.createPoem(), i * CONFIG.poemDisplayTime);
+                }
+
+                // 持续创建新诗句（每5秒创建一句）
+                setInterval(() => {
+                    this.createPoem();
+                }, CONFIG.poemDisplayTime);
+            }
+        }
+
+        // ===== 入口动画控制 =====
+        class EntriesAnimation {
+            constructor() {
+                this.entries = document.querySelectorAll('.hero-entry');
+                this.entriesSection = document.getElementById('entries');
+                this.hasAnimated = false;
+                this.init();
+            }
+
+            init() {
+                // 使用 Intersection Observer 监听第二屏
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting && !this.hasAnimated) {
+                            this.animate();
+                            this.hasAnimated = true;
+                        }
+                    });
+                }, {
+                    threshold: 0.3
+                });
+
+                observer.observe(this.entriesSection);
+            }
+
+            animate() {
+                this.entries.forEach((entry, index) => {
+                    const delay = parseInt(entry.dataset.delay) || 0;
+                    setTimeout(() => {
+                        entry.classList.add('visible');
+                    }, delay);
+                });
+            }
+        }
+
+        // ===== 初始化 =====
+        document.addEventListener('DOMContentLoaded', () => {
+            new BackgroundSlider();
+            new TitleController();
+            new FloatingPoems();
+            new EntriesAnimation();
+        });
+    </script>
 </body>
 </html>
