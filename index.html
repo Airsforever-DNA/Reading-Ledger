@@ -21,12 +21,348 @@
 
         html {
             scroll-behavior: smooth;
+            scroll-snap-type: y mandatory;
         }
 
         body {
             font-family: 'LXGW WenKai', serif;
             overflow-x: hidden;
-            background: #f8f6f1;
+            background: #0a0a0a;
+        }
+
+        /* ===== 全局背景图层（固定，两页共享） ===== */
+        .global-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .bg-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transform: scale(1);
+            transition: opacity 1.2s ease-in-out;
+            will-change: transform, opacity;
+        }
+
+        .bg-image.active {
+            opacity: 1;
+            animation: zoomIn 8s ease-out forwards;
+        }
+
+        .bg-image.fading-out {
+            opacity: 0;
+            transition: opacity 1.2s ease-in-out;
+        }
+
+        @keyframes zoomIn {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.15); }
+        }
+
+        /* 背景遮罩 */
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.35);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* ===== 第一屏 - 英雄区域 ===== */
+        .hero-section {
+            height: 100vh;
+            position: relative;
+            z-index: 2;
+            overflow: hidden;
+            scroll-snap-align: start;
+        }
+
+        /* 中心标题 "静心书斋" */
+        .center-title {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            text-align: center;
+            opacity: 0;
+            animation: titleFadeIn 2s ease-out 0.5s forwards;
+            transition: opacity 1.5s ease-out;
+        }
+
+        .center-title.hidden {
+            opacity: 0 !important;
+            pointer-events: none;
+        }
+
+        @keyframes titleFadeIn {
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
+            100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        }
+
+        .center-title h1 {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 6rem;
+            color: rgba(248, 246, 241, 0.95);
+            letter-spacing: 20px;
+            text-shadow:
+                0 0 30px rgba(0, 0, 0, 0.6),
+                0 0 60px rgba(0, 0, 0, 0.3),
+                2px 2px 4px rgba(0, 0, 0, 0.9);
+            animation: titleGlow 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes titleGlow {
+            0% { text-shadow: 0 0 30px rgba(0, 0, 0, 0.6), 0 0 60px rgba(0, 0, 0, 0.3), 2px 2px 4px rgba(0, 0, 0, 0.9); }
+            100% { text-shadow: 0 0 40px rgba(255, 255, 255, 0.15), 0 0 80px rgba(0, 0, 0, 0.4), 2px 2px 4px rgba(0, 0, 0, 0.9), 0 0 100px rgba(255, 255, 255, 0.05); }
+        }
+
+        /* 诗句容器 - 跟随第一屏 */
+        .poetry-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        .floating-poem {
+            position: absolute;
+            font-family: 'Zhi Mang Xing', cursive;
+            font-size: 1.6rem;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 0, 0, 0.4);
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            letter-spacing: 4px;
+            pointer-events: none;
+        }
+
+        .floating-poem.visible {
+            opacity: 1;
+        }
+
+        /* 向下滚动提示 */
+        .scroll-hint {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 20;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+            letter-spacing: 3px;
+            animation: bounce 2.5s ease-in-out infinite;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .scroll-hint::after {
+            content: '↓';
+            display: block;
+            text-align: center;
+            margin-top: 8px;
+            font-size: 1.4rem;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-12px); }
+            60% { transform: translateX(-50%) translateY(-6px); }
+        }
+
+        /* ===== 第二屏 - 入口区域 ===== */
+        .entries-section {
+            min-height: 100vh;
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            scroll-snap-align: start;
+        }
+
+        /* 第二屏额外遮罩（稍深一点，让入口标签更清晰） */
+        .entries-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.25);
+            z-index: 0;
+        }
+
+        /* 入口内容 */
+        .entries-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .entries-title {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 2.5rem;
+            color: #f8f6f1;
+            margin-bottom: 60px;
+            letter-spacing: 10px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .entries-title.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .hero-entries {
+            display: flex;
+            gap: 60px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .hero-entry {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            transition: transform 0.4s ease;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .hero-entry.visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .hero-entry:hover {
+            transform: translateY(-10px) scale(1.05);
+        }
+
+        .entry-circle {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(139, 119, 101, 0.85) 0%, rgba(107, 91, 79, 0.85) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow:
+                0 10px 40px rgba(0, 0, 0, 0.3),
+                inset 0 2px 4px rgba(255, 255, 255, 0.1);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .hero-entry:hover .entry-circle {
+            box-shadow:
+                0 15px 50px rgba(0, 0, 0, 0.4),
+                inset 0 2px 4px rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .entry-circle::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .entry-text {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 2rem;
+            color: #f8f6f1;
+            letter-spacing: 6px;
+        }
+
+        .entry-label {
+            font-family: 'LXGW WenKai', serif;
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.85);
+            margin-top: 20px;
+            letter-spacing: 4px;
+            transition: color 0.3s ease;
+        }
+
+        .hero-entry:hover .entry-label {
+            color: #fff;
+        }
+
+        /* ===== 关于我区域 ===== */
+        .about-section {
+            padding: 100px 20px;
+            background: linear-gradient(135deg, rgba(248, 246, 241, 0.95) 0%, rgba(232, 228, 217, 0.95) 100%);
+            text-align: center;
+            position: relative;
+            z-index: 3;
+        }
+
+        .about-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .about-title {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 2.5rem;
+            color: #4a4035;
+            margin-bottom: 30px;
+            letter-spacing: 8px;
+        }
+
+        .about-text {
+            font-size: 1.1rem;
+            color: #6b5b4f;
+            line-height: 2;
+            letter-spacing: 2px;
+        }
+
+        /* ===== 页脚 ===== */
+        .footer {
+            padding: 30px 20px;
+            background: #4a4035;
+            text-align: center;
+            position: relative;
+            z-index: 3;
+        }
+
+        .footer p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            letter-spacing: 2px;
         }
 
         /* ===== 导航栏 ===== */
@@ -44,7 +380,14 @@
             padding: 0 40px;
             z-index: 1000;
             box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
+            transform: translateY(-100%);
+            opacity: 0;
+            transition: transform 0.4s ease, opacity 0.4s ease;
+        }
+
+        .navbar.visible {
+            transform: translateY(0);
+            opacity: 1;
         }
 
         .nav-logo a {
@@ -91,340 +434,15 @@
             width: 100%;
         }
 
-        /* ===== 第一屏 - 动态背景区域 ===== */
-        .hero-section {
-            height: 100vh;
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* 背景图片容器 */
-        .bg-slider {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-        }
-
-        .bg-image {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-size: cover;
-            background-position: center;
-            opacity: 0;
-            transform: scale(1);
-            transition: opacity 1s ease-in-out;
-        }
-
-        .bg-image.active {
-            opacity: 1;
-            animation: zoomIn 8s ease-out forwards;
-        }
-
-        @keyframes zoomIn {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.15); }
-        }
-
-        /* 背景遮罩 */
-        .bg-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.3);
-            z-index: 1;
-        }
-
-        /* 中心标题 */
-        .center-title {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 10;
-            text-align: center;
-            opacity: 1;
-            transition: opacity 1s ease-out;
-        }
-
-        .center-title.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .center-title h1 {
-            font-family: 'Ma Shan Zheng', cursive;
-            font-size: 6rem;
-            color: #f8f6f1;
-            letter-spacing: 20px;
-            text-shadow: 
-                0 0 20px rgba(0, 0, 0, 0.5),
-                0 0 40px rgba(0, 0, 0, 0.3),
-                2px 2px 4px rgba(0, 0, 0, 0.8);
-            animation: titleGlow 3s ease-in-out infinite alternate;
-        }
-
-        @keyframes titleGlow {
-            0% { text-shadow: 0 0 20px rgba(0, 0, 0, 0.5), 0 0 40px rgba(0, 0, 0, 0.3), 2px 2px 4px rgba(0, 0, 0, 0.8); }
-            100% { text-shadow: 0 0 30px rgba(255, 255, 255, 0.2), 0 0 60px rgba(0, 0, 0, 0.4), 2px 2px 4px rgba(0, 0, 0, 0.8); }
-        }
-
-        /* 随机诗句容器 */
-        .poetry-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 5;
-            pointer-events: none;
-        }
-
-        .floating-poem {
-            position: absolute;
-            font-family: 'Zhi Mang Xing', cursive;
-            font-size: 1.5rem;
-            color: rgba(255, 255, 255, 0.85);
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
-            white-space: nowrap;
-            opacity: 0;
-            transition: opacity 0.8s ease-in-out;
-            letter-spacing: 3px;
-        }
-
-        .floating-poem.visible {
-            opacity: 1;
-        }
-
-        /* 向下滚动提示 */
-        .scroll-hint {
-            position: absolute;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 20;
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.9rem;
-            letter-spacing: 3px;
-            animation: bounce 2s infinite;
-            cursor: pointer;
-            text-decoration: none;
-        }
-
-        .scroll-hint::after {
-            content: '↓';
-            display: block;
-            text-align: center;
-            margin-top: 5px;
-            font-size: 1.5rem;
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
-            40% { transform: translateX(-50%) translateY(-10px); }
-            60% { transform: translateX(-50%) translateY(-5px); }
-        }
-
-        /* ===== 第二屏 - 入口区域 ===== */
-        .entries-section {
-            min-height: 100vh;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-        }
-
-        /* 第二屏背景 */
-        .entries-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-size: cover;
-            background-position: center;
-            z-index: 0;
-        }
-
-        .entries-bg::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.4);
-        }
-
-        /* 三个入口 */
-        .entries-content {
-            position: relative;
-            z-index: 10;
-            text-align: center;
-            padding: 40px 20px;
-        }
-
-        .entries-title {
-            font-family: 'Ma Shan Zheng', cursive;
-            font-size: 2.5rem;
-            color: #f8f6f1;
-            margin-bottom: 60px;
-            letter-spacing: 10px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
-
-        .hero-entries {
-            display: flex;
-            gap: 60px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .hero-entry {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-decoration: none;
-            transition: transform 0.4s ease;
-            opacity: 0;
-            transform: translateY(30px);
-        }
-
-        .hero-entry.visible {
-            opacity: 1;
-            transform: translateY(0);
-            transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-
-        .hero-entry:hover {
-            transform: translateY(-10px) scale(1.05);
-        }
-
-        .entry-circle {
-            width: 160px;
-            height: 160px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, rgba(139, 119, 101, 0.9) 0%, rgba(107, 91, 79, 0.9) 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 
-                0 10px 40px rgba(0, 0, 0, 0.3),
-                inset 0 2px 4px rgba(255, 255, 255, 0.1);
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .hero-entry:hover .entry-circle {
-            box-shadow: 
-                0 15px 50px rgba(0, 0, 0, 0.4),
-                inset 0 2px 4px rgba(255, 255, 255, 0.2);
-            border-color: rgba(255, 255, 255, 0.4);
-        }
-
-        .entry-circle::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%);
-            pointer-events: none;
-        }
-
-        .entry-text {
-            font-family: 'Ma Shan Zheng', cursive;
-            font-size: 2rem;
-            color: #f8f6f1;
-            letter-spacing: 6px;
-        }
-
-        .entry-label {
-            font-family: 'LXGW WenKai', serif;
-            font-size: 1rem;
-            color: rgba(255, 255, 255, 0.9);
-            margin-top: 20px;
-            letter-spacing: 4px;
-            transition: color 0.3s ease;
-        }
-
-        .hero-entry:hover .entry-label {
-            color: #fff;
-        }
-
-        /* ===== 关于我区域 ===== */
-        .about-section {
-            padding: 100px 20px;
-            background: linear-gradient(135deg, #f8f6f1 0%, #e8e4d9 100%);
-            text-align: center;
-        }
-
-        .about-container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .about-title {
-            font-family: 'Ma Shan Zheng', cursive;
-            font-size: 2.5rem;
-            color: #4a4035;
-            margin-bottom: 30px;
-            letter-spacing: 8px;
-        }
-
-        .about-text {
-            font-size: 1.1rem;
-            color: #6b5b4f;
-            line-height: 2;
-            letter-spacing: 2px;
-        }
-
-        /* ===== 页脚 ===== */
-        .footer {
-            padding: 30px 20px;
-            background: #4a4035;
-            text-align: center;
-        }
-
-        .footer p {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.9rem;
-            letter-spacing: 2px;
-        }
-
-        /* 响应式 */
+        /* ===== 响应式 ===== */
         @media (max-width: 768px) {
-            .navbar {
-                padding: 0 20px;
-            }
-
-            .nav-links {
-                gap: 15px;
-            }
-
-            .nav-links a {
-                font-size: 0.85rem;
-            }
-
             .center-title h1 {
                 font-size: 3.5rem;
                 letter-spacing: 10px;
             }
 
             .floating-poem {
-                font-size: 1.1rem;
+                font-size: 1.2rem;
             }
 
             .entries-title {
@@ -442,6 +460,18 @@
 
             .entry-text {
                 font-size: 1.6rem;
+            }
+
+            .navbar {
+                padding: 0 20px;
+            }
+
+            .nav-links {
+                gap: 15px;
+            }
+
+            .nav-links a {
+                font-size: 0.85rem;
             }
         }
 
@@ -472,7 +502,7 @@
     </style>
 </head>
 <body>
-    <!-- 导航栏 -->
+    <!-- 导航栏（滚动到第二屏时显示） -->
     <nav class="navbar" id="navbar">
         <div class="nav-logo">
             <a href="index.html">静心书斋</a>
@@ -486,18 +516,18 @@
         </ul>
     </nav>
 
-    <!-- 第一屏 - 动态背景与诗句 -->
-    <section class="hero-section" id="hero">
-        <!-- 背景图片轮播 -->
-        <div class="bg-slider" id="bgSlider"></div>
-        <div class="bg-overlay"></div>
+    <!-- 全局背景图片（固定定位，两屏共享） -->
+    <div class="global-bg" id="globalBg"></div>
+    <div class="bg-overlay"></div>
 
+    <!-- 第一屏 -->
+    <section class="hero-section" id="hero">
         <!-- 中心标题 -->
         <div class="center-title" id="centerTitle">
             <h1>静心书斋</h1>
         </div>
 
-        <!-- 随机诗句 -->
+        <!-- 随机诗句（仅在第一屏显示） -->
         <div class="poetry-container" id="poetryContainer"></div>
 
         <!-- 向下滚动提示 -->
@@ -506,11 +536,11 @@
 
     <!-- 第二屏 - 三个入口 -->
     <section class="entries-section" id="entries">
-        <div class="entries-bg" id="entriesBg"></div>
-        
+        <div class="entries-overlay"></div>
+
         <div class="entries-content">
-            <h2 class="entries-title">探寻书斋</h2>
-            
+            <h2 class="entries-title" id="entriesTitle">探寻书斋</h2>
+
             <div class="hero-entries">
                 <a href="chengweiweixiang.html" class="hero-entry" data-delay="0">
                     <div class="entry-circle">
@@ -518,15 +548,15 @@
                     </div>
                     <span class="entry-label">洗心养神</span>
                 </a>
-                
-                <a href="jingshizhiyong.html" class="hero-entry" data-delay="150">
+
+                <a href="jingshizhiyong.html" class="hero-entry" data-delay="200">
                     <div class="entry-circle">
                         <span class="entry-text">经世致用</span>
                     </div>
                     <span class="entry-label">学以致用</span>
                 </a>
-                
-                <a href="shiciyaji.html" class="hero-entry" data-delay="300">
+
+                <a href="shiciyaji.html" class="hero-entry" data-delay="400">
                     <div class="entry-circle">
                         <span class="entry-text">诗词雅集</span>
                     </div>
@@ -549,179 +579,205 @@
 
     <!-- 页脚 -->
     <footer class="footer">
-        <p>© 2024 静心书斋 | 修身养性，博闻强识</p>
+        <p>&copy; 2024 静心书斋 | 修身养性，博闻强识</p>
     </footer>
 
     <script>
         // ===== 配置 =====
         const CONFIG = {
-            // 背景图片路径（全部69张）
             backgroundImages: [
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/Ammonite+fossil+from+Madagascar.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/Artist+Saype+poses+with+his+land+art+painting+at+UN+Headquarters%2c+Geneva%2c+Switzerland.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/Cheetah+in+Maasai+Mara+National+Reserve%2c+Narok%2c+Kenya.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/Christmas+lights+in+Domaso%2c+Lake+Como%2c+Italy.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/Christmas+market+in+Leipzig%2c+Germany.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/Guanaco+in+Punta+Norte%2c+Argentina.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/Hungarian+Parliament+Building%2c+Budapest%2c+Hungary.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/Interior+of+the+Mosque-Cathedral+of+Cordoba%2c+Andalusia%2c+Spain.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/Male+hooded+merganser%2c+Oregon.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/Maya+site+of+Copan%2c+Honduras.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/Merced+River%2c+Yosemite+Natioanl+Park%2c+California.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/Natural+arch+carved+in+an+iceberg%2c+Antarctica.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/Sandhill+cranes+at+sunrise%2c+Bosque+del+Apache+National+Wildlife+Refuge%2c+New+Mexico.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/Spider+webs+in+Everglades+National+Park%2c+Florida.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/Spotted+poinsettia.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/Summit+of+Mount+Everest+at+sunset%2c+seen+from+Renjo+La%2c+Nepal.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/USS+Arizona+Memorial%2c+Pearl+Harbor%2c+Honolulu%2c+Hawaii.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%e4%b8%80%e7%be%a4%e9%ab%98%e8%a7%92%e7%be%9a%ef%bc%8c%e9%9a%86%e5%a4%9a%e6%b4%9b%e5%a5%87%e9%87%8e%e7%94%9f%e5%8a%a8%e7%89%a9%e4%bf%9d%e6%8a%a4%e5%8c%ba%ef%bc%8c%e5%8d%97%e9%9d%9e.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%e4%ba%9a%e4%bc%af%e6%8b%89%e7%bd%95%e6%b9%96%e5%86%b0%e5%b0%81%e6%99%af%e8%b1%a1%ef%bc%8c%e8%89%be%e4%bc%af%e5%a1%94%e7%9c%81%ef%bc%8c%e5%8a%a0%e6%8b%bf%e5%a4%a7.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%e4%bc%8a%e6%96%af%e7%89%b9%e6%9c%ac%e6%b5%b7%e5%b2%b8%ef%bc%8c%e4%b8%9c%e8%90%a8%e5%a1%9e%e5%85%8b%e6%96%af%e9%83%a1%ef%bc%8c%e8%8b%b1%e6%a0%bc%e5%85%b0.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%e4%bc%af%e6%81%a9%e6%96%af%e5%9b%bd%e5%ae%b6%e9%81%97%e4%ba%a7%e5%85%ac%e5%9b%ad%ef%bc%8c%e8%89%be%e5%b0%94%ef%bc%8c%e5%8d%97%e8%89%be%e5%b0%94%e9%83%a1%ef%bc%8c%e8%8b%8f%e6%a0%bc%e5%85%b0.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%e4%bf%9d%e7%bd%97%e5%9c%a3%e6%96%b9%e6%b5%8e%e5%9c%a3%e6%ae%bf%ef%bc%8c%e9%82%a3%e4%b8%8d%e5%8b%92%e6%96%af%ef%bc%8c%e6%84%8f%e5%a4%a7%e5%88%a9.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%e5%85%8b%e5%8d%a2%e4%bc%8a%e5%be%b7%e8%b0%b7%ef%bc%8c%e5%a8%81%e5%b0%94%e5%a3%ab.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%e5%86%ac%e9%9b%aa%e4%b8%ad%e7%9a%84%e9%a9%af%e9%b9%bf%ef%bc%8c%e6%8b%89%e6%99%ae%e5%85%b0%e5%be%b7%ef%bc%8c%e8%8a%ac%e5%85%b0.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%e5%8a%aa%e5%85%8b%ef%bc%8c%e6%a0%bc%e9%99%b5%e5%85%b0.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%e5%8a%b3%e7%89%b9%e5%b8%83%e9%9a%86%e5%ae%b6%e7%9a%84%e6%96%bd%e9%99%b6%e5%b7%b4%e8%b5%ab%e7%80%91%e5%b8%83%ef%bc%8c%e4%bc%af%e5%b0%94%e5%b0%bc%e5%b7%9e%ef%bc%8c%e7%91%9e%e5%a3%ab.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%e5%8d%9a%e5%b0%94%e7%b1%b3%e5%a5%a5%e7%9a%84%e9%9b%aa%e6%99%af%ef%bc%8c%e4%bc%a6%e5%b7%b4%e7%ac%ac%e5%a4%a7%e5%8c%ba%ef%bc%8c%e6%84%8f%e5%a4%a7%e5%88%a9.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%e5%8d%a1%e7%bd%97%e7%bb%b4%e7%93%a6%e5%88%a9%ef%bc%8c%e6%b3%a2%e8%a5%bf%e7%b1%b3%e4%ba%9a%ef%bc%8c%e6%8d%b7%e5%85%8b%e5%85%b1%e5%92%8c%e5%9b%bd.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%e5%8d%b7%e7%be%bd%e9%b9%88%e9%b9%88%ef%bc%8c%e5%87%af%e5%b0%94%e5%9f%ba%e5%b0%bc%e6%b9%96%ef%bc%8c%e5%b8%8c%e8%85%8a.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%e5%9b%bd%e7%8e%8b%e5%b1%b1%ef%bc%8c%e6%a5%9a%e5%8a%a0%e5%a5%87%e5%b1%b1%e8%84%89%ef%bc%8c%e9%98%bf%e6%8b%89%e6%96%af%e5%8a%a0%ef%bc%8c%e7%be%8e%e5%9b%bd.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%e5%9c%a3%e8%af%9e%e5%b8%82%e5%9c%ba%e4%b8%8a%e7%9a%84%e6%89%8b%e5%b7%a5%e5%b0%8f%e7%9f%ae%e4%ba%ba.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%e5%9c%a3%e8%af%9e%e6%98%9f%e5%bd%a2%e7%81%af%e7%ac%bc%ef%bc%8c%e5%be%b7%e5%9b%bd.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%e5%9c%a8%e8%af%ba%e6%a3%ae%e4%bc%af%e5%85%b0%e9%83%a1%e7%9a%84%e6%ac%a7%e4%ba%9a%e7%ba%a2%e6%9d%be%e9%bc%a0%ef%bc%8c%e8%8b%b1%e6%a0%bc%e5%85%b0.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%e5%9f%83%e6%89%98%e6%b2%99%e5%9b%bd%e5%ae%b6%e5%85%ac%e5%9b%ad%e7%9a%84%e8%b1%b9%e5%ad%90%ef%bc%8c%e7%ba%b3%e7%b1%b3%e6%af%94%e4%ba%9a.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%e5%a4%aa%e9%98%b3%e7%a5%9e%e5%ba%99%ef%bc%8c%e5%9c%86%e9%a1%b6%e7%a4%81%e5%9b%bd%e5%ae%b6%e5%85%ac%e5%9b%ad%ef%bc%8c%e7%8a%80%e4%bb%96%e5%b7%9e%ef%bc%8c%e7%be%8e%e5%9b%bd.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%e5%a8%81%e5%b0%bc%e6%96%af%e9%b8%9f%e7%9e%b0%e5%9b%be%ef%bc%8c%e6%84%8f%e5%a4%a7%e5%88%a9.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%e5%af%86%e5%b0%94%e6%b2%83%e5%9f%ba%e5%b8%82%e6%94%bf%e5%8e%85%e7%9a%84%e5%85%ab%e5%b1%82%e5%bc%80%e6%94%be%e5%bc%8f%e4%b8%ad%e5%ba%ad%ef%bc%8c%e5%a8%81%e6%96%af%e5%ba%b7%e6%98%9f%e5%b7%9e%ef%bc%8c%e7%be%8e%e5%9b%bd.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%e5%b7%b4%e4%bc%90%e5%88%a9%e4%ba%9a%e9%98%bf%e5%b0%94%e5%8d%91%e6%96%af%e5%b1%b1%e8%84%89%e7%9a%84%e9%9b%aa%e4%b8%ad%e6%95%99%e5%a0%82%e4%b8%8e%e5%9c%a3%e8%af%9e%e6%a0%91%ef%bc%8c%e5%be%b7%e5%9b%bd.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%e5%b8%95%e6%8b%89%e7%b1%b3%e8%92%82%e8%b5%9b%e5%a1%9e%e7%9a%84%e9%98%b6%e6%a2%af%ef%bc%8c%e7%ba%b3%e5%a4%ab%e6%99%ae%e5%88%a9%e7%bf%81%ef%bc%8c%e5%b8%8c%e8%85%8a.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%e6%8b%b1%e9%97%a8%e5%9b%bd%e5%ae%b6%e5%85%ac%e5%9b%ad%e7%9a%84%e5%8c%97%e7%aa%97%e6%a1%86%e6%99%af%e4%b8%ad%e7%9a%84%e7%82%ae%e5%a1%94%e6%8b%b1%e9%97%a8%ef%bc%8c%e7%8a%80%e4%bb%96%e5%b7%9e%ef%bc%8c%e7%be%8e%e5%9b%bd.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%e6%96%af%e7%9a%ae%e6%a0%bc%e5%b0%94%e8%bf%90%e6%b2%b3%e7%9a%84%e7%81%af%e5%85%89%e8%a3%85%e9%a5%b0%ef%bc%8c%e9%98%bf%e5%a7%86%e6%96%af%e7%89%b9%e4%b8%b9%ef%bc%8c%e8%8d%b7%e5%85%b0.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%e6%96%b0%e5%a4%a9%e9%b9%85%e5%a0%a1%ef%bc%8c%e5%b7%b4%e4%bc%90%e5%88%a9%e4%ba%9a%e5%b7%9e%ef%bc%8c%e5%be%b7%e5%9b%bd.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%e6%97%a5%e5%87%ba%e6%97%b6%e5%88%86%ef%bc%8c%e9%a9%ac%e7%89%b9%e6%b4%aa%e5%b3%b0%e7%9a%84%e5%80%92%e5%bd%b1%e6%98%a0%e7%85%a7%e5%9c%a8%e6%96%af%e7%89%b9%e5%88%a9%e6%b9%96%e4%b8%ad%ef%bc%8c%e9%87%87%e5%b0%94%e9%a9%ac%e7%89%b9%ef%bc%8c%e7%91%9e%e5%a3%ab.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%e6%97%ba%e6%a0%bc%e5%8a%aa%e4%bc%8a%e5%9b%bd%e5%ae%b6%e5%85%ac%e5%9b%ad%ef%bc%8c%e9%9b%b7%e5%a1%94%e9%b2%81%e5%85%8b%ef%bc%8c%e6%96%b0%e8%a5%bf%e5%85%b0.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%e6%99%a8%e5%85%89%e9%80%8f%e8%bf%87%e7%bb%93%e9%9c%9c%e7%9a%84%e6%a0%91%e6%9c%a8%e6%b4%92%e4%b8%8b%ef%bc%8c%e7%91%9e%e5%85%b8.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%e6%a0%96%e6%81%af%e5%9c%a8%e6%a0%91%e6%9e%9d%e4%b8%8a%e7%9a%84%e5%8c%97%e9%95%bf%e5%b0%be%e5%b1%b1%e9%9b%80%ef%bc%8c%e5%a4%a7%e5%ba%86%e5%b8%82%ef%bc%8c%e4%b8%ad%e5%9b%bd%e9%bb%91%e9%be%99%e6%b1%9f%e7%9c%81.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%e6%a4%8b%e9%b8%9f%e7%be%a4%e5%9c%a8%e5%b8%83%e8%8e%b1%e9%a1%bf%e8%a5%bf%e7%a0%81%e5%a4%b4%e5%ba%9f%e5%a2%9f%e4%b8%8a%e7%a9%ba%e7%9b%98%e6%97%8b%ef%bc%8c%e8%8b%b1%e6%a0%bc%e5%85%b0.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%e6%ac%a7%e4%ba%9a%e6%b0%b4%e7%8d%ad%e5%92%8c%e5%b9%bc%e5%b4%bd%ef%bc%8c%e7%88%b1%e6%b2%99%e5%b0%bc%e4%ba%9a.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%e6%ac%a7%e4%ba%9a%e7%ba%a2%e6%9d%be%e9%bc%a0.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%e6%ad%a3%e5%9c%a8%e7%9d%a1%e8%a7%89%e7%9a%84%e5%8c%97%e6%9e%81%e7%8b%90.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%e6%b3%95%e5%85%b0%e5%85%8b%e7%a6%8f%e8%80%81%e6%a1%a5%ef%bc%8c%e5%be%b7%e5%9b%bd.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%e6%b5%b7%e5%be%b7%e5%a0%a1%e5%9c%a3%e8%af%9e%e5%b8%82%e5%9c%ba%e4%b8%8a%e7%9a%84%e9%9b%aa%e7%90%83%ef%bc%8c%e5%be%b7%e5%9b%bd.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%e7%93%9c%e5%bb%96%e5%b0%94%e5%a0%a1%ef%bc%8c%e4%b8%ad%e5%a4%ae%e9%82%a6%ef%bc%8c%e5%8d%b0%e5%ba%a6.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%e7%93%a6%e5%b0%94%c2%b7%e5%b8%83%e5%85%b0%e5%be%b7%e7%89%b9%ef%bc%8c%e5%b8%83%e9%9b%b7%e8%a5%bf%e4%ba%9a%ef%bc%8c%e4%bc%a6%e5%b7%b4%e7%ac%ac%e5%a4%a7%e5%8c%ba%ef%bc%8c%e6%84%8f%e5%a4%a7%e5%88%a9.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%e7%99%bd%e6%b2%99%e5%9b%bd%e5%ae%b6%e5%85%ac%e5%9b%ad%ef%bc%8c%e6%96%b0%e5%a2%a8%e8%a5%bf%e5%93%a5%e5%b7%9e%ef%bc%8c%e7%be%8e%e5%9b%bd.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%e7%b0%87%e5%b1%b1%e9%9b%80%e6%a0%96%e6%81%af%e5%9c%a8%e6%9d%be%e6%9e%9d%e4%b8%8a%ef%bc%8c%e9%a9%ac%e8%90%a8%e8%af%b8%e5%a1%9e%e5%b7%9e%ef%bc%8c%e7%be%8e%e5%9b%bd.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%e7%b4%a2%e5%b0%94%e5%85%b9%e4%bc%af%e9%87%8c%e5%a4%a7%e6%95%99%e5%a0%82%ef%bc%8c%e5%a8%81%e5%b0%94%e7%89%b9%e9%83%a1%ef%bc%8c%e8%8b%b1%e6%a0%bc%e5%85%b0.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%e7%bb%b5%e9%98%b3%e5%9c%a8%e9%9b%aa%e5%9c%b0%e9%87%8c%e5%90%83%e8%8d%89%ef%bc%8c%e5%86%b0%e5%b2%9b.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%e7%bc%aa%e5%b0%94%e6%a0%91%e6%9e%97%e5%9b%bd%e5%ae%b6%e4%bf%9d%e6%8a%a4%e5%8c%ba%e7%9a%84%e5%b7%a8%e5%9e%8b%e7%ba%a2%e6%9d%89%e6%a0%91%e6%9e%97%ef%bc%8c%e5%8a%a0%e5%88%a9%e7%a6%8f%e5%b0%bc%e4%ba%9a%e5%b7%9e%ef%bc%8c%e7%be%8e%e5%9b%bd.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%e7%be%8e%e4%b8%bd%e7%9a%84%e9%9b%be%e5%87%87%e6%99%af%e8%89%b2%ef%bc%8c%e5%a4%a7%e5%ba%86%e5%b8%82%ef%bc%8c%e9%bb%91%e9%be%99%e6%b1%9f%e7%9c%81%ef%bc%8c%e4%b8%ad%e5%9b%bd.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%e8%88%8d%e5%a4%ab%e6%b2%99%e4%b8%87%e7%9a%84%e8%93%9d%e8%89%b2%e5%a2%99%e5%a3%81%ef%bc%8c%e6%91%a9%e6%b4%9b%e5%93%a5.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%e8%8b%8f%e5%bf%85%e5%88%a9%e5%b0%94%e6%b9%96%e6%b2%bf%e5%b2%b8%e7%9a%84%e5%86%b0%e5%b1%82%ef%bc%8c%e5%a4%a7%e9%a9%ac%e9%9b%b7%ef%bc%8c%e6%98%8e%e5%b0%bc%e8%8b%8f%e8%be%be%e5%b7%9e%ef%bc%8c%e7%be%8e%e5%9b%bd.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%e8%8d%b7%e5%85%b0%e6%a2%b5%e9%ab%98%e5%9b%bd%e5%ae%b6%e6%a3%ae%e6%9e%97%e5%85%ac%e5%9b%ad%e7%9a%84%e9%a9%ac%e9%b9%bf%e9%9b%84%e9%b9%bf%ef%bc%8c%e8%8d%b7%e5%85%b0.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%e9%98%bf%e5%b0%94%e5%8d%91%e6%96%af%e5%b1%b1%e8%84%89%e7%9a%84%e5%ae%89%e5%be%b7%e7%8e%9b%e7%89%b9%e5%b0%8f%e9%95%87%ef%bc%8c%e7%91%9e%e5%a3%ab.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%e9%98%bf%e5%b0%bc%e9%81%97%e5%9d%80%e7%9a%84%e5%9c%a3%e6%a0%bc%e9%9b%b7%e6%88%88%e9%87%8c%e6%95%99%e5%a0%82%ef%bc%8c%e5%8d%a1%e5%b0%94%e6%96%af%e7%9c%81%ef%bc%8c%e5%9c%9f%e8%80%b3%e5%85%b6.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%e9%99%a4%e5%a4%95%e5%a4%9c%ef%bc%8c%e5%a5%a5%e4%bc%af%e9%b2%8d%e5%a7%86%e6%a1%a5%ef%bc%8c%e6%9f%8f%e6%9e%97%ef%bc%8c%e5%be%b7%e5%9b%bd.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%e9%9b%b7%e8%ae%b7%e6%b8%94%e6%9d%91%ef%bc%8c%e6%8c%aa%e5%a8%81.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%e9%a9%ac%e6%8b%89%e9%bd%90%e7%bf%81%e7%9a%84%e5%9c%a3%e8%bf%88%e5%85%8b%e5%b0%94%e5%b1%b1%ef%bc%8c%e5%ba%b7%e6%b2%83%e5%b0%94%e9%83%a1%ef%bc%8c%e8%8b%b1%e6%a0%bc%e5%85%b0.jpg',
-                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%e9%a9%ac%e8%be%be%e5%8a%a0%e6%96%af%e5%8a%a0%e7%9a%84%e9%bb%91%e7%99%bd%e7%8e%af%e5%b0%be%e7%8b%90%e7%8c%b4.jpg'
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/Ammonite%20fossil%20from%20Madagascar.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/Artist%20Saype%20poses%20with%20his%20land%20art%20painting%20at%20UN%20Headquarters%2C%20Geneva%2C%20Switzerland.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/Cheetah%20in%20Maasai%20Mara%20National%20Reserve%2C%20Narok%2C%20Kenya.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/Christmas%20lights%20in%20Domaso%2C%20Lake%20Como%2C%20Italy.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/Christmas%20market%20in%20Leipzig%2C%20Germany.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/Guanaco%20in%20Punta%20Norte%2C%20Argentina.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/Hungarian%20Parliament%20Building%2C%20Budapest%2C%20Hungary.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/Interior%20of%20the%20Mosque-Cathedral%20of%20Cordoba%2C%20Andalusia%2C%20Spain.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/Male%20hooded%20merganser%2C%20Oregon.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/Maya%20site%20of%20Copan%2C%20Honduras.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/Merced%20River%2C%20Yosemite%20Natioanl%20Park%2C%20California.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/Natural%20arch%20carved%20in%20an%20iceberg%2C%20Antarctica.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/Sandhill%20cranes%20at%20sunrise%2C%20Bosque%20del%20Apache%20National%20Wildlife%20Refuge%2C%20New%20Mexico.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/Spider%20webs%20in%20Everglades%20National%20Park%2C%20Florida.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/Spotted%20poinsettia.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/Summit%20of%20Mount%20Everest%20at%20sunset%2C%20seen%20from%20Renjo%20La%2C%20Nepal.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/USS%20Arizona%20Memorial%2C%20Pearl%20Harbor%2C%20Honolulu%2C%20Hawaii.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E4%B8%80%E7%BE%A4%E9%AB%98%E8%A7%92%E7%BE%9A%EF%BC%8C%E9%9A%86%E5%A4%9A%E6%B4%9B%E5%A5%87%E9%87%8E%E7%94%9F%E5%8A%A8%E7%89%A9%E4%BF%9D%E6%8A%A4%E5%8C%BA%EF%BC%8C%E5%8D%97%E9%9D%9E.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E4%BA%9A%E4%BC%AF%E6%8B%89%E7%BD%95%E6%B9%96%E5%86%B0%E5%B0%81%E6%99%AF%E8%B1%A1%EF%BC%8C%E8%89%BE%E4%BC%AF%E5%A1%94%E7%9C%81%EF%BC%8C%E5%8A%A0%E6%8B%BF%E5%A4%A7.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E4%BC%8A%E6%96%AF%E7%89%B9%E6%9C%AC%E7%A0%81%E5%A4%B4%EF%BC%8C%E4%B8%9C%E8%90%A8%E5%A1%9E%E5%85%8B%E6%96%AF%E9%83%A1%EF%BC%8C%E8%8B%B1%E6%A0%BC%E5%85%B0.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E4%BC%AF%E6%81%A9%E6%96%AF%E5%9B%BD%E5%AE%B6%E9%81%97%E4%BA%A7%E5%85%AC%E5%9B%AD%EF%BC%8C%E8%89%BE%E5%B0%94%EF%BC%8C%E5%8D%97%E8%89%BE%E5%B0%94%E9%83%A1%EF%BC%8C%E8%8B%8F%E6%A0%BC%E5%85%B0.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E4%BF%9D%E7%BD%97%E5%9C%A3%E6%96%B9%E6%B5%8E%E5%9C%A3%E6%AE%BF%EF%BC%8C%E9%82%A3%E4%B8%8D%E5%8B%92%E6%96%AF%EF%BC%8C%E6%84%8F%E5%A4%A7%E5%88%A9.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E5%85%8B%E5%8D%A2%E4%BC%8A%E5%BE%B7%E8%B0%B7%EF%BC%8C%E5%A8%81%E5%B0%94%E5%A3%AB.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E5%86%AC%E9%9B%AA%E4%B8%AD%E7%9A%84%E9%A9%AF%E9%B9%BF%EF%BC%8C%E6%8B%89%E6%99%AE%E5%85%B0%E5%BE%B7%EF%BC%8C%E8%8A%AC%E5%85%B0.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E5%8A%AA%E5%85%8B%EF%BC%8C%E6%A0%BC%E9%99%B5%E5%85%B0.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E5%8A%B3%E7%89%B9%E5%B8%83%E9%9A%86%E5%AB%A9%E7%9A%84%E6%96%BD%E9%99%B6%E5%B7%B4%E8%B5%AB%E7%80%91%E5%B8%83%EF%BC%8C%E4%BC%AF%E5%B0%94%E5%B0%BC%E5%B7%9E%EF%BC%8C%E7%91%9E%E5%A3%AB.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E5%8D%9A%E5%B0%94%E7%B1%B3%E5%A5%A5%E7%9A%84%E9%9B%AA%E6%99%AF%EF%BC%8C%E4%BC%A6%E5%B7%B4%E7%AC%AC%E5%A4%A7%E5%8C%BA%EF%BC%8C%E6%84%8F%E5%A4%A7%E5%88%A9.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E5%8D%A1%E7%BD%97%E7%BB%B4%E7%93%A6%E5%88%A9%EF%BC%8C%E6%B3%A2%E8%A5%BF%E7%B1%B3%E4%BA%9A%EF%BC%8C%E6%8D%B7%E5%85%8B%E5%85%B1%E5%92%8C%E5%9B%BD.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E5%8D%B7%E7%BE%BD%E9%B9%88%E9%B9%95%EF%BC%8C%E5%87%AF%E5%B0%94%E5%9F%BA%E5%B0%BC%E6%B9%96%EF%BC%8C%E5%B8%8C%E8%85%8A.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E5%9B%BD%E7%8E%8B%E5%B1%B1%EF%BC%8C%E6%A5%9A%E5%8A%A0%E5%A5%87%E5%B1%B1%E8%84%89%EF%BC%8C%E9%98%BF%E6%8B%89%E6%96%AF%E5%8A%A0%EF%BC%8C%E7%BE%8E%E5%9B%BD.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E5%9C%A3%E8%AF%9E%E5%B8%82%E5%9C%BA%E4%B8%8A%E7%9A%84%E6%89%8B%E5%B7%A5%E5%B0%8F%E7%9F%AE%E4%BA%BA.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E5%9C%A3%E8%AF%9E%E6%98%9F%E5%BD%A2%E7%81%AF%E7%AC%BC%EF%BC%8C%E5%BE%B7%E5%9B%BD.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E5%9C%A8%E8%AF%BA%E6%A3%AE%E4%BC%AF%E5%85%B0%E9%83%A1%E7%9A%84%E6%AC%A7%E4%BA%9A%E7%BA%A2%E6%9D%BE%E9%BC%A0%EF%BC%8C%E8%8B%B1%E6%A0%BC%E5%85%B0.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E5%9F%83%E6%89%98%E6%B2%99%E5%9B%BD%E5%AE%B6%E5%85%AC%E5%9B%AD%E7%9A%84%E8%B1%B9%E5%AD%90%EF%BC%8C%E7%BA%B3%E7%B1%B3%E6%AF%94%E4%BA%9A.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E5%A4%AA%E9%98%B3%E7%A5%9E%E5%BA%99%EF%BC%8C%E5%9C%86%E9%A1%B6%E7%A4%81%E5%9B%BD%E5%AE%B6%E5%85%AC%E5%9B%AD%EF%BC%8C%E7%8A%B9%E4%BB%96%E5%B7%9E%EF%BC%8C%E7%BE%8E%E5%9B%BD.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E5%A8%81%E5%B0%BC%E6%96%AF%E9%B8%9F%E7%9E%B0%E5%9B%BE%EF%BC%8C%E6%84%8F%E5%A4%A7%E5%88%A9.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E5%AF%86%E5%B0%94%E6%B2%83%E5%9F%BA%E5%B8%82%E6%94%BF%E5%8E%85%E7%9A%84%E5%85%AB%E5%B1%82%E5%BC%80%E6%94%BE%E5%BC%8F%E4%B8%AD%E5%BA%AD%EF%BC%8C%E5%A8%81%E6%96%AF%E5%BA%B7%E6%98%9F%E5%B7%9E%EF%BC%8C%E7%BE%8E%E5%9B%BD.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E5%B7%B4%E4%BC%90%E5%88%A9%E4%BA%9A%E9%98%BF%E5%B0%94%E5%8D%91%E6%96%AF%E5%B1%B1%E8%84%89%E7%9A%84%E9%9B%AA%E4%B8%AD%E6%95%99%E5%A0%82%E4%B8%8E%E5%9C%A3%E8%AF%9E%E6%A0%91%EF%BC%8C%E5%BE%B7%E5%9B%BD.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E5%B8%95%E6%8B%89%E7%B1%B3%E8%92%82%E8%A6%81%E5%A1%9E%E7%9A%84%E9%98%B6%E6%A2%AF%EF%BC%8C%E7%BA%B3%E5%A4%AB%E6%99%AE%E5%88%A9%E7%BF%81%EF%BC%8C%E5%B8%8C%E8%85%8A.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E6%8B%B1%E9%97%A8%E5%9B%BD%E5%AE%B6%E5%85%AC%E5%9B%AD%E7%9A%84%E5%8C%97%E7%AA%97%E6%A1%86%E6%99%AF%E4%B8%AD%E7%9A%84%E7%82%AE%E5%A1%94%E6%8B%B1%E9%97%A8%EF%BC%8C%E7%8A%B9%E4%BB%96%E5%B7%9E%EF%BC%8C%E7%BE%8E%E5%9B%BD.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E6%96%AF%E7%9A%AE%E6%A0%BC%E5%B0%94%E8%BF%90%E6%B2%B3%E7%9A%84%E7%81%AF%E5%85%89%E8%A3%85%E9%A5%B0%EF%BC%8C%E9%98%BF%E5%A7%86%E6%96%AF%E7%89%B9%E4%B8%B9%EF%BC%8C%E8%8D%B7%E5%85%B0.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E6%96%B0%E5%A4%A9%E9%B9%85%E5%A0%A1%EF%BC%8C%E5%B7%B4%E4%BC%90%E5%88%A9%E4%BA%9A%E5%B7%9E%EF%BC%8C%E5%BE%B7%E5%9B%BD.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E6%97%A5%E5%87%BA%E6%97%B6%E5%88%86%EF%BC%8C%E9%A9%AC%E7%89%B9%E6%B4%AA%E5%B3%B0%E7%9A%84%E5%80%92%E5%BD%B1%E6%98%A0%E7%85%A7%E5%9C%A8%E6%96%AF%E7%89%B9%E5%88%A9%E6%B9%96%E4%B8%AD%EF%BC%8C%E9%87%87%E5%B0%94%E9%A9%AC%E7%89%B9%EF%BC%8C%E7%91%9E%E5%A3%AB.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E6%97%BA%E6%A0%BC%E5%8A%AA%E4%BC%8A%E5%9B%BD%E5%AE%B6%E5%85%AC%E5%9B%AD%EF%BC%8C%E9%9B%B7%E5%A1%94%E9%B2%81%E5%85%8B%EF%BC%8C%E6%96%B0%E8%A5%BF%E5%85%B0.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E6%99%A8%E5%85%89%E9%80%8F%E8%BF%87%E7%BB%93%E9%9C%9C%E7%9A%84%E6%A0%91%E6%9C%A8%E6%B4%92%E4%B8%8B%EF%BC%8C%E7%91%9E%E5%85%B8.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E6%A0%96%E6%81%AF%E5%9C%A8%E6%A0%91%E6%9E%9D%E4%B8%8A%E7%9A%84%E5%8C%97%E9%95%BF%E5%B0%BE%E5%B1%B1%E9%9B%80%EF%BC%8C%E5%A4%A7%E5%BA%86%E5%B8%82%EF%BC%8C%E4%B8%AD%E5%9B%BD%E9%BB%91%E9%BE%99%E6%B1%9F%E7%9C%81.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E6%A4%8B%E9%B8%9F%E7%BE%A4%E5%9C%A8%E5%B8%83%E8%8E%B1%E9%A1%BF%E8%A5%BF%E7%A0%81%E5%A4%B4%E5%BA%9F%E5%A2%9F%E4%B8%8A%E7%A9%BA%E7%9B%98%E6%97%8B%EF%BC%8C%E8%8B%B1%E6%A0%BC%E5%85%B0.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E6%AC%A7%E4%BA%9A%E6%B0%B4%E7%8D%AD%E5%92%8C%E5%B9%BC%E5%B4%BD%EF%BC%8C%E7%88%B1%E6%B2%99%E5%B0%BC%E4%BA%9A.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E6%AC%A7%E4%BA%9A%E7%BA%A2%E6%9D%BE%E9%BC%A0.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E6%AD%A3%E5%9C%A8%E7%9D%A1%E8%A7%89%E7%9A%84%E5%8C%97%E6%9E%81%E7%8B%90.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E6%B3%95%E5%85%B0%E5%85%8B%E7%A6%8F%E8%80%81%E6%A1%A5%EF%BC%8C%E5%BE%B7%E5%9B%BD.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E6%B5%B7%E5%BE%B7%E5%A0%A1%E5%9C%A3%E8%AF%9E%E5%B8%82%E5%9C%BA%E4%B8%8A%E7%9A%84%E9%9B%AA%E7%90%83%EF%BC%8C%E5%BE%B7%E5%9B%BD.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E7%93%9C%E5%BB%96%E5%B0%94%E5%A0%A1%EF%BC%8C%E4%B8%AD%E5%A4%AE%E9%82%A6%EF%BC%8C%E5%8D%B0%E5%BA%A6.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E7%93%A6%E5%B0%94%C2%B7%E5%B8%83%E5%85%B0%E5%BE%B7%E7%89%B9%EF%BC%8C%E5%B8%83%E9%9B%B7%E8%A5%BF%E4%BA%9A%EF%BC%8C%E4%BC%A6%E5%B7%B4%E7%AC%AC%E5%A4%A7%E5%8C%BA%EF%BC%8C%E6%84%8F%E5%A4%A7%E5%88%A9.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E7%99%BD%E6%B2%99%E5%9B%BD%E5%AE%B6%E5%85%AC%E5%9B%AD%EF%BC%8C%E6%96%B0%E5%A2%A8%E8%A5%BF%E5%93%A5%E5%B7%9E%EF%BC%8C%E7%BE%8E%E5%9B%BD.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E7%B0%87%E5%B1%B1%E9%9B%80%E6%A0%96%E6%81%AF%E5%9C%A8%E6%9D%BE%E6%9E%9D%E4%B8%8A%EF%BC%8C%E9%A9%AC%E8%90%A8%E8%AF%B8%E5%A1%9E%E5%B7%9E%EF%BC%8C%E7%BE%8E%E5%9B%BD.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E7%B4%A2%E5%B0%94%E5%85%B9%E4%BC%AF%E9%87%8C%E5%A4%A7%E6%95%99%E5%A0%82%EF%BC%8C%E5%A8%81%E5%B0%94%E7%89%B9%E9%83%A1%EF%BC%8C%E8%8B%B1%E6%A0%BC%E5%85%B0.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E7%BB%B5%E9%98%B3%E5%9C%A8%E9%9B%AA%E5%9C%B0%E9%87%8C%E5%90%83%E8%8D%89%EF%BC%8C%E5%86%B0%E5%B2%9B.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E7%BC%AA%E5%B0%94%E6%A0%91%E6%9E%97%E5%9B%BD%E5%AE%B6%E4%BF%9D%E6%8A%A4%E5%8C%BA%E7%9A%84%E5%B7%A8%E5%9E%8B%E7%BA%A2%E6%9D%89%E6%A0%91%E6%9E%97%EF%BC%8C%E5%8A%A0%E5%88%A9%E7%A6%8F%E5%B0%BC%E4%BA%9A%E5%B7%9E%EF%BC%8C%E7%BE%8E%E5%9B%BD.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E7%BE%8E%E4%B8%BD%E7%9A%84%E9%9B%BE%E5%87%87%E6%99%AF%E8%89%B2%EF%BC%8C%E5%A4%A7%E5%BA%86%E5%B8%82%EF%BC%8C%E9%BB%91%E9%BE%99%E6%B1%9F%E7%9C%81%EF%BC%8C%E4%B8%AD%E5%9B%BD.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E8%88%8D%E5%A4%AB%E6%B2%99%E4%B8%87%E7%9A%84%E8%93%9D%E8%89%B2%E5%A2%99%E5%A3%81%EF%BC%8C%E6%91%A9%E6%B4%9B%E5%93%A5.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E8%8B%8F%E5%BF%85%E5%88%A9%E5%B0%94%E6%B9%96%E6%B2%BF%E5%B2%B8%E7%9A%84%E5%86%B0%E5%B1%82%EF%BC%8C%E5%A4%A7%E9%A9%AC%E9%9B%B7%EF%BC%8C%E6%98%8E%E5%B0%BC%E8%8B%8F%E8%BE%BE%E5%B7%9E%EF%BC%8C%E7%BE%8E%E5%9B%BD.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E8%8D%B7%E5%85%B0%E6%A2%B5%E9%AB%98%E5%9B%BD%E5%AE%B6%E6%A3%AE%E6%9E%97%E5%85%AC%E5%9B%AD%E7%9A%84%E9%A9%AC%E9%B9%BF%E9%9B%84%E9%B9%BF%EF%BC%8C%E8%8D%B7%E5%85%B0.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E9%98%BF%E5%B0%94%E5%8D%91%E6%96%AF%E5%B1%B1%E8%84%89%E7%9A%84%E5%AE%89%E5%BE%B7%E7%8E%9B%E7%89%B9%E5%B0%8F%E9%95%87%EF%BC%8C%E7%91%9E%E5%A3%AB.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E9%98%BF%E5%B0%BC%E9%81%97%E5%9D%80%E7%9A%84%E5%9C%A3%E6%A0%BC%E9%9B%B7%E6%88%88%E9%87%8C%E6%95%99%E5%A0%82%EF%BC%8C%E5%8D%A1%E5%B0%94%E6%96%AF%E7%9C%81%EF%BC%8C%E5%9C%9F%E8%80%B3%E5%85%B6.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E9%99%A4%E5%A4%95%E5%A4%9C%EF%BC%8C%E5%A5%A5%E4%BC%AF%E9%B2%8D%E5%A7%86%E6%A1%A5%EF%BC%8C%E6%9F%8F%E6%9E%97%EF%BC%8C%E5%BE%B7%E5%9B%BD.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E9%9B%B7%E8%AE%B7%E6%B8%94%E6%9D%91%EF%BC%8C%E6%8C%AA%E5%A8%81.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E9%A9%AC%E6%8B%89%E9%BD%90%E7%BF%81%E7%9A%84%E5%9C%A3%E8%BF%88%E5%85%8B%E5%B0%94%E5%B1%B1%EF%BC%8C%E5%BA%B7%E6%B2%83%E5%B0%94%E9%83%A1%EF%BC%8C%E8%8B%B1%E6%A0%BC%E5%85%B0.jpg',
+                'https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/backgrounds/%E9%A9%AC%E8%BE%BE%E5%8A%A0%E6%96%AF%E5%8A%A0%E7%9A%84%E9%BB%91%E7%99%BD%E7%8E%AF%E5%B0%BE%E7%8B%90%E7%8C%B4.jpg'
             ],
-            // 诗句库
             poems: [
-                '西风吹老洞庭波',
-                '一夜湘君白发多',
-                '醉后不知天在水',
-                '满船清梦压星河',
-                '床前明月光',
-                '疑是地上霜',
-                '举头望明月',
-                '低头思故乡',
-                '国破山河在',
-                '城春草木深',
-                '感时花溅泪',
-                '恨别鸟惊心'
+                '腹有诗书气自华',
+                '读书破万卷，下笔如有神',
+                '书卷多情似故人',
+                '晨昏忧乐每相亲',
+                '非淡泊无以明志',
+                '非宁静无以致远',
+                '书犹药也，善读之可以医愚',
+                '不积跬步，无以至千里',
+                '不积小流，无以成江海',
+                '纸上得来终觉浅',
+                '绝知此事要躬行',
+                '三更灯火五更鸡',
+                '正是男儿读书时',
+                '黑发不知勤学早',
+                '白首方悔读书迟',
+                '少壮不努力，老大徒伤悲',
+                '旧书不厌百回读',
+                '熟读精思子自知',
+                '读万卷书，行万里路',
+                '养心莫善寡欲',
+                '至乐无如读书',
+                '锲而不舍，金石可镂',
+                '莫等闲，白了少年头',
+                '发奋识遍天下字',
+                '立志读尽人间书',
+                '书到用时方恨少',
+                '事非经过不知难',
+                '积财千万，无过读书',
+                '立身以立学为先',
+                '立学以读书为本',
+                '读书百遍，其义自见',
+                '鸟欲高飞先振翅',
+                '人求上进先读书'
             ],
-            // 标题显示时间（毫秒）
             titleDisplayTime: 20000,
-            // 每张图片显示时间（毫秒）
             imageDisplayTime: 8000,
-            // 每句诗显示时间（毫秒）
-            poemDisplayTime: 5000,
-            // 同时显示的诗句数量
-            poemCount: 6
+            poemDisplayTime: 5000
         };
 
         // ===== 背景图片轮播 =====
         class BackgroundSlider {
             constructor() {
-                this.container = document.getElementById('bgSlider');
-                this.entriesBg = document.getElementById('entriesBg');
-                this.images = [];
-                this.currentIndex = 0;
-                this.usedIndices = new Set();
+                this.container = document.getElementById('globalBg');
+                this.shuffledIndices = [];
+                this.currentPlayIndex = 0;
+                this.currentEl = null;
+                this.previousEl = null;
                 this.backgroundImages = CONFIG.backgroundImages;
+                this.preloadedImages = new Set();
             }
 
             init() {
-                // 创建背景图片元素
-                this.backgroundImages.forEach((src, index) => {
-                    const div = document.createElement('div');
-                    div.className = 'bg-image';
-                    div.style.backgroundImage = `url('${src}')`;
-                    this.container.appendChild(div);
-                    this.images.push(div);
-                });
-
-                // 设置第二屏背景为第一张图
-                if (this.backgroundImages.length > 0) {
-                    this.entriesBg.style.backgroundImage = `url('${this.backgroundImages[0]}')`;
-                }
-
-                this.start();
-            }
-
-            getNextIndex() {
-                // 如果所有图片都播放过，重置
-                if (this.usedIndices.size >= this.images.length) {
-                    this.usedIndices.clear();
-                }
-
-                // 随机选择一个未播放的图片
-                let availableIndices = [];
-                for (let i = 0; i < this.images.length; i++) {
-                    if (!this.usedIndices.has(i)) {
-                        availableIndices.push(i);
-                    }
-                }
-
-                const nextIndex = availableIndices[Math.floor(Math.random() * availableIndices.length)];
-                this.usedIndices.add(nextIndex);
-                return nextIndex;
-            }
-
-            start() {
+                // 初始洗牌
+                this.reshuffle();
                 // 显示第一张
-                this.showImage(0);
-                this.usedIndices.add(0);
-
+                this.showImage(this.shuffledIndices[0]);
+                // 预加载下一张
+                this.preloadNext();
                 // 定时切换
                 setInterval(() => {
-                    const nextIndex = this.getNextIndex();
-                    this.showImage(nextIndex);
+                    this.currentPlayIndex++;
+                    // 如果播放完一轮，重新洗牌
+                    if (this.currentPlayIndex >= this.shuffledIndices.length) {
+                        this.reshuffle();
+                        this.currentPlayIndex = 0;
+                    }
+                    this.showImage(this.shuffledIndices[this.currentPlayIndex]);
+                    this.preloadNext();
                 }, CONFIG.imageDisplayTime);
             }
 
-            showImage(index) {
-                // 移除所有 active
-                this.images.forEach(img => img.classList.remove('active'));
-                // 添加 active 到当前图片
-                this.images[index].classList.add('active');
-                this.currentIndex = index;
+            reshuffle() {
+                // Fisher-Yates 洗牌
+                this.shuffledIndices = Array.from({ length: this.backgroundImages.length }, (_, i) => i);
+                for (let i = this.shuffledIndices.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [this.shuffledIndices[i], this.shuffledIndices[j]] = [this.shuffledIndices[j], this.shuffledIndices[i]];
+                }
+            }
 
-                // 同步更新第二屏背景
-                const currentSrc = CONFIG.backgroundImages[index];
-                this.entriesBg.style.backgroundImage = `url('${currentSrc}')`;
+            preloadNext() {
+                const nextPlayIndex = this.currentPlayIndex + 1;
+                if (nextPlayIndex < this.shuffledIndices.length) {
+                    const imgIndex = this.shuffledIndices[nextPlayIndex];
+                    const src = this.backgroundImages[imgIndex];
+                    if (!this.preloadedImages.has(src)) {
+                        const img = new Image();
+                        img.src = src;
+                        this.preloadedImages.add(src);
+                    }
+                }
+            }
+
+            showImage(index) {
+                const src = this.backgroundImages[index];
+
+                // 淡出旧图
+                if (this.currentEl) {
+                    const oldEl = this.currentEl;
+                    oldEl.classList.remove('active');
+                    oldEl.classList.add('fading-out');
+                    // 淡出完成后移除DOM
+                    setTimeout(() => {
+                        if (oldEl.parentNode) oldEl.remove();
+                    }, 1500);
+                }
+
+                // 创建新的背景元素
+                const div = document.createElement('div');
+                div.className = 'bg-image';
+                div.style.backgroundImage = `url('${src}')`;
+                this.container.appendChild(div);
+
+                // 下一帧触发动画
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        div.classList.add('active');
+                    });
+                });
+
+                this.currentEl = div;
             }
         }
 
@@ -729,7 +785,7 @@
         class TitleController {
             constructor() {
                 this.title = document.getElementById('centerTitle');
-                this.init();
+                this.isVisible = true;
             }
 
             init() {
@@ -741,12 +797,9 @@
 
             hide() {
                 this.title.classList.add('hidden');
-                // 触发诗句范围扩展事件
+                this.isVisible = false;
+                // 触发事件通知诗句管理器
                 window.dispatchEvent(new CustomEvent('titleHidden'));
-            }
-
-            isVisible() {
-                return !this.title.classList.contains('hidden');
             }
         }
 
@@ -754,52 +807,85 @@
         class FloatingPoems {
             constructor() {
                 this.container = document.getElementById('poetryContainer');
-                this.poems = CONFIG.poems;
-                this.activePoems = [];
+                this.poems = [...CONFIG.poems];
                 this.titleVisible = true;
-                this.init();
+                this.isInHeroSection = true;
+                this.usedPoems = new Set();
+                this.shuffledPoems = [];
+                this.poemPlayIndex = 0;
             }
 
             init() {
-                // 监听标题隐藏事件
+                // 监听标题隐藏
                 window.addEventListener('titleHidden', () => {
                     this.titleVisible = false;
                 });
 
-                // 开始显示诗句
-                this.start();
+                // 初始洗牌
+                this.reshufflePoems();
+
+                // 开始显示
+                this.createPoem();
+                setInterval(() => {
+                    if (this.isInHeroSection) {
+                        this.createPoem();
+                    }
+                }, CONFIG.poemDisplayTime);
+            }
+
+            reshufflePoems() {
+                this.shuffledPoems = [...this.poems];
+                for (let i = this.shuffledPoems.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [this.shuffledPoems[i], this.shuffledPoems[j]] = [this.shuffledPoems[j], this.shuffledPoems[i]];
+                }
+                this.poemPlayIndex = 0;
+            }
+
+            getNextPoem() {
+                if (this.poemPlayIndex >= this.shuffledPoems.length) {
+                    this.reshufflePoems();
+                }
+                return this.shuffledPoems[this.poemPlayIndex++];
             }
 
             getRandomPosition() {
                 const viewportW = window.innerWidth;
                 const viewportH = window.innerHeight;
-                const margin = 100;
+                const marginX = 80;
+                const marginTop = 80;
+                const marginBottom = 120;
 
                 if (this.titleVisible) {
-                    // 标题显示期间：在周边显示（避开中心区域）
+                    // 标题显示时：在周边显示（避开中心大约35%区域）
                     const centerX = viewportW / 2;
                     const centerY = viewportH / 2;
-                    const excludeRadius = Math.min(viewportW, viewportH) * 0.35;
+                    const excludeW = viewportW * 0.35;
+                    const excludeH = viewportH * 0.2;
 
-                    let x, y, distance;
+                    let x, y, attempts = 0;
                     do {
-                        x = margin + Math.random() * (viewportW - margin * 2);
-                        y = margin + Math.random() * (viewportH - margin * 2);
-                        distance = Math.sqrt(Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2));
-                    } while (distance < excludeRadius);
+                        x = marginX + Math.random() * (viewportW - marginX * 2);
+                        y = marginTop + Math.random() * (viewportH - marginTop - marginBottom);
+                        attempts++;
+                    } while (
+                        Math.abs(x - centerX) < excludeW &&
+                        Math.abs(y - centerY) < excludeH &&
+                        attempts < 50
+                    );
 
                     return { x, y };
                 } else {
                     // 标题消失后：全屏范围内随机
                     return {
-                        x: margin + Math.random() * (viewportW - margin * 2),
-                        y: margin + Math.random() * (viewportH - margin * 2)
+                        x: marginX + Math.random() * (viewportW - marginX * 2),
+                        y: marginTop + Math.random() * (viewportH - marginTop - marginBottom)
                     };
                 }
             }
 
             createPoem() {
-                const poemText = this.poems[Math.floor(Math.random() * this.poems.length)];
+                const poemText = this.getNextPoem();
                 const pos = this.getRandomPosition();
 
                 const poemEl = document.createElement('div');
@@ -808,76 +894,110 @@
                 poemEl.style.left = pos.x + 'px';
                 poemEl.style.top = pos.y + 'px';
 
+                // 随机小幅字体变化
+                const fontSize = 1.4 + Math.random() * 0.6;
+                poemEl.style.fontSize = fontSize.toFixed(2) + 'rem';
+
                 this.container.appendChild(poemEl);
 
-                // 触发动画
+                // 淡入
                 requestAnimationFrame(() => {
                     poemEl.classList.add('visible');
                 });
 
-                // 5秒后移除
+                // 5秒后淡出并移除
                 setTimeout(() => {
                     poemEl.classList.remove('visible');
                     setTimeout(() => {
-                        poemEl.remove();
-                    }, 800);
+                        if (poemEl.parentNode) poemEl.remove();
+                    }, 1000);
                 }, CONFIG.poemDisplayTime);
             }
 
-            start() {
-                // 初始显示一批诗句（每隔5秒显示一句）
-                for (let i = 0; i < CONFIG.poemCount; i++) {
-                    setTimeout(() => this.createPoem(), i * CONFIG.poemDisplayTime);
+            setHeroSection(isInHero) {
+                this.isInHeroSection = isInHero;
+                // 如果离开第一屏，清除所有诗句
+                if (!isInHero) {
+                    const poems = this.container.querySelectorAll('.floating-poem');
+                    poems.forEach(p => {
+                        p.classList.remove('visible');
+                        setTimeout(() => { if (p.parentNode) p.remove(); }, 1000);
+                    });
                 }
-
-                // 持续创建新诗句（每5秒创建一句）
-                setInterval(() => {
-                    this.createPoem();
-                }, CONFIG.poemDisplayTime);
             }
         }
 
-        // ===== 入口动画控制 =====
-        class EntriesAnimation {
-            constructor() {
+        // ===== 入口动画 + 导航栏控制 =====
+        class ScrollController {
+            constructor(poemsManager) {
                 this.entries = document.querySelectorAll('.hero-entry');
+                this.entriesTitle = document.getElementById('entriesTitle');
                 this.entriesSection = document.getElementById('entries');
+                this.navbar = document.getElementById('navbar');
                 this.hasAnimated = false;
-                this.init();
+                this.poemsManager = poemsManager;
             }
 
             init() {
-                // 使用 Intersection Observer 监听第二屏
+                // 使用 IntersectionObserver 监听第二屏
                 const observer = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
-                        if (entry.isIntersecting && !this.hasAnimated) {
-                            this.animate();
-                            this.hasAnimated = true;
+                        if (entry.isIntersecting) {
+                            // 进入第二屏
+                            this.showNavbar();
+                            this.animateEntries();
+                            this.poemsManager.setHeroSection(false);
+                        } else {
+                            // 回到第一屏
+                            this.hideNavbar();
+                            this.poemsManager.setHeroSection(true);
                         }
                     });
                 }, {
-                    threshold: 0.3
+                    threshold: 0.15
                 });
 
                 observer.observe(this.entriesSection);
             }
 
-            animate() {
-                this.entries.forEach((entry, index) => {
+            showNavbar() {
+                this.navbar.classList.add('visible');
+            }
+
+            hideNavbar() {
+                this.navbar.classList.remove('visible');
+            }
+
+            animateEntries() {
+                if (this.hasAnimated) return;
+                this.hasAnimated = true;
+
+                // 标题先出现
+                this.entriesTitle.classList.add('visible');
+
+                // 入口依次出现
+                this.entries.forEach((entry) => {
                     const delay = parseInt(entry.dataset.delay) || 0;
                     setTimeout(() => {
                         entry.classList.add('visible');
-                    }, delay);
+                    }, delay + 300);
                 });
             }
         }
 
         // ===== 初始化 =====
         document.addEventListener('DOMContentLoaded', () => {
-            new BackgroundSlider();
-            new TitleController();
-            new FloatingPoems();
-            new EntriesAnimation();
+            const slider = new BackgroundSlider();
+            slider.init();
+
+            const titleCtrl = new TitleController();
+            titleCtrl.init();
+
+            const poems = new FloatingPoems();
+            poems.init();
+
+            const scrollCtrl = new ScrollController(poems);
+            scrollCtrl.init();
         });
     </script>
 </body>
