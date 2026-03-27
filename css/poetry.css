@@ -255,7 +255,7 @@
 .poem-column.highlight.hover-active .ripple-layer:nth-of-type(6) { animation-delay: 1.25s; top: calc(5 * (100% / 7) + 10%); }
 .poem-column.highlight.hover-active .ripple-layer:nth-of-type(7) { animation-delay: 1.50s; top: calc(6 * (100% / 7) + 10%); }
 
-/* 水波扩散：圆形，半径约为字框3倍，极慢速匀减速，单圈 */
+/* 水波扩散：圆形，半径约为字框3倍，极慢速匀减速，单圈，细波纹 */
 @keyframes water-ripple-once {
     0%   {
         width: 0;
@@ -266,7 +266,7 @@
     100% {
         width: 120px;
         height: 120px;
-        box-shadow: 0 0 0 120px rgba(255, 215, 0, 0);
+        box-shadow: 0 0 0 6px rgba(255, 215, 0, 0);
         opacity: 0;
     }
 }
@@ -325,12 +325,26 @@
     align-items: center;
     justify-content: center;
     box-shadow: 0 4px 15px rgba(107, 91, 79, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
 }
 
 .avatar-text {
     font-family: 'Ma Shan Zheng', cursive;
     font-size: 2rem;
     color: #f8f6f1;
+    z-index: 1;
 }
 
 .poet-meta {
