@@ -7,6 +7,134 @@
     position: relative;
 }
 
+/* ===== 诗词入口卡片网格 ===== */
+.poetry-gallery-section {
+    padding: 60px 20px;
+    background: linear-gradient(180deg, #f8f6f1 0%, #f0ece3 100%);
+}
+
+.poetry-gallery-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.poetry-gallery-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.poetry-gallery-title {
+    font-family: 'Ma Shan Zheng', 'ZCOOL XiaoWei', cursive;
+    font-size: 2.5rem;
+    color: #4a4035;
+    margin: 15px 0 10px 0;
+    font-weight: 400;
+    letter-spacing: 6px;
+}
+
+.poetry-gallery-subtitle {
+    font-family: 'LXGW WenKai', serif;
+    font-size: 1rem;
+    color: #8b7765;
+    margin: 0;
+    letter-spacing: 3px;
+}
+
+.poetry-gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.poetry-card-link {
+    text-decoration: none;
+    display: block;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.poetry-card-link:hover {
+    transform: translateY(-8px);
+}
+
+.poetry-card-image {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3/4;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(74, 64, 53, 0.15);
+    background: linear-gradient(135deg, #8b7765 0%, #6b5b4f 100%);
+}
+
+.poetry-card-image.placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.poetry-thumb {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.poetry-card-link:hover .poetry-thumb {
+    transform: scale(1.05);
+}
+
+.poetry-card-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(139, 119, 101, 0.9) 0%, rgba(107, 91, 79, 0.95) 100%);
+    color: #f8f6f1;
+    text-align: center;
+    padding: 20px;
+}
+
+.poetry-card-image:not(.placeholder) .poetry-card-placeholder {
+    display: none;
+}
+
+.poetry-card-title {
+    font-family: 'Ma Shan Zheng', cursive;
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    letter-spacing: 4px;
+}
+
+.poetry-card-author {
+    font-family: 'LXGW WenKai', serif;
+    font-size: 0.95rem;
+    opacity: 0.9;
+    letter-spacing: 2px;
+}
+
+@media (max-width: 900px) {
+    .poetry-gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+    }
+}
+
+@media (max-width: 600px) {
+    .poetry-gallery-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .poetry-gallery-title {
+        font-size: 2rem;
+        letter-spacing: 4px;
+    }
+}
+
 .poetry-section::before {
     content: '';
     position: absolute;
