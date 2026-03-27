@@ -240,9 +240,9 @@
     pointer-events: none;
 }
 
-/* 涟漪动画（一次性），极慢速匀减速：5秒，单圈 */
+/* 涟漪动画（一次性），快速匀减速：2.5秒，单圈 */
 .poem-column.highlight.hover-active .ripple-layer {
-    animation: water-ripple-once 5s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+    animation: water-ripple-once 2.5s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
     border-radius: 50%;
 }
 
@@ -255,7 +255,7 @@
 .poem-column.highlight.hover-active .ripple-layer:nth-of-type(6) { animation-delay: 1.25s; top: calc(5 * (100% / 7) + 10%); }
 .poem-column.highlight.hover-active .ripple-layer:nth-of-type(7) { animation-delay: 1.50s; top: calc(6 * (100% / 7) + 10%); }
 
-/* 水波扩散：圆形，半径约为字框3倍，极慢速匀减速，单圈，细波纹 */
+/* 水波扩散：圆形，半径约为字框3倍，快速匀减速，单圈，中等粗细波纹 */
 @keyframes water-ripple-once {
     0%   {
         width: 0;
@@ -266,7 +266,7 @@
     100% {
         width: 120px;
         height: 120px;
-        box-shadow: 0 0 0 6px rgba(255, 215, 0, 0);
+        box-shadow: 0 0 0 18px rgba(255, 215, 0, 0);
         opacity: 0;
     }
 }
