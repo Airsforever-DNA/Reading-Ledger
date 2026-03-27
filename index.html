@@ -3,102 +3,257 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>静心书斋 - 修身养性，博闻强识</title>
-    
+    <title>静心书斋</title>
+
     <!-- 字体引入 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- 马善政毛笔楷书用于标题 -->
     <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
-    <!-- 霞鹜文楷用于正文 -->
     <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai&display=swap" rel="stylesheet">
-    <!-- Liu Jian Mao Cao 用于诗词变体 -->
-    <link href="https://fonts.googleapis.com/css2?family=Liu+Jian+Mao+Cao&display=swap" rel="stylesheet">
-    <!-- Zhi Mang Xing 用于诗词变体 -->
     <link href="https://fonts.googleapis.com/css2?family=Zhi+Mang+Xing&display=swap" rel="stylesheet">
-    <!-- Klee One（类楷/手写风格） -->
-    <link href="https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&display=swap" rel="stylesheet">
-    <!-- Iansui（手写风格） -->
-    <link href="https://fonts.googleapis.com/css2?family=Iansui&display=swap" rel="stylesheet">
-    <!-- Free HK Kai 4700（开源楷书，若加载失败会自动回退） -->
     <link href="https://fonts.zeoseven.com/items/80/?format=css" rel="stylesheet">
-    
-    <!-- Color Thief 用于动态取色 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
-    
+
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* 首页专用样式 */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #f8f6f1 0%, #e8e4d9 50%, #f0ece3 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(139, 119, 101, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(107, 91, 79, 0.06) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 1;
+            padding: 40px 20px;
+        }
+
+        .hero-title {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 4.5rem;
+            color: #4a4035;
+            margin-bottom: 15px;
+            letter-spacing: 12px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .hero-subtitle {
+            font-family: 'LXGW WenKai', serif;
+            font-size: 1.3rem;
+            color: #8b7765;
+            margin-bottom: 60px;
+            letter-spacing: 6px;
+        }
+
+        /* 三个入口按钮 */
+        .hero-entries {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .hero-entry {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            transition: transform 0.4s ease;
+        }
+
+        .hero-entry:hover {
+            transform: translateY(-10px);
+        }
+
+        .entry-circle {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #8b7765 0%, #6b5b4f 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 
+                0 10px 40px rgba(107, 91, 79, 0.3),
+                inset 0 2px 4px rgba(255, 255, 255, 0.1);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-entry:hover .entry-circle {
+            box-shadow: 
+                0 15px 50px rgba(107, 91, 79, 0.4),
+                inset 0 2px 4px rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+
+        .entry-circle::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .entry-text {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.8rem;
+            color: #f8f6f1;
+            letter-spacing: 4px;
+        }
+
+        .entry-label {
+            font-family: 'LXGW WenKai', serif;
+            font-size: 1rem;
+            color: #6b5b4f;
+            margin-top: 20px;
+            letter-spacing: 3px;
+            transition: color 0.3s ease;
+        }
+
+        .hero-entry:hover .entry-label {
+            color: #4a4035;
+        }
+
+        /* 装饰性元素 */
+        .decoration-line {
+            position: absolute;
+            width: 200px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(139, 119, 101, 0.3), transparent);
+        }
+
+        .decoration-line.top {
+            top: 30%;
+            left: 10%;
+        }
+
+        .decoration-line.bottom {
+            bottom: 30%;
+            right: 10%;
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 3rem;
+                letter-spacing: 8px;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+                letter-spacing: 4px;
+            }
+
+            .hero-entries {
+                gap: 30px;
+            }
+
+            .entry-circle {
+                width: 120px;
+                height: 120px;
+            }
+
+            .entry-text {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-entries {
+                flex-direction: column;
+                gap: 25px;
+            }
+
+            .entry-circle {
+                width: 100px;
+                height: 100px;
+            }
+
+            .entry-text {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- 背景层 -->
-    <div class="background-container">
-        <div class="background-slide active" id="bg-slide-1"></div>
-        <div class="background-slide" id="bg-slide-2"></div>
-    </div>
-
-    <!-- 导航栏触发区 -->
-    <div class="nav-trigger-zone" id="navTrigger"></div>
-    
     <!-- 导航栏 -->
-    <nav class="navbar" id="navbar">
-        <div class="nav-logo">静心书斋</div>
+    <nav class="navbar visible" id="navbar">
+        <div class="nav-logo">
+            <a href="index.html">静心书斋</a>
+        </div>
         <ul class="nav-links">
-            <li><a href="#home">首页</a></li>
-            <li><a href="#bookshelf">书斋</a></li>
+            <li><a href="index.html" class="active">首页</a></li>
+            <li><a href="chengweiweixiang.html">澄怀味象</a></li>
+            <li><a href="jingshizhiyong.html">经世致用</a></li>
+            <li><a href="shiciyaji.html">诗词雅集</a></li>
             <li><a href="#about">关于我</a></li>
         </ul>
     </nav>
 
-    <!-- 第一屏：首页 -->
-    <section class="section home-section" id="home">
-        <div class="home-content">
-            <h1 class="site-title">静心书斋</h1>
-            <p class="site-slogan">修身养性，博闻强识</p>
-        </div>
+    <!-- 首页主区域 -->
+    <section class="hero-section">
+        <div class="decoration-line top"></div>
+        <div class="decoration-line bottom"></div>
         
-        <!-- 诗词名句展示区 -->
-        <div class="quote-container" id="quoteContainer">
-            <div class="quote-text" id="quoteText"></div>
-            <div class="quote-author" id="quoteAuthor"></div>
-        </div>
-        
-        <!-- 向下滚动提示 -->
-        <div class="scroll-hint">
-            <span>向下探索</span>
-            <div class="scroll-arrow"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">静心书斋</h1>
+            <p class="hero-subtitle">修身养性，博闻强识</p>
+            
+            <div class="hero-entries">
+                <a href="chengweiweixiang.html" class="hero-entry">
+                    <div class="entry-circle">
+                        <span class="entry-text">澄怀味象</span>
+                    </div>
+                    <span class="entry-label">洗心养神</span>
+                </a>
+                
+                <a href="jingshizhiyong.html" class="hero-entry">
+                    <div class="entry-circle">
+                        <span class="entry-text">经世致用</span>
+                    </div>
+                    <span class="entry-label">学以致用</span>
+                </a>
+                
+                <a href="shiciyaji.html" class="hero-entry">
+                    <div class="entry-circle">
+                        <span class="entry-text">诗词雅集</span>
+                    </div>
+                    <span class="entry-label">诗意人生</span>
+                </a>
+            </div>
         </div>
     </section>
 
-    <!-- 第二屏：书斋入口 -->
-    <section class="section bookshelf-section" id="bookshelf">
-        <div class="section-overlay"></div>
-        <div class="bookshelf-content">
-            <h2 class="section-title">书斋</h2>
-            <div class="reading-benefits">
-                <p class="benefits-text">
-                    读书，是给心灵留一盏灯。浮躁时翻开一页，呼吸就慢下来；喧嚣里守住一段安静，修身养性，自有定力。书使人博闻强识，不困于眼前，不囿于成见；点滴积累，终会厚积薄发。更重要的是，书把他人的命运与思想递到你手中，让你在字里行间理解生命的辽阔与温柔，从而活得更清明、更从容。
-                </p>
-            </div>
-            
-            <div class="book-preview-grid" id="bookPreviewGrid">
-                <!-- 书籍卡片将由JS动态生成 -->
-            </div>
-            
-            <a href="books.html" class="enter-bookshelf-btn">
-                <span>进入书斋</span>
-                <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M5 12h14M12 5l7 7-7 7"/>
-                </svg>
-            </a>
-        </div>
-    </section>
-
-    <!-- 关于我（简单占位） -->
-    <section class="section about-section" id="about">
-        <div class="section-overlay"></div>
-        <div class="about-content">
-            <h2 class="section-title">关于我</h2>
+    <!-- 关于我区域 -->
+    <section id="about" class="about-section">
+        <div class="about-container">
+            <h2 class="about-title">关于我</h2>
             <p class="about-text">
-                此处可填写个人简介...
+                这里是静心书斋，一个记录阅读心得、品味经典诗词的个人空间。
+                愿与志同道合的朋友一起，在书海中寻觅智慧，在诗行间感受美好。
             </p>
         </div>
     </section>
@@ -108,10 +263,6 @@
         <p>© 2024 静心书斋 | 修身养性，博闻强识</p>
     </footer>
 
-    <!-- 引入脚本 -->
-    <script src="js/images.js"></script>
-    <script src="js/quotes.js"></script>
-    <script src="js/books.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>
