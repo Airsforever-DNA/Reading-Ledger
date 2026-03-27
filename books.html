@@ -27,7 +27,9 @@
         </div>
         <ul class="nav-links">
             <li><a href="index.html">首页</a></li>
-            <li><a href="books.html" class="active">书斋</a></li>
+            <li><a href="chengweiweixiang.html">澄怀味象</a></li>
+            <li><a href="jingshizhiyong.html">经世致用</a></li>
+            <li><a href="shiciyaji.html">诗词雅集</a></li>
             <li><a href="index.html#about">关于我</a></li>
         </ul>
     </nav>
@@ -66,48 +68,22 @@
         </div>
     </main>
 
-    <!-- 诗词雅集入口区域 -->
-    <section class="poetry-gallery-section" id="poetry">
-        <div class="poetry-gallery-container">
-            <div class="poetry-gallery-header">
-                <span class="poetry-badge">诗词雅集</span>
-                <h2 class="poetry-gallery-title">经典诗词赏析</h2>
-                <p class="poetry-gallery-subtitle">品读千古名篇，感受诗意人生</p>
+    <!-- 书籍列表区域 -->
+    <section class="books-list-section" id="books">
+        <div class="books-list-container">
+            <div class="books-list-header">
+                <span class="poetry-badge">书籍列表</span>
+                <h2 class="books-list-title">我的藏书</h2>
+                <p class="books-list-subtitle">记录阅读，沉淀思考</p>
             </div>
 
-            <div class="poetry-gallery-grid">
-                <!-- 题龙阳县青草湖 -->
-                <a href="qingcaohu.html" class="poetry-card-link">
-                    <div class="poetry-card-image">
-                        <img src="https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/qingcaohu_card.png" alt="题龙阳县青草湖" class="poetry-thumb" onerror="this.style.display='none';this.parentElement.classList.add('placeholder')">
-                        <div class="poetry-card-placeholder">
-                            <span class="poetry-card-title">题龙阳县青草湖</span>
-                            <span class="poetry-card-author">元 · 唐珙</span>
-                        </div>
-                    </div>
-                </a>
+            <div class="books-list-grid" id="booksList">
+                <!-- 由JS动态生成书籍列表 -->
+            </div>
 
-                <!-- 静夜思 -->
-                <a href="jingyesi.html" class="poetry-card-link">
-                    <div class="poetry-card-image">
-                        <img src="https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/jingyesi_card.png" alt="静夜思" class="poetry-thumb" onerror="this.style.display='none';this.parentElement.classList.add('placeholder')">
-                        <div class="poetry-card-placeholder">
-                            <span class="poetry-card-title">静夜思</span>
-                            <span class="poetry-card-author">唐 · 李白</span>
-                        </div>
-                    </div>
-                </a>
-
-                <!-- 春望 -->
-                <a href="chunwang.html" class="poetry-card-link">
-                    <div class="poetry-card-image">
-                        <img src="https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/chunwang_card.png" alt="春望" class="poetry-thumb" onerror="this.style.display='none';this.parentElement.classList.add('placeholder')">
-                        <div class="poetry-card-placeholder">
-                            <span class="poetry-card-title">春望</span>
-                            <span class="poetry-card-author">唐 · 杜甫</span>
-                        </div>
-                    </div>
-                </a>
+            <!-- 空状态 -->
+            <div class="empty-state" id="emptyState" style="display: none;">
+                <p>暂无藏书，敬请期待...</p>
             </div>
         </div>
     </section>
