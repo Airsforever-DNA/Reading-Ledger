@@ -115,20 +115,137 @@
     background: transparent;
     border-radius: 12px;
     border: none;
-    transition: all 0.3s ease;
+    transition: all 0.4s ease;
     height: 90%;
+    position: relative;
+    overflow: hidden;
+    cursor: default;
 }
 
-.poem-column:hover {
+/* 普通列悬停：轻微星光浮现 */
+.poem-column:not(.highlight):hover {
+    transform: translateY(-6px);
+}
+
+/* 普通列悬停时字符微微发亮 */
+.poem-column:not(.highlight):hover .poem-char {
+    text-shadow:
+        0 0 12px rgba(180, 200, 255, 0.6),
+        0 2px 4px rgba(0, 0, 0, 0.6);
+    transform: scale(1.05);
+}
+
+/* ===== 高亮列：金色星河渲染 ===== */
+.poem-column.highlight {
+    background: transparent;
+    position: relative;
+}
+
+/* 高亮列背景光晕（伪元素，模拟金色光柱从水底透出） */
+.poem-column.highlight::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+        ellipse 80% 120% at 50% 60%,
+        rgba(255, 200, 50, 0.18) 0%,
+        rgba(255, 160, 0, 0.08) 50%,
+        transparent 75%
+    );
+    border-radius: 12px;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+
+/* 高亮列底部水光涟漪线 */
+.poem-column.highlight::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 10%;
+    right: 10%;
+    height: 2px;
+    background: linear-gradient(90deg,
+        transparent,
+        rgba(255, 215, 0, 0.6),
+        rgba(255, 255, 180, 0.9),
+        rgba(255, 215, 0, 0.6),
+        transparent
+    );
+    border-radius: 2px;
+    animation: shimmer-line 3s ease-in-out infinite;
+}
+
+@keyframes shimmer-line {
+    0%, 100% { opacity: 0.5; transform: scaleX(0.8); }
+    50%       { opacity: 1;   transform: scaleX(1.05); }
+}
+
+/* ===== 高亮列悬停：水波 + 星光爆发 ===== */
+.poem-column.highlight:hover {
     transform: translateY(-8px);
 }
 
-.poem-column.highlight {
-    box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
+/* 悬停时光晕增强 */
+.poem-column.highlight:hover::before {
+    background: radial-gradient(
+        ellipse 90% 130% at 50% 60%,
+        rgba(255, 215, 50, 0.32) 0%,
+        rgba(255, 160, 0, 0.15) 50%,
+        transparent 75%
+    );
 }
 
-.poem-column.highlight:hover {
-    box-shadow: 0 0 40px rgba(255, 215, 0, 0.3);
+/* 水波涟漪 —— 用 box-shadow 模拟，悬停触发 */
+.poem-column.highlight:hover .ripple-layer {
+    animation: water-ripple 1.2s ease-out forwards;
+}
+
+/* 星光粒子：每个字符在悬停时随机闪烁 */
+.poem-column.highlight:hover .poem-char {
+    animation: star-twinkle 0.6s ease-in-out infinite alternate;
+}
+
+.poem-column.highlight:hover .poem-char:nth-child(2) { animation-delay: 0.1s; }
+.poem-column.highlight:hover .poem-char:nth-child(3) { animation-delay: 0.2s; }
+.poem-column.highlight:hover .poem-char:nth-child(4) { animation-delay: 0.05s; }
+.poem-column.highlight:hover .poem-char:nth-child(5) { animation-delay: 0.15s; }
+.poem-column.highlight:hover .poem-char:nth-child(6) { animation-delay: 0.25s; }
+.poem-column.highlight:hover .poem-char:nth-child(7) { animation-delay: 0.08s; }
+
+@keyframes star-twinkle {
+    0%   {
+        text-shadow:
+            0 0 8px rgba(255, 215, 0, 0.8),
+            0 0 20px rgba(255, 200, 50, 0.5),
+            0 2px 6px rgba(0, 0, 0, 0.6);
+        transform: scale(1.0);
+    }
+    100% {
+        text-shadow:
+            0 0 16px rgba(255, 240, 100, 1),
+            0 0 35px rgba(255, 215, 0, 0.8),
+            0 0 60px rgba(255, 180, 0, 0.4),
+            0 2px 6px rgba(0, 0, 0, 0.6);
+        transform: scale(1.12);
+    }
+}
+
+/* 水波容器层 */
+.poem-column.highlight .ripple-layer {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    pointer-events: none;
+}
+
+@keyframes water-ripple {
+    0%   { box-shadow: 0 0 0 0 rgba(255,215,0,0.5), 0 0 0 0 rgba(255,215,0,0.3); }
+    50%  { box-shadow: 0 0 0 20px rgba(255,215,0,0.15), 0 0 0 10px rgba(255,215,0,0.2); }
+    100% { box-shadow: 0 0 0 40px rgba(255,215,0,0), 0 0 0 20px rgba(255,215,0,0); }
 }
 
 /* 每个字 - 变大 */
@@ -147,9 +264,10 @@
 
 .poem-column.highlight .poem-char {
     color: #ffd700;
-    text-shadow: 
-        0 0 15px rgba(255, 215, 0, 0.7),
-        0 2px 6px rgba(0, 0, 0, 0.6);
+    text-shadow:
+        0 0 10px rgba(255, 215, 0, 0.5),
+        0 2px 6px rgba(0, 0, 0, 0.7);
+    transition: text-shadow 0.3s ease, transform 0.3s ease;
 }
 
 .poem-column:hover .poem-char {
