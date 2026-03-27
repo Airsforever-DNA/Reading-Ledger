@@ -17,7 +17,7 @@
 
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/books.css">
-    <link rel="stylesheet" href="css/poetry.css?v=10">
+    <link rel="stylesheet" href="css/poetry.css?v=11">
 </head>
 <body class="books-page">
     <!-- 导航栏 -->
@@ -128,7 +128,7 @@
                         <div class="poet-info-container">
                             <div class="poet-header">
                                 <div class="poet-avatar">
-                                    <span class="avatar-text">珙</span>
+                                    <span class="avatar-text">唐</span>
                                 </div>
                                 <div class="poet-meta">
                                     <h3 class="poet-name">唐珙</h3>
@@ -184,11 +184,11 @@
             // 添加动画类
             this.classList.add('hover-active');
             
-            // 动画结束后移除类（约1.5秒）
+            // 动画结束后移除类（约3秒，等涟漪完全扩散）
             setTimeout(() => {
                 this.classList.remove('hover-active');
                 isAnimating = false;
-            }, 1500);
+            }, 3000);
         });
     });
     </script>
