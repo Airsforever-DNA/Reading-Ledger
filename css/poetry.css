@@ -83,11 +83,18 @@
     transition: transform 0.4s ease;
 }
 
-/* 第一张图（题龙阳县青草湖）原图缩小0.8再取图，等效于图片125%填充 */
+/* 第一张图（题龙阳县青草湖）原图缩小0.8再取图，等效于图片放大区域再裁切 */
+.poetry-card-link:first-child .poetry-card-image {
+    position: relative;
+}
+
 .poetry-card-link:first-child .poetry-thumb {
+    position: absolute;
     width: 125%;
     height: 125%;
-    margin: -12.5% 0 0 -12.5%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     object-position: center 25%;
 }
 
