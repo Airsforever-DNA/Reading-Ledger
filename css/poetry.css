@@ -42,9 +42,9 @@
 
 .poetry-gallery-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
-    max-width: 1000px;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    max-width: 480px;
     margin: 0 auto;
 }
 
@@ -61,6 +61,7 @@
 .poetry-card-image {
     position: relative;
     width: 100%;
+    aspect-ratio: 3/4;
     border-radius: 16px;
     overflow: hidden;
     box-shadow: 0 8px 32px rgba(74, 64, 53, 0.15);
@@ -71,12 +72,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    aspect-ratio: 3/4;
 }
 
 .poetry-thumb {
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
     display: block;
     transition: transform 0.4s ease;
 }
@@ -116,19 +117,12 @@
     letter-spacing: 2px;
 }
 
-@media (max-width: 900px) {
-    .poetry-gallery-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 25px;
-    }
-}
-
 @media (max-width: 600px) {
     .poetry-gallery-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
+        max-width: 340px;
+        gap: 28px;
     }
-    
+
     .poetry-gallery-title {
         font-size: 2rem;
         letter-spacing: 4px;
