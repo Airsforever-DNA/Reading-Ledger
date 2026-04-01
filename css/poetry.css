@@ -87,6 +87,23 @@
     transform: scale(1.05);
 }
 
+/* 第一张图缩小到1/1.3（约76.9%），居中显示，四周露出卡片背景 */
+.poetry-card-link:first-child .poetry-thumb {
+    position: absolute;
+    width: calc(100% / 1.3);
+    height: calc(100% / 1.3);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
+    object-position: center 40%;
+    border-radius: 8px;
+}
+
+.poetry-card-link:first-child:hover .poetry-thumb {
+    transform: translate(-50%, -50%) scale(1.05);
+}
+
 .poetry-card-placeholder {
     position: absolute;
     inset: 0;
