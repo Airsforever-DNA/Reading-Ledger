@@ -9,7 +9,7 @@
 
 /* ===== 诗词入口卡片网格 ===== */
 .poetry-gallery-section {
-    padding: 60px 20px;
+    padding: 30px 20px;
     background: linear-gradient(180deg, #f8f6f1 0%, #f0ece3 100%);
 }
 
@@ -20,7 +20,7 @@
 
 .poetry-gallery-header {
     text-align: center;
-    margin-bottom: 50px;
+    margin-bottom: 24px;
 }
 
 .poetry-gallery-title {
@@ -43,8 +43,8 @@
 .poetry-gallery-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 40px;
-    max-width: 480px;
+    gap: 16px;
+    max-width: 420px;
     margin: 0 auto;
 }
 
@@ -61,7 +61,7 @@
 .poetry-card-image {
     position: relative;
     width: 100%;
-    aspect-ratio: 3/4;
+    aspect-ratio: 2/1;
     border-radius: 16px;
     overflow: hidden;
     box-shadow: 0 8px 32px rgba(74, 64, 53, 0.15);
@@ -119,8 +119,8 @@
 
 @media (max-width: 600px) {
     .poetry-gallery-grid {
-        max-width: 340px;
-        gap: 28px;
+        max-width: 320px;
+        gap: 12px;
     }
 
     .poetry-gallery-title {
@@ -263,7 +263,6 @@
     position: relative;
 }
 
-/* 高亮列背景光晕（伪元素，模拟金色光柱从水底透出） */
 .poem-column.highlight::before {
     content: '';
     position: absolute;
@@ -279,7 +278,6 @@
     transition: opacity 0.4s ease;
 }
 
-/* 高亮列底部水光涟漪线 */
 .poem-column.highlight::after {
     content: '';
     position: absolute;
@@ -303,12 +301,10 @@
     50%       { opacity: 1;   transform: scaleX(1.05); }
 }
 
-/* ===== 高亮列悬停：一次性水波 + 字符放大动画 ===== */
 .poem-column.highlight:hover {
     transform: translateY(-8px);
 }
 
-/* 悬停时光晕增强 */
 .poem-column.highlight:hover::before {
     background: radial-gradient(
         ellipse 90% 130% at 50% 60%,
@@ -318,12 +314,10 @@
     );
 }
 
-/* 字符动画：悬停时依次放大再缩小（一次性），总时长变慢 */
 .poem-column.highlight.hover-active .poem-char {
     animation: char-pulse 0.8s ease-out forwards;
 }
 
-/* 依次延迟：从第1字到第7字，间隔0.25秒 */
 .poem-column.highlight.hover-active .poem-char:nth-child(1) { animation-delay: 0s; }
 .poem-column.highlight.hover-active .poem-char:nth-child(2) { animation-delay: 0.25s; }
 .poem-column.highlight.hover-active .poem-char:nth-child(3) { animation-delay: 0.50s; }
@@ -332,7 +326,6 @@
 .poem-column.highlight.hover-active .poem-char:nth-child(6) { animation-delay: 1.25s; }
 .poem-column.highlight.hover-active .poem-char:nth-child(7) { animation-delay: 1.50s; }
 
-/* 字符放大→缩小动画 */
 @keyframes char-pulse {
     0%   {
         transform: scale(1);
@@ -352,7 +345,6 @@
     }
 }
 
-/* 水波涟漪层：每个字符对应一个涟漪 */
 .poem-column.highlight .ripple-layer {
     position: absolute;
     left: 50%;
@@ -362,13 +354,11 @@
     pointer-events: none;
 }
 
-/* 涟漪动画（一次性），快速匀减速：2.5秒，单圈 */
 .poem-column.highlight.hover-active .ripple-layer {
     animation: water-ripple-once 2.5s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
     border-radius: 50%;
 }
 
-/* 涟漪依次从第1字到第7字位置扩散，间隔0.25秒 */
 .poem-column.highlight.hover-active .poem-char:nth-child(1) .ripple-layer { animation-delay: 0s; }
 .poem-column.highlight.hover-active .poem-char:nth-child(2) .ripple-layer { animation-delay: 0.25s; }
 .poem-column.highlight.hover-active .poem-char:nth-child(3) .ripple-layer { animation-delay: 0.50s; }
@@ -377,7 +367,6 @@
 .poem-column.highlight.hover-active .poem-char:nth-child(6) .ripple-layer { animation-delay: 1.25s; }
 .poem-column.highlight.hover-active .poem-char:nth-child(7) .ripple-layer { animation-delay: 1.50s; }
 
-/* 水波扩散：圆形，半径约为字框3倍，快速匀减速，单圈，中等粗细波纹 */
 @keyframes water-ripple-once {
     0%   {
         width: 0;
@@ -393,7 +382,6 @@
     }
 }
 
-/* 每个字 - 变大 */
 .poem-char {
     font-family: 'Ma Shan Zheng', 'ZCOOL XiaoWei', cursive;
     font-size: 2.4rem;
@@ -419,7 +407,6 @@
     transform: scale(1.08);
 }
 
-/* 右侧：诗人介绍 - 更透明的背景 */
 .poet-info-container {
     padding: 45px;
     display: flex;
@@ -498,7 +485,6 @@
     font-style: italic;
 }
 
-/* 诗人介绍正文 */
 .poet-bio {
     margin-bottom: 25px;
 }
@@ -532,7 +518,6 @@
     margin-bottom: 10px;
 }
 
-/* 诗词赏析 */
 .poetry-note {
     padding: 20px;
     background: linear-gradient(135deg, rgba(248, 246, 241, 0.9) 0%, rgba(240, 236, 227, 0.9) 100%);
@@ -593,8 +578,13 @@
     .poetry-section {
         padding: 40px 15px;
     }
-    
-    .poetry-section-title {
+
+    .poetry-gallery-grid {
+        max-width: 320px;
+        gap: 12px;
+    }
+
+    .poetry-gallery-title {
         font-size: 2rem;
         letter-spacing: 4px;
     }
