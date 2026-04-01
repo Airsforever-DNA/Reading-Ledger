@@ -9,7 +9,7 @@
 
 /* ===== 诗词入口卡片网格 ===== */
 .poetry-gallery-section {
-    padding: 60px 20px;
+    padding: 30px 20px;
     background: linear-gradient(180deg, #f8f6f1 0%, #f0ece3 100%);
 }
 
@@ -20,7 +20,7 @@
 
 .poetry-gallery-header {
     text-align: center;
-    margin-bottom: 50px;
+    margin-bottom: 24px;
 }
 
 .poetry-gallery-title {
@@ -43,8 +43,8 @@
 .poetry-gallery-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 28px;
-    max-width: 360px;
+    gap: 16px;
+    max-width: 420px;
     margin: 0 auto;
 }
 
@@ -61,7 +61,7 @@
 .poetry-card-image {
     position: relative;
     width: 100%;
-    aspect-ratio: 4/3;
+    aspect-ratio: 2/1;
     border-radius: 16px;
     overflow: hidden;
     box-shadow: 0 8px 32px rgba(74, 64, 53, 0.15);
