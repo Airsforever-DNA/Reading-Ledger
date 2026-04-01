@@ -44,7 +44,7 @@
     display: grid;
     grid-template-columns: 1fr;
     gap: 16px;
-    max-width: 520px;
+    max-width: 680px;
     margin: 0 auto;
 }
 
@@ -61,7 +61,7 @@
 .poetry-card-image {
     position: relative;
     width: 100%;
-    aspect-ratio: 4/1;
+    aspect-ratio: 5/2;
     border-radius: 16px;
     overflow: hidden;
     box-shadow: 0 8px 32px rgba(74, 64, 53, 0.15);
