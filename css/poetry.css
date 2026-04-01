@@ -83,7 +83,16 @@
     transition: transform 0.4s ease;
 }
 
-/* 第一张图（题龙阳县青草湖）上移，包含顶部书法文字 */
+/* 第一张图（题龙阳县青草湖）缩小到0.8，上移包含顶部书法文字 */
+.poetry-card-link:first-child {
+    max-width: 544px;
+    margin: 0 auto;
+}
+
+.poetry-card-link:first-child .poetry-card-image {
+    height: 240px;
+}
+
 .poetry-card-link:first-child .poetry-thumb {
     object-position: center 25%;
 }
