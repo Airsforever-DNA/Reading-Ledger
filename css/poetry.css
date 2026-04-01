@@ -43,8 +43,8 @@
 .poetry-gallery-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 40px;
-    max-width: 480px;
+    gap: 28px;
+    max-width: 360px;
     margin: 0 auto;
 }
 
@@ -61,7 +61,7 @@
 .poetry-card-image {
     position: relative;
     width: 100%;
-    aspect-ratio: 3/4;
+    aspect-ratio: 4/3;
     border-radius: 16px;
     overflow: hidden;
     box-shadow: 0 8px 32px rgba(74, 64, 53, 0.15);
@@ -119,8 +119,8 @@
 
 @media (max-width: 600px) {
     .poetry-gallery-grid {
-        max-width: 340px;
-        gap: 28px;
+        max-width: 280px;
+        gap: 20px;
     }
 
     .poetry-gallery-title {
