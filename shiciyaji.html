@@ -14,6 +14,62 @@
 
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/poetry.css?v=35">
+
+    <style>
+    /* 诗人堂入口按钮 */
+    .poets-hall-entry {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 18px;
+        padding: 10px 26px;
+        background: linear-gradient(135deg, rgba(139,119,101,0.10) 0%, rgba(196,168,130,0.15) 100%);
+        border: 1.5px solid rgba(139,119,101,0.40);
+        border-radius: 30px;
+        font-family: 'Ma Shan Zheng', cursive;
+        font-size: 1.05rem;
+        color: #6b5b4f;
+        text-decoration: none;
+        letter-spacing: 4px;
+        transition: all 0.35s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .poets-hall-entry::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(139,119,101,0.18), rgba(196,168,130,0.22));
+        opacity: 0;
+        transition: opacity 0.35s ease;
+        border-radius: 30px;
+    }
+
+    .poets-hall-entry:hover::before { opacity: 1; }
+
+    .poets-hall-entry:hover {
+        color: #4a4035;
+        border-color: rgba(139,119,101,0.70);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(139,119,101,0.18);
+    }
+
+    .poets-hall-entry-icon {
+        font-size: 1rem;
+        opacity: 0.8;
+    }
+
+    .poets-hall-entry-arrow {
+        font-size: 0.9rem;
+        transition: transform 0.3s ease;
+        display: inline-block;
+    }
+
+    .poets-hall-entry:hover .poets-hall-entry-arrow {
+        transform: translateX(4px);
+    }
+    </style>
 </head>
 <body class="books-page">
     <!-- 导航栏 -->
@@ -36,6 +92,11 @@
             <div class="poetry-gallery-header">
                 <h2 class="poetry-gallery-title">诗词雅集</h2>
                 <p class="poetry-gallery-subtitle">品读千古名篇，感受诗意人生</p>
+                <a href="poets.html" class="poets-hall-entry">
+                    <span class="poets-hall-entry-icon">☆</span>
+                    诗人堂
+                    <span class="poets-hall-entry-arrow">→</span>
+                </a>
             </div>
 
             <div class="poetry-gallery-grid">
