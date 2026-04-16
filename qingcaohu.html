@@ -16,6 +16,27 @@
 
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/poetry.css?v=17">
+
+    <style>
+    .poet-name-link {
+        color: inherit;
+        text-decoration: none;
+        border-bottom: 1.5px solid rgba(139,119,101,0.45);
+        padding-bottom: 1px;
+        transition: color 0.25s, border-color 0.25s;
+    }
+    .poet-name-link:hover {
+        color: #8b7765;
+        border-color: #8b7765;
+    }
+    .poet-subtitle-link {
+        color: inherit;
+        text-decoration: none;
+        border-bottom: 1px solid rgba(139,119,101,0.4);
+        transition: color 0.25s;
+    }
+    .poet-subtitle-link:hover { color: #6b5b4f; }
+    </style>
 </head>
 <body class="books-page">
     <!-- 导航栏 -->
@@ -36,7 +57,7 @@
             <div class="poetry-header">
                 <span class="poetry-badge">诗词雅集</span>
                 <h2 class="poetry-section-title">题龙阳县青草湖</h2>
-                <p class="poetry-section-subtitle">元 · 唐珙</p>
+                <p class="poetry-section-subtitle">元 · <a href="poets.html#tanggong" class="poet-subtitle-link">唐珙</a></p>
             </div>
 
             <div class="poetry-content-wrapper">
@@ -96,7 +117,7 @@
                                     <span class="avatar-text">唐</span>
                                 </div>
                                 <div class="poet-meta">
-                                    <h3 class="poet-name">唐珙</h3>
+                                    <h3 class="poet-name"><a href="poets.html#tanggong" class="poet-name-link">唐珙</a></h3>
                                     <p class="poet-era">元末明初 · 会稽山阴</p>
                                     <p class="poet-zi">字温如</p>
                                 </div>
