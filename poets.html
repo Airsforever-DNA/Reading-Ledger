@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>诗人堂 - 静心书斋</title>
+
+    <!-- 字体引入 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai&display=swap" rel="stylesheet">
+    <link href="https://fonts.zeoseven.com/items/80/?format=css" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/poetry.css?v=35">
+    <style>
+        /* ===== 诗人堂专属样式 ===== */
+        .poets-hall-section {
+            min-height: 100vh;
+            padding: 80px 20px 60px;
+            background: linear-gradient(180deg, #f8f6f1 0%, #f0ece3 100%);
+            position: relative;
+        }
+
+        .poets-hall-section::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(139,119,101,0.3), transparent);
+        }
+
+        .poets-hall-container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* 页头 */
+        .poets-hall-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .poets-badge {
+            display: inline-block;
+            padding: 6px 20px;
+            background: linear-gradient(135deg, #8b7765 0%, #6b5b4f 100%);
+            color: #f8f6f1;
+            font-size: 0.85rem;
+            font-family: 'LXGW WenKai', serif;
+            letter-spacing: 3px;
+            border-radius: 20px;
+            margin-bottom: 16px;
+        }
+
+        .poets-hall-title {
+            font-family: 'Ma Shan Zheng', 'ZCOOL XiaoWei', cursive;
+            font-size: 2.8rem;
+            color: #4a4035;
+            margin: 0 0 12px;
+            font-weight: 400;
+            letter-spacing: 8px;
+        }
+
+        .poets-hall-subtitle {
+            font-family: 'LXGW WenKai', serif;
+            font-size: 1rem;
+            color: #8b7765;
+            letter-spacing: 3px;
+            margin: 0;
+        }
+
+        /* 返回链接 */
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: 'LXGW WenKai', serif;
+            font-size: 0.9rem;
+            color: #8b7765;
+            text-decoration: none;
+            letter-spacing: 1px;
+            margin-bottom: 36px;
+            padding: 8px 16px;
+            border: 1px solid rgba(139,119,101,0.35);
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            background: rgba(139,119,101,0.08);
+            color: #4a4035;
+        }
+
+        .back-link::before {
+            content: '←';
+            font-size: 1rem;
+        }
+
+        /* ===== 诗人卡片网格 ===== */
+        .poets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 32px;
+        }
+
+        /* 单个诗人卡片 */
+        .poet-card {
+            background: rgba(255,255,255,0.75);
+            border: 1px solid rgba(139,119,101,0.2);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 6px 24px rgba(74,64,53,0.10);
+            transition: transform 0.35s ease, box-shadow 0.35s ease;
+            scroll-margin-top: 90px;
+        }
+
+        .poet-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 14px 40px rgba(74,64,53,0.18);
+        }
+
+        /* 卡片顶部装饰条 */
+        .poet-card-accent {
+            height: 5px;
+            background: linear-gradient(90deg, #8b7765, #c4a882, #8b7765);
+        }
+
+        /* 卡片主体 */
+        .poet-card-body {
+            padding: 28px 28px 24px;
+        }
+
+        /* 头部：头像 + 基本信息 */
+        .poet-card-header {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            margin-bottom: 20px;
+        }
+
+        .poet-card-avatar {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #8b7765, #6b5b4f);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            flex-shrink: 0;
+            border: 2px solid rgba(139,119,101,0.3);
+        }
+
+        .poet-card-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .poet-card-avatar .avatar-fallback {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.8rem;
+            color: #f8f6f1;
+        }
+
+        .poet-card-meta h3 {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.6rem;
+            color: #4a4035;
+            margin: 0 0 4px;
+            font-weight: 400;
+            letter-spacing: 4px;
+        }
+
+        .poet-card-era {
+            font-family: 'LXGW WenKai', serif;
+            font-size: 0.85rem;
+            color: #8b7765;
+            letter-spacing: 1px;
+            margin: 0 0 2px;
+        }
+
+        .poet-card-zi {
+            font-family: 'LXGW WenKai', serif;
+            font-size: 0.82rem;
+            color: #a08060;
+            margin: 0;
+            letter-spacing: 1px;
+        }
+
+        /* 标签（诗人称号） */
+        .poet-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 16px;
+        }
+
+        .poet-tag {
+            padding: 3px 10px;
+            background: linear-gradient(135deg, rgba(139,119,101,0.12), rgba(196,168,130,0.15));
+            border: 1px solid rgba(139,119,101,0.25);
+            border-radius: 12px;
+            font-family: 'LXGW WenKai', serif;
+            font-size: 0.78rem;
+            color: #6b5b4f;
+            letter-spacing: 1px;
+        }
+
+        /* 简介正文 */
+        .poet-card-bio {
+            font-family: 'LXGW WenKai', serif;
+            font-size: 0.92rem;
+            color: #5a4e42;
+            line-height: 1.85;
+            letter-spacing: 0.5px;
+            margin-bottom: 18px;
+        }
+
+        /* 代表作 */
+        .poet-works-label {
+            font-family: 'LXGW WenKai', serif;
+            font-size: 0.78rem;
+            color: #8b7765;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .poet-works-label::before,
+        .poet-works-label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(139,119,101,0.25);
+        }
+
+        .poet-works-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 20px;
+        }
+
+        .poet-work-link {
+            padding: 4px 12px;
+            background: rgba(255,255,255,0.8);
+            border: 1px solid rgba(139,119,101,0.3);
+            border-radius: 14px;
+            font-family: 'LXGW WenKai', serif;
+            font-size: 0.82rem;
+            color: #7a6555;
+            text-decoration: none;
+            letter-spacing: 1px;
+            transition: all 0.25s ease;
+        }
+
+        .poet-work-link:hover {
+            background: rgba(139,119,101,0.15);
+            color: #4a4035;
+            border-color: rgba(139,119,101,0.55);
+        }
+
+        /* 名句引用 */
+        .poet-quote {
+            background: linear-gradient(135deg, rgba(139,119,101,0.06), rgba(196,168,130,0.08));
+            border-left: 3px solid rgba(139,119,101,0.45);
+            border-radius: 0 10px 10px 0;
+            padding: 12px 16px;
+        }
+
+        .poet-quote p {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1rem;
+            color: #5a4e42;
+            margin: 0;
+            letter-spacing: 2px;
+            line-height: 1.8;
+        }
+
+        .poet-quote cite {
+            font-family: 'LXGW WenKai', serif;
+            font-size: 0.78rem;
+            color: #8b7765;
+            letter-spacing: 1px;
+            margin-top: 6px;
+            display: block;
+        }
+
+        /* 分隔线 */
+        .poets-divider {
+            text-align: center;
+            margin: 50px 0;
+            position: relative;
+        }
+
+        .poets-divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(139,119,101,0.3), transparent);
+        }
+
+        .poets-divider span {
+            background: #f8f6f1;
+            padding: 0 16px;
+            position: relative;
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.2rem;
+            color: #8b7765;
+            letter-spacing: 4px;
+        }
+
+        /* 移动端适配 */
+        @media (max-width: 680px) {
+            .poets-hall-title { font-size: 2rem; letter-spacing: 5px; }
+            .poets-grid { grid-template-columns: 1fr; gap: 20px; }
+            .poet-card-body { padding: 20px; }
+        }
+    </style>
+</head>
+<body class="books-page">
+    <!-- 导航栏 -->
+    <nav class="navbar visible" id="navbar">
+        <div class="nav-logo">
+            <a href="index.html">静心书斋</a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">首页</a></li>
+            <li><a href="chenghuaiweixiang.html">澄怀味象</a></li>
+            <li><a href="jingshizhiyong.html">经世致用</a></li>
+            <li><a href="shiciyaji.html" class="active">诗词雅集</a></li>
+            <li><a href="index.html#about">关于我</a></li>
+        </ul>
+    </nav>
+
+    <!-- 诗人堂主区域 -->
+    <section class="poets-hall-section">
+        <div class="poets-hall-container">
+
+            <!-- 返回按钮 -->
+            <a href="shiciyaji.html" class="back-link">返回诗词雅集</a>
+
+            <!-- 页头 -->
+            <div class="poets-hall-header">
+                <div class="poets-badge">诗词雅集 · 诗人堂</div>
+                <h1 class="poets-hall-title">诗人堂</h1>
+                <p class="poets-hall-subtitle">千载风流人物，一堂翰墨华章</p>
+            </div>
+
+            <div class="poets-divider"><span>唐 · 元</span></div>
+
+            <!-- 诗人卡片网格 -->
+            <div class="poets-grid">
+
+                <!-- ===== 李白 ===== -->
+                <div class="poet-card" id="libai">
+                    <div class="poet-card-accent"></div>
+                    <div class="poet-card-body">
+                        <div class="poet-card-header">
+                            <div class="poet-card-avatar">
+                                <img src="https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/libai_profile.png"
+                                     alt="李白"
+                                     onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                                <span class="avatar-fallback" style="display:none">李</span>
+                            </div>
+                            <div class="poet-card-meta">
+                                <h3>李白</h3>
+                                <p class="poet-card-era">盛唐 · 701 — 762</p>
+                                <p class="poet-card-zi">字太白，号青莲居士</p>
+                            </div>
+                        </div>
+
+                        <div class="poet-tags">
+                            <span class="poet-tag">诗仙</span>
+                            <span class="poet-tag">浪漫主义</span>
+                            <span class="poet-tag">谪仙人</span>
+                            <span class="poet-tag">李杜</span>
+                        </div>
+
+                        <p class="poet-card-bio">
+                            李白，字太白，号青莲居士，唐代伟大的浪漫主义诗人，被后人誉为「诗仙」。其诗风雄奇豪放，想象丰富，语言流转自然，音律和谐多变。幼年随父迁居蜀中，青年漫游各地，广交名士，寻仙问道。天宝元年（742年）奉诏入京，供奉翰林，然因性情狂放，不满权贵，终被赐金放还。此后再度漫游，晚年投奔族叔李阳冰，于当涂去世，葬青山。
+                        </p>
+                        <p class="poet-card-bio">
+                            他与杜甫并称「李杜」，是唐诗史上并峙的两座高峰。善于从民歌、神话中汲取营养，创造出瑰丽绚烂的诗歌世界。存诗约九百余首，题材广博，风格多样，豪放飘逸为主。
+                        </p>
+
+                        <div class="poet-works-label">收录作品</div>
+                        <div class="poet-works-list">
+                            <a href="jingyesi.html" class="poet-work-link">静夜思</a>
+                        </div>
+
+                        <div class="poet-quote">
+                            <p>「天生我材必有用，千金散尽还复来。」</p>
+                            <cite>—— 《将进酒》</cite>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== 杜甫 ===== -->
+                <div class="poet-card" id="dufu">
+                    <div class="poet-card-accent"></div>
+                    <div class="poet-card-body">
+                        <div class="poet-card-header">
+                            <div class="poet-card-avatar">
+                                <img src="https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/dufu_profile.png"
+                                     alt="杜甫"
+                                     onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                                <span class="avatar-fallback" style="display:none">杜</span>
+                            </div>
+                            <div class="poet-card-meta">
+                                <h3>杜甫</h3>
+                                <p class="poet-card-era">盛唐 · 712 — 770</p>
+                                <p class="poet-card-zi">字子美，号少陵野老</p>
+                            </div>
+                        </div>
+
+                        <div class="poet-tags">
+                            <span class="poet-tag">诗圣</span>
+                            <span class="poet-tag">现实主义</span>
+                            <span class="poet-tag">诗史</span>
+                            <span class="poet-tag">李杜</span>
+                        </div>
+
+                        <p class="poet-card-bio">
+                            杜甫，字子美，自号少陵野老，唐代伟大的现实主义诗人，被尊称为「诗圣」。出身于儒学世家，早年游历吴越、齐赵，壮志凌云。后入长安谋仕不成，困居十年，深知民间疾苦。安史之乱中颠沛流离，辗转蜀地，在成都建草堂居住。晚年孤身漂泊，病逝于岳阳至长沙途中的舟上。
+                        </p>
+                        <p class="poet-card-bio">
+                            其诗被称为「诗史」，多反映社会动荡与人民疾苦，记录了唐代由盛转衰的历史巨变。风格沉郁顿挫，对仗精工，尤长于律诗，存诗约一千四百余首。
+                        </p>
+
+                        <div class="poet-works-label">收录作品</div>
+                        <div class="poet-works-list">
+                            <a href="chunwang.html" class="poet-work-link">春望</a>
+                        </div>
+
+                        <div class="poet-quote">
+                            <p>「国破山河在，城春草木深。」</p>
+                            <cite>—— 《春望》</cite>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== 唐珙 ===== -->
+                <div class="poet-card" id="tanggong">
+                    <div class="poet-card-accent"></div>
+                    <div class="poet-card-body">
+                        <div class="poet-card-header">
+                            <div class="poet-card-avatar">
+                                <img src="https://raw.githubusercontent.com/Airsforever-DNA/Reading-Ledger/main/images/tanggui_profile.png"
+                                     alt="唐珙"
+                                     onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                                <span class="avatar-fallback" style="display:none">唐</span>
+                            </div>
+                            <div class="poet-card-meta">
+                                <h3>唐珙</h3>
+                                <p class="poet-card-era">元末明初 · 会稽山阴</p>
+                                <p class="poet-card-zi">字温如</p>
+                            </div>
+                        </div>
+
+                        <div class="poet-tags">
+                            <span class="poet-tag">遗民情怀</span>
+                            <span class="poet-tag">一诗成名</span>
+                            <span class="poet-tag">元末</span>
+                        </div>
+
+                        <p class="poet-card-bio">
+                            唐珙，字温如，元末明初诗人，会稽山阴（今浙江绍兴）人。历史上关于他的记载极为稀少，没有留下专门的传记，生卒年亦不详。其父唐珏是南宋著名义士，曾在宋元之际冒险收葬被盗掘的南宋皇陵先帝遗骨，气节为人敬重。
+                        </p>
+                        <p class="poet-card-bio">
+                            唐珙生长于这样的家庭氛围之中，诗作中常流露出遗民情怀与对故国的追思。流传下来的诗作仅有八首，然仅凭《题龙阳县青草湖》一首，便足以在文学史上留下浓墨重彩的一笔，以空灵飘渺的意境令后世叹服。
+                        </p>
+
+                        <div class="poet-works-label">收录作品</div>
+                        <div class="poet-works-list">
+                            <a href="qingcaohu.html" class="poet-work-link">题龙阳县青草湖</a>
+                        </div>
+
+                        <div class="poet-quote">
+                            <p>「醉后不知天在水，满船清梦压星河。」</p>
+                            <cite>—— 《题龙阳县青草湖》</cite>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- /poets-grid -->
+
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <p>© 2024 静心书斋 | 修身养性，博闻强识</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        // 导航栏滚动显隐（复用 main.js 逻辑的补充）
+        const navbar = document.getElementById('navbar');
+        let lastScroll = 0;
+        window.addEventListener('scroll', () => {
+            const current = window.scrollY;
+            if (current > lastScroll && current > 80) {
+                navbar.classList.remove('visible');
+            } else {
+                navbar.classList.add('visible');
+            }
+            lastScroll = current;
+        });
+
+        // 若 URL 带 hash，平滑滚动到对应诗人卡片
+        if (location.hash) {
+            const target = document.querySelector(location.hash);
+            if (target) {
+                setTimeout(() => target.scrollIntoView({ behavior: 'smooth', block: 'start' }), 300);
+            }
+        }
+    </script>
+</body>
+</html>
