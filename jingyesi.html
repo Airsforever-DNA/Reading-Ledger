@@ -16,6 +16,27 @@
 
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/poetry.css?v=17">
+
+    <style>
+    .poet-name-link {
+        color: inherit;
+        text-decoration: none;
+        border-bottom: 1.5px solid rgba(139,119,101,0.45);
+        padding-bottom: 1px;
+        transition: color 0.25s, border-color 0.25s;
+    }
+    .poet-name-link:hover {
+        color: #8b7765;
+        border-color: #8b7765;
+    }
+    .poet-subtitle-link {
+        color: inherit;
+        text-decoration: none;
+        border-bottom: 1px solid rgba(139,119,101,0.4);
+        transition: color 0.25s;
+    }
+    .poet-subtitle-link:hover { color: #6b5b4f; }
+    </style>
 </head>
 <body class="books-page">
     <!-- 导航栏 -->
@@ -36,7 +57,7 @@
             <div class="poetry-header">
                 <span class="poetry-badge">诗词雅集</span>
                 <h2 class="poetry-section-title">静夜思</h2>
-                <p class="poetry-section-subtitle">唐 · 李白</p>
+                <p class="poetry-section-subtitle">唐 · <a href="poets.html#libai" class="poet-subtitle-link">李白</a></p>
             </div>
 
             <div class="poetry-content-wrapper">
@@ -88,7 +109,7 @@
                                     <span class="avatar-text">李</span>
                                 </div>
                                 <div class="poet-meta">
-                                    <h3 class="poet-name">李白</h3>
+                                    <h3 class="poet-name"><a href="poets.html#libai" class="poet-name-link">李白</a></h3>
                                     <p class="poet-era">盛唐 · 701-762</p>
                                     <p class="poet-zi">字太白，号青莲居士</p>
                                 </div>
