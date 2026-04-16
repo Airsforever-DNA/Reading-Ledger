@@ -142,6 +142,7 @@
             letter-spacing: 4px;
             pointer-events: none;
             line-height: 1.6;
+            max-width: 85vw;
         }
 
         .floating-poem.visible {
@@ -154,6 +155,13 @@
             margin-top: 5px;
             letter-spacing: 2px;
             opacity: 0.88;
+        }
+
+        /* 使两条破折号视觉连续 */
+        .floating-poem .poem-author .dash {
+            display: inline-block;
+            letter-spacing: -0.12em;
+            margin-right: 0.1em;
         }
 
         /* 向下滚动提示 */
@@ -970,8 +978,9 @@
         ];
 
         // ===== 随机诗句管理 =====
-        // 时序设计：每隔3秒出现一条，每条显示5秒后淡出。
-        // 稳定状态下，屏幕上最多同时出现3条（因相邻条目间隔3s < 显示期5s）。
+        // 时序：每3秒出现一条，每条显示5秒后淡出；稳态最多3条同屏。
+        // 放置策略：先隐态插入DOM量出真实尺寸，再与已在屏所有条目做矩形碰撞检测，
+        //           100次随机尝试取无重叠位置，若找不到则取重叠最小的候选。
         class FloatingPoems {
             constructor() {
                 this.container = document.getElementById('poetryContainer');
@@ -980,21 +989,18 @@
                 this.shuffledPoems = [];
                 this.poemPlayIndex = 0;
                 this.intervalId = null;
+                // 当前屏幕上所有存活条目（包含淡出期）的位置信息
+                this.activeRects = []; // [{x, y, w, h, record}]
             }
 
             init() {
                 window.addEventListener('titleHidden', () => {
                     this.titleVisible = false;
                 });
-
                 this.reshufflePoems();
-
-                // 立即显示第一条，之后每3秒一条
                 this.createPoem();
                 this.intervalId = setInterval(() => {
-                    if (this.isInHeroSection) {
-                        this.createPoem();
-                    }
+                    if (this.isInHeroSection) this.createPoem();
                 }, 3000);
             }
 
@@ -1008,59 +1014,83 @@
             }
 
             getNextPoem() {
-                if (this.poemPlayIndex >= this.shuffledPoems.length) {
-                    this.reshufflePoems();
-                }
+                if (this.poemPlayIndex >= this.shuffledPoems.length) this.reshufflePoems();
                 return this.shuffledPoems[this.poemPlayIndex++];
             }
 
-            getRandomPosition(approxChars) {
-                const viewportW = window.innerWidth;
-                const viewportH = window.innerHeight;
-                const marginY = 80;
-                const marginBottom = 120;
-                // 估算文字宽度：每汉字约 fontSize * 16px，留右边距
-                const estWidthPx = approxChars * 32; // 保守估算
-                const maxLeft = Math.max(60, viewportW - estWidthPx - 60);
+            // 两矩形（含gap安全边距）是否重叠
+            rectsOverlap(ax, ay, aw, ah, bx, by, bw, bh, gap) {
+                return !(ax + aw + gap < bx ||
+                         bx + bw + gap < ax ||
+                         ay + ah + gap < by ||
+                         by + bh + gap < ay);
+            }
 
-                if (this.titleVisible) {
-                    // 标题可见时：避开屏幕中央区域
-                    const centerX = viewportW / 2;
-                    const centerY = viewportH / 2;
-                    const excludeW = viewportW * 0.38;
-                    const excludeH = viewportH * 0.25;
-
-                    let x, y, attempts = 0;
-                    do {
-                        x = 60 + Math.random() * (maxLeft - 60);
-                        y = marginY + Math.random() * (viewportH - marginY - marginBottom);
-                        attempts++;
-                    } while (
-                        Math.abs(x - centerX) < excludeW &&
-                        Math.abs(y - centerY) < excludeH &&
-                        attempts < 60
-                    );
-                    return { x, y };
-                } else {
-                    // 标题消失后：全屏随机
-                    return {
-                        x: 60 + Math.random() * (maxLeft - 60),
-                        y: marginY + Math.random() * (viewportH - marginY - marginBottom)
-                    };
+            // 在候选位置和所有已存活矩形之间计算总重叠面积
+            overlapArea(cx, cy, cw, ch) {
+                let total = 0;
+                for (const r of this.activeRects) {
+                    const ox = Math.min(cx + cw, r.x + r.w) - Math.max(cx, r.x);
+                    const oy = Math.min(cy + ch, r.y + r.h) - Math.max(cy, r.y);
+                    if (ox > 0 && oy > 0) total += ox * oy;
                 }
+                return total;
+            }
+
+            // 寻找不重叠（或最小重叠）的位置
+            findPosition(elW, elH) {
+                const vW = window.innerWidth;
+                const vH = window.innerHeight;
+                const padX = 50, padTop = 80, padBottom = 120;
+                const gap = 30; // 条目间安全间距
+
+                const maxX = Math.max(padX, vW - elW - padX);
+                const maxY = Math.max(padTop, vH - elH - padBottom);
+
+                const cX = vW / 2, cY = vH / 2;
+                const excW = vW * 0.38, excH = vH * 0.25; // 标题遮挡区
+
+                let bestPos = null, bestArea = Infinity;
+
+                for (let i = 0; i < 120; i++) {
+                    const x = padX + Math.random() * (maxX - padX);
+                    const y = padTop + Math.random() * (maxY - padTop);
+
+                    // 标题显示期间跳过中央区
+                    if (this.titleVisible) {
+                        const cx = x + elW / 2, cy = y + elH / 2;
+                        if (Math.abs(cx - cX) < excW && Math.abs(cy - cY) < excH) continue;
+                    }
+
+                    // 检查与已存活条目是否重叠
+                    let hasOverlap = false;
+                    for (const r of this.activeRects) {
+                        if (this.rectsOverlap(x, y, elW, elH, r.x, r.y, r.w, r.h, gap)) {
+                            hasOverlap = true;
+                            break;
+                        }
+                    }
+                    if (!hasOverlap) return { x, y }; // 找到完全不重叠的位置
+
+                    // 记录重叠最小的备选
+                    const area = this.overlapArea(x, y, elW, elH);
+                    if (area < bestArea) { bestArea = area; bestPos = { x, y }; }
+                }
+
+                return bestPos || { x: padX, y: padTop + Math.random() * (maxY - padTop) };
             }
 
             createPoem() {
                 const poem = this.getNextPoem();
                 const font = POEM_FONTS[Math.floor(Math.random() * POEM_FONTS.length)];
-                // 字号范围：1.2rem（较小）~ 2.4rem（较大），视觉合理
                 const fontSize = (1.2 + Math.random() * 1.2).toFixed(2);
-                const pos = this.getRandomPosition(poem.text.length);
 
+                // 先隐态插入以测量真实尺寸
                 const poemEl = document.createElement('div');
                 poemEl.className = 'floating-poem';
-                poemEl.style.left = pos.x + 'px';
-                poemEl.style.top = pos.y + 'px';
+                poemEl.style.visibility = 'hidden';
+                poemEl.style.left = '0px';
+                poemEl.style.top = '0px';
                 poemEl.style.fontFamily = font;
                 poemEl.style.fontSize = fontSize + 'rem';
 
@@ -1068,24 +1098,41 @@
                 textLine.textContent = poem.text;
                 const authorLine = document.createElement('div');
                 authorLine.className = 'poem-author';
-                authorLine.textContent = '——' + poem.author;
+                // 破折号用span包裹以实现视觉连续
+                authorLine.innerHTML = '<span class="dash">——</span>' + poem.author;
                 poemEl.appendChild(textLine);
                 poemEl.appendChild(authorLine);
 
                 this.container.appendChild(poemEl);
 
-                // 双帧确保 transition 生效
+                // 同步读取真实宽高（offsetWidth/Height 强制布局计算）
+                const elW = poemEl.offsetWidth;
+                const elH = poemEl.offsetHeight;
+
+                // 根据已有条目找不重叠位置
+                const pos = this.findPosition(elW, elH);
+                poemEl.style.left = pos.x + 'px';
+                poemEl.style.top = pos.y + 'px';
+                poemEl.style.visibility = '';
+
+                // 注册到活跃列表（包括淡出期，直到完全移除才释放）
+                const record = { x: pos.x, y: pos.y, w: elW, h: elH };
+                this.activeRects.push(record);
+
+                // 淡入
                 requestAnimationFrame(() => {
                     requestAnimationFrame(() => {
                         poemEl.classList.add('visible');
                     });
                 });
 
-                // 5秒后淡出，再1秒后移除
+                // 5秒后淡出，1秒后移除并释放位置
                 setTimeout(() => {
                     poemEl.classList.remove('visible');
                     setTimeout(() => {
                         if (poemEl.parentNode) poemEl.remove();
+                        const idx = this.activeRects.indexOf(record);
+                        if (idx > -1) this.activeRects.splice(idx, 1);
                     }, 1000);
                 }, 5000);
             }
@@ -1097,6 +1144,7 @@
                         p.classList.remove('visible');
                         setTimeout(() => { if (p.parentNode) p.remove(); }, 1000);
                     });
+                    this.activeRects = [];
                 }
             }
         }
