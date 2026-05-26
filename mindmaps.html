@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>脑图陈列 - 静心书斋</title>
+    <meta name="description" content="静心书斋·脑图陈列——把一本书的脉络凝练成一张可俯瞰的思维导图。">
+    <meta name="theme-color" content="#1d1913">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/premium.css">
+</head>
+<body class="page-paper">
+    <!-- 导航（site.js 注入） -->
+    <div id="site-nav" data-active="mindmaps"></div>
+
+    <section class="p-section p-section--paper">
+        <div class="u-container">
+            <div class="p-head reveal">
+                <span class="p-eyebrow">structure of thought</span>
+                <h1 class="p-title">脑图陈列</h1>
+                <p class="p-subtitle">把一本书的脉络，凝练成一张可俯瞰的图</p>
+                <div class="u-divider"><span></span></div>
+            </div>
+
+            <!-- 演示脑图（CSS/SVG 绘制） -->
+            <div class="mindmap-demo reveal">
+                <svg class="mm-svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+                    <defs>
+                        <linearGradient id="mmLine" x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0" stop-color="#c4a06a" stop-opacity="0.7"/>
+                            <stop offset="1" stop-color="#b08a52" stop-opacity="0.35"/>
+                        </linearGradient>
+                    </defs>
+                    <g stroke="url(#mmLine)" stroke-width="0.5" fill="none">
+                        <path d="M50 50 Q 32 38 18 24"/>
+                        <path d="M50 50 Q 68 38 82 24"/>
+                        <path d="M50 50 Q 30 52 12 56"/>
+                        <path d="M50 50 Q 70 52 88 56"/>
+                        <path d="M50 50 Q 50 70 50 86"/>
+                    </g>
+                </svg>
+                <div class="mm-center">道德经</div>
+                <span class="mm-branch" style="left:18%;top:22%;">道可道，非常道</span>
+                <span class="mm-branch" style="left:82%;top:22%;">上善若水</span>
+                <span class="mm-branch" style="left:12%;top:56%;">无为而治</span>
+                <span class="mm-branch" style="left:88%;top:56%;">道法自然</span>
+                <span class="mm-branch" style="left:50%;top:86%;">柔弱胜刚强</span>
+            </div>
+
+            <!-- 脑图网格（图片放 images/mindmaps/ 后替换占位） -->
+            <div class="mindmap-grid" style="margin-top:52px;">
+                <a href="#" class="mindmap-card reveal" data-reveal-delay="1">
+                    <div class="mindmap-empty"><span class="mm-node">道</span><span>道德经 · 思维脉络</span></div>
+                    <div class="mindmap-cap"><div class="mm-title">道德经 · 思维脉络</div><div class="mm-sub">道 · 德 · 自然 · 无为</div></div>
+                </a>
+                <a href="#" class="mindmap-card reveal" data-reveal-delay="2">
+                    <div class="mindmap-empty"><span class="mm-node">仁</span><span>论语 · 核心概念</span></div>
+                    <div class="mindmap-cap"><div class="mm-title">论语 · 核心概念</div><div class="mm-sub">仁 · 礼 · 学 · 君子</div></div>
+                </a>
+                <a href="#" class="mindmap-card reveal" data-reveal-delay="3">
+                    <div class="mindmap-empty"><span class="mm-node">史</span><span>史记 · 人物图谱</span></div>
+                    <div class="mindmap-cap"><div class="mm-title">史记 · 人物图谱</div><div class="mm-sub">本纪 · 世家 · 列传</div></div>
+                </a>
+                <a href="#" class="mindmap-card reveal" data-reveal-delay="1">
+                    <div class="mindmap-empty"><span class="mm-node">智</span><span>人类简史 · 三大革命</span></div>
+                    <div class="mindmap-cap"><div class="mm-title">人类简史 · 三大革命</div><div class="mm-sub">认知 · 农业 · 科学</div></div>
+                </a>
+                <a href="#" class="mindmap-card reveal" data-reveal-delay="2">
+                    <div class="mindmap-empty"><span class="mm-node">思</span><span>思考，快与慢</span></div>
+                    <div class="mindmap-cap"><div class="mm-title">思考，快与慢</div><div class="mm-sub">系统1 · 系统2 · 偏差</div></div>
+                </a>
+                <a href="#" class="mindmap-card reveal" data-reveal-delay="3">
+                    <div class="mindmap-empty"><span class="mm-node">＋</span><span>等待添加</span></div>
+                    <div class="mindmap-cap"><div class="mm-title">更多脑图</div><div class="mm-sub">敬请期待</div></div>
+                </a>
+            </div>
+
+            <p class="mm-tip reveal">提示：用你喜欢的工具（XMind / 幕布 / Markmap 等）绘制脑图，导出为图片放入 <code>images/mindmaps/</code>，再把卡片里的占位替换为 <code>&lt;img&gt;</code> 即可。</p>
+        </div>
+    </section>
+
+    <!-- 页脚（site.js 注入） -->
+    <div id="site-footer"></div>
+
+    <script src="js/site.js"></script>
+</body>
+</html>

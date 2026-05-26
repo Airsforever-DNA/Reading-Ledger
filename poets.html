@@ -14,6 +14,7 @@
 
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/poetry.css?v=35">
+    <link rel="stylesheet" href="css/premium.css">
     <style>
         /* ===== 诗人堂专属样式 ===== */
         .poets-hall-section {
@@ -325,20 +326,9 @@
         }
     </style>
 </head>
-<body class="books-page">
-    <!-- 导航栏 -->
-    <nav class="navbar visible" id="navbar">
-        <div class="nav-logo">
-            <a href="index.html">静心书斋</a>
-        </div>
-        <ul class="nav-links">
-            <li><a href="index.html">首页</a></li>
-            <li><a href="chenghuaiweixiang.html">澄怀味象</a></li>
-            <li><a href="jingshizhiyong.html">经世致用</a></li>
-            <li><a href="shiciyaji.html" class="active">诗词雅集</a></li>
-            <li><a href="index.html#about">关于我</a></li>
-        </ul>
-    </nav>
+<body class="page-paper books-page">
+    <!-- 导航（site.js 注入） -->
+    <div id="site-nav" data-active="poetry"></div>
 
     <!-- 诗人堂主区域 -->
     <section class="poets-hall-section">
@@ -496,26 +486,11 @@
         </div>
     </section>
 
-    <!-- 页脚 -->
-    <footer class="footer">
-        <p>© 2024 静心书斋 | 修身养性，博闻强识</p>
-    </footer>
+    <!-- 页脚（site.js 注入） -->
+    <div id="site-footer"></div>
 
-    <script src="js/main.js"></script>
+    <script src="js/site.js"></script>
     <script>
-        // 导航栏滚动显隐（复用 main.js 逻辑的补充）
-        const navbar = document.getElementById('navbar');
-        let lastScroll = 0;
-        window.addEventListener('scroll', () => {
-            const current = window.scrollY;
-            if (current > lastScroll && current > 80) {
-                navbar.classList.remove('visible');
-            } else {
-                navbar.classList.add('visible');
-            }
-            lastScroll = current;
-        });
-
         // 若 URL 带 hash，平滑滚动到对应诗人卡片
         if (location.hash) {
             const target = document.querySelector(location.hash);
