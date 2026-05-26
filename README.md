@@ -8,26 +8,32 @@
 
 ```
 静心书斋/
-├── index.html              # 主页面（首页 + 书斋入口）
-├── books.html              # 书斋完整列表页
+├── index.html              # 首页（英雄区 + 统计 + 最新笔记流 + 脑图 + 社交/订阅）
+├── books.html              # 读书笔记列表页（搜索 + 标签筛选）
 ├── book-detail.html        # 读书笔记详情页
+├── mindmaps.html           # 脑图陈列页
+├── chenghuaiweixiang.html  # 澄怀味象（经典）
+├── jingshizhiyong.html     # 经世致用（致用）
+├── shiciyaji.html          # 诗词雅集（含诗人堂入口）
 ├── css/
-│   ├── style.css           # 主样式文件
-│   ├── books.css           # 书籍列表页样式
+│   ├── premium.css         # ⭐ 高级设计系统（配色/导航/页脚/卡片/动效）
+│   ├── style.css           # 旧版主样式
+│   ├── books.css           # 列表页旧样式
+│   ├── poetry.css          # 诗词/卡片样式
 │   └── book-detail.css     # 详情页样式
 ├── js/
-│   ├── main.js             # 主逻辑（背景、诗词、导航等）
-│   ├── quotes.js           # 诗词名句数据
-│   ├── books.js            # 书籍数据配置 ⭐ 在这里添加书籍
-│   ├── images.js           # 背景图片列表（自动生成）
-│   ├── books-page.js       # 书籍列表页逻辑
-│   └── book-detail.js      # 详情页逻辑
+│   ├── site.js             # ⭐ 共享交互（统一导航/页脚/弹层、信息流、统计、订阅）
+│   ├── books.js            # ⭐ 书籍数据配置（在这里添加笔记）
+│   ├── books-page.js       # 笔记列表页逻辑（搜索/标签/排序）
+│   ├── book-detail.js      # 详情页逻辑
+│   ├── main.js             # （旧）首页逻辑，现已由 index.html 内联脚本取代
+│   ├── quotes.js / images.js
 ├── images/
-│   ├── backgrounds/        # 🖼️ 风景照片放这里
-│   └── covers/             # 📚 书籍封面放这里
-├── tools/
-│   └── generate-images.py  # 图片列表生成脚本
-└── README.md               # 本文件
+│   ├── backgrounds/        # 🖼️ 首页轮播风景照
+│   ├── covers/             # 📚 书籍封面
+│   ├── mindmaps/           # 🧠 脑图图片
+│   └── social/             # 📱 wechat-qr.png（公众号二维码）
+└── README.md
 ```
 
 ## 🚀 快速开始
@@ -48,14 +54,18 @@ python tools/generate-images.py
 
 ```javascript
 {
-    id: "book-003",           // 唯一ID
+    id: "book-007",           // 唯一ID
     title: "书名",
     author: "作者",
     nationality: "国籍",
     publisher: "出版社",
     isbn: "978-x-xxx-xxxxx-x",
-    date: "2024-03-15",       // 阅读日期
-    cover: "images/covers/bookname.jpg",  // 封面图片路径
+    date: "2024-03-15",       // 阅读日期（信息流按此排序）
+    cover: "images/covers/bookname.jpg",  // 封面（缺失时自动用书脊式占位）
+    category: "classics",     // classics(经典)/practical(致用)/poetry(诗词)
+    tags: ["历史", "认知"],     // 标签，用于首页统计与列表页筛选
+    excerpt: "一句话摘要，展示在信息流卡片上",
+    wordCount: 4200,          // 笔记字数（用于统计与阅读时长）
     summary: "内容概述...",
     structure: [              // 结构框架（手风琴展示）
         {
@@ -93,11 +103,14 @@ npx serve
 
 ## ✨ 功能特性
 
-- 🎨 **动态取色**：从背景图片自动提取主色调，动态调整页面配色
-- 🖼️ **Ken Burns 效果**：背景图片带有电影级的缓动缩放动画
-- 📜 **诗词飘动**：首页随机展示古诗词名句，随机位置、随机字体
-- 📚 **手风琴结构**：读书笔记详情页使用折叠式章节展示
-- 🎯 **导航交互**：滚动隐藏，右上角悬停触发显示
+- 💎 **墨韵鎏金设计系统**：统一的高级东方视觉（墨色 + 宣纸 + 鎏金），玻璃拟态卡片、滚动揭示动效
+- 📰 **最新读书笔记信息流**：首页与列表页用精美卡片展示笔记，自动取自 `books.js`
+- 📊 **数据统计**：笔记数 / 诗词 / 字数 / 标签，滚动到时数字递增
+- 🔎 **搜索 + 标签筛选**：笔记列表页支持按书名/作者/标签实时检索与归类
+- 🧠 **脑图陈列**：独立页面展示思维导图，含 CSS 绘制的演示脑图
+- 📱 **社交双向链接**：公众号（扫码弹层）/ 抖音 / 小红书 / 知乎，以及邮箱订阅入口
+- 📜 **诗词飘动 + Ken Burns**：首页随机诗句与电影级背景缩放
+- 📚 **手风琴结构**：详情页折叠式章节展示
 
 ## 🔧 自定义配置
 
@@ -131,12 +144,21 @@ colorThresholds: {
 }
 ```
 
+## 🔗 自定义社交链接与公众号二维码
+
+- **社交主页链接**：编辑 `js/site.js` 顶部的 `SOCIAL` 对象，把抖音 / 小红书 / 知乎的 `#` 换成你的主页地址。
+- **微信公众号二维码**：把二维码图片保存为 `images/social/wechat-qr.png` 即可（页面所有「微信公众号」入口会弹出该图）。
+- 这些入口出现在首页「与我相连」区块、以及全站统一页脚，改一处即全站生效。
+
+## 🧠 添加脑图
+
+1. 用 XMind / 幕布 / Markmap 等绘制脑图，导出为图片放入 `images/mindmaps/`。
+2. 在 `mindmaps.html` 中把对应卡片的占位 `<div class="mindmap-empty">…</div>` 换成 `<img src="images/mindmaps/你的图.png" alt="…">`，并设置卡片 `href`。
+
 ## 📝 待办事项
 
-- [ ] 添加移动端适配
-- [ ] 添加思维导图展示
-- [ ] 添加搜索功能
-- [ ] 添加标签分类
+- [x] 移动端适配　- [x] 脑图展示　- [x] 搜索与标签
+- [ ] 接入真实订阅后端（当前为前端占位提示）
 
 ## 📄 许可
 

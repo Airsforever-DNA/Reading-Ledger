@@ -16,6 +16,7 @@
 
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/poetry.css?v=17">
+    <link rel="stylesheet" href="css/premium.css">
 
     <style>
     .poet-name-link {
@@ -38,18 +39,9 @@
     .poet-subtitle-link:hover { color: #6b5b4f; }
     </style>
 </head>
-<body class="books-page">
-    <!-- 导航栏 -->
-    <nav class="navbar visible" id="navbar">
-        <div class="nav-logo">
-            <a href="index.html">静心书斋</a>
-        </div>
-        <ul class="nav-links">
-            <li><a href="index.html">首页</a></li>
-            <li><a href="books.html">书斋</a></li>
-            <li><a href="index.html#about">关于我</a></li>
-        </ul>
-    </nav>
+<body class="page-paper books-page">
+    <!-- 导航（site.js 注入） -->
+    <div id="site-nav" data-active="poetry"></div>
 
     <!-- 诗词雅集区域 -->
     <section class="poetry-section" id="poetry">
@@ -143,11 +135,10 @@
         </div>
     </section>
 
-    <!-- 页脚 -->
-    <footer class="footer">
-        <p>© 2024 静心书斋 | 修身养性，博闻强识</p>
-    </footer>
+    <!-- 页脚（site.js 注入） -->
+    <div id="site-footer"></div>
 
+    <script src="js/site.js"></script>
     <script>
     // 诗词高亮列悬停动画（一次性触发）
     document.querySelectorAll('.poem-column.highlight').forEach(column => {

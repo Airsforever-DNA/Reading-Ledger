@@ -14,21 +14,11 @@
 
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/poetry.css?v=18">
+    <link rel="stylesheet" href="css/premium.css">
 </head>
-<body class="books-page">
-    <!-- 导航栏 -->
-    <nav class="navbar visible" id="navbar">
-        <div class="nav-logo">
-            <a href="index.html">静心书斋</a>
-        </div>
-        <ul class="nav-links">
-            <li><a href="index.html">首页</a></li>
-            <li><a href="chenghuaiweixiang.html" class="active">澄怀味象</a></li>
-            <li><a href="jingshizhiyong.html">经世致用</a></li>
-            <li><a href="shiciyaji.html">诗词雅集</a></li>
-            <li><a href="index.html#about">关于我</a></li>
-        </ul>
-    </nav>
+<body class="page-paper books-page">
+    <!-- 导航（site.js 注入） -->
+    <div id="site-nav" data-active="classics"></div>
 
     <!-- 澄怀味象区域 -->
     <section class="poetry-gallery-section" id="classics">
@@ -65,11 +55,9 @@
         </div>
     </section>
 
-    <!-- 页脚 -->
-    <footer class="footer">
-        <p>© 2024 静心书斋 | 修身养性，博闻强识</p>
-    </footer>
+    <!-- 页脚（site.js 注入） -->
+    <div id="site-footer"></div>
 
-    <script src="js/main.js"></script>
+    <script src="js/site.js"></script>
 </body>
 </html>

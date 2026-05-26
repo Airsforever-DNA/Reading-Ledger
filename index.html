@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>静心书斋</title>
+    <title>静心书斋 · 读书笔记与信息分享</title>
+    <meta name="description" content="静心书斋——一个文艺书香风格的读书笔记与信息分享空间。研读经典、品味诗词、沉淀思考，与同好相遇。">
+    <meta name="theme-color" content="#1d1913">
 
     <!-- 字体引入 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,6 +21,9 @@
     <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Zcool+XiaoWei&display=swap" rel="stylesheet">
 
+    <!-- 高级设计系统 -->
+    <link rel="stylesheet" href="css/premium.css">
+
     <style>
         * {
             margin: 0;
@@ -28,7 +33,6 @@
 
         html {
             scroll-behavior: smooth;
-            scroll-snap-type: y mandatory;
         }
 
         body {
@@ -78,7 +82,6 @@
             position: relative;
             z-index: 2;
             overflow: hidden;
-            scroll-snap-align: start;
         }
 
         /* 中心标题 "静心书斋" */
@@ -119,6 +122,38 @@
         @keyframes titleGlow {
             0% { text-shadow: 0 0 30px rgba(0, 0, 0, 0.6), 0 0 60px rgba(0, 0, 0, 0.3), 2px 2px 4px rgba(0, 0, 0, 0.9); }
             100% { text-shadow: 0 0 40px rgba(255, 255, 255, 0.15), 0 0 80px rgba(0, 0, 0, 0.4), 2px 2px 4px rgba(0, 0, 0, 0.9), 0 0 100px rgba(255, 255, 255, 0.05); }
+        }
+
+        /* 标题下鎏金细线 + 英文副名 */
+        .center-title .title-rule {
+            width: 0;
+            height: 1px;
+            margin: 22px auto 18px;
+            background: linear-gradient(90deg, transparent, rgba(212,175,122,0.85), transparent);
+            animation: ruleGrow 1.6s ease-out 1.2s forwards;
+        }
+        @keyframes ruleGrow { to { width: 220px; } }
+
+        .center-title .hero-tag {
+            font-family: 'LXGW WenKai', serif;
+            font-size: 1.15rem;
+            color: rgba(248, 246, 241, 0.92);
+            letter-spacing: 8px;
+            text-shadow: 0 2px 12px rgba(0, 0, 0, 0.7);
+        }
+        .center-title .hero-en {
+            display: block;
+            margin-top: 10px;
+            font-family: 'Noto Sans SC', sans-serif;
+            font-size: 0.72rem;
+            letter-spacing: 0.5em;
+            text-indent: 0.5em;
+            text-transform: uppercase;
+            color: rgba(230, 210, 168, 0.85);
+        }
+        @media (max-width: 480px) {
+            .center-title .hero-tag { font-size: 0.95rem; letter-spacing: 4px; }
+            .center-title .title-rule { animation: none; width: 140px; }
         }
 
         /* 诗句容器 - 跟随第一屏 */
@@ -204,7 +239,6 @@
             justify-content: center;
             align-items: center;
             overflow: hidden;
-            scroll-snap-align: start;
         }
 
         /* 第二屏额外遮罩（稍深一点，让入口标签更清晰） */
@@ -519,19 +553,8 @@
     </style>
 </head>
 <body>
-    <!-- 导航栏（滚动到第二屏时显示） -->
-    <nav class="navbar" id="navbar">
-        <div class="nav-logo">
-            <a href="index.html">静心书斋</a>
-        </div>
-        <ul class="nav-links">
-            <li><a href="index.html" class="active">首页</a></li>
-            <li><a href="chenghuaiweixiang.html">澄怀味象</a></li>
-            <li><a href="jingshizhiyong.html">经世致用</a></li>
-            <li><a href="shiciyaji.html">诗词雅集</a></li>
-            <li><a href="#about">关于我</a></li>
-        </ul>
-    </nav>
+    <!-- 高级导航栏（由 site.js 统一注入） -->
+    <div id="site-nav" data-active="home" data-over-hero="true"></div>
 
     <!-- 全局背景图片（固定定位，两屏共享） -->
     <div class="global-bg" id="globalBg"></div>
@@ -542,6 +565,9 @@
         <!-- 中心标题 -->
         <div class="center-title" id="centerTitle">
             <h1>静心书斋</h1>
+            <div class="title-rule"></div>
+            <p class="hero-tag">读书笔记 · 信息分享 · 同好相遇</p>
+            <span class="hero-en">A Quiet Studio for Reading &amp; Ideas</span>
         </div>
 
         <!-- 随机诗句（仅在第一屏显示） -->
@@ -586,21 +612,155 @@
         </div>
     </section>
 
-    <!-- 关于我区域 -->
-    <section id="about" class="about-section">
-        <div class="about-container">
-            <h2 class="about-title">关于我</h2>
-            <p class="about-text">
-                这里是静心书斋，一个记录阅读心得、品味经典诗词的个人空间。
-                愿与志同道合的朋友一起，在书海中寻觅智慧，在诗行间感受美好。
-            </p>
+    <!-- ===== 数据统计 ===== -->
+    <section class="p-section p-section--paper" id="stats">
+        <div class="u-container">
+            <div class="p-head reveal">
+                <span class="p-eyebrow">墨海拾珍</span>
+                <h2 class="p-title">书斋一览</h2>
+                <div class="u-divider"><span></span></div>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card reveal" data-reveal-delay="1">
+                    <div class="stat-num"><span id="statNotes" data-count="0">0</span><span class="suffix">篇</span></div>
+                    <div class="stat-label">读书笔记</div>
+                </div>
+                <div class="stat-card reveal" data-reveal-delay="2">
+                    <div class="stat-num"><span id="statPoems" data-count="100">0</span><span class="suffix">首</span></div>
+                    <div class="stat-label">诗词典藏</div>
+                </div>
+                <div class="stat-card reveal" data-reveal-delay="3">
+                    <div class="stat-num"><span id="statWords" data-count="0">0</span><span class="suffix">字</span></div>
+                    <div class="stat-label">笔记字数</div>
+                </div>
+                <div class="stat-card reveal" data-reveal-delay="4">
+                    <div class="stat-num"><span id="statTags" data-count="0">0</span><span class="suffix">类</span></div>
+                    <div class="stat-label">主题标签</div>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- 页脚 -->
-    <footer class="footer">
-        <p>&copy; 2024 静心书斋 | 修身养性，博闻强识</p>
-    </footer>
+    <!-- ===== 最新读书笔记信息流 ===== -->
+    <section class="p-section p-section--paper" id="latest" style="padding-top:0;">
+        <div class="u-container">
+            <div class="p-head reveal">
+                <span class="p-eyebrow">最新研读</span>
+                <h2 class="p-title">读书笔记</h2>
+                <p class="p-subtitle">把读过的好书，沉淀为可分享的思考</p>
+                <div class="u-divider"><span></span></div>
+            </div>
+            <div class="feed-grid" id="notesFeed" data-feed-count="6"></div>
+            <div style="text-align:center; margin-top:48px;" class="reveal">
+                <a href="books.html" class="btn btn-ghost">浏览全部笔记 <span class="arrow">→</span></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== 脑图陈列 ===== -->
+    <section class="p-section p-section--paper" id="mindmaps" style="padding-top:0;">
+        <div class="u-container">
+            <div class="p-head reveal">
+                <span class="p-eyebrow">structure of thought</span>
+                <h2 class="p-title">脑图陈列</h2>
+                <p class="p-subtitle">将一本书的脉络，凝练成一张图</p>
+                <div class="u-divider"><span></span></div>
+            </div>
+            <div class="mindmap-grid">
+                <a href="mindmaps.html" class="mindmap-card reveal" data-reveal-delay="1">
+                    <div class="mindmap-empty"><span class="mm-node">道</span></div>
+                    <div class="mindmap-cap"><div class="mm-title">道德经 · 思维脉络</div><div class="mm-sub">道 · 德 · 自然 · 无为</div></div>
+                </a>
+                <a href="mindmaps.html" class="mindmap-card reveal" data-reveal-delay="2">
+                    <div class="mindmap-empty"><span class="mm-node">仁</span></div>
+                    <div class="mindmap-cap"><div class="mm-title">论语 · 核心概念</div><div class="mm-sub">仁 · 礼 · 学 · 君子</div></div>
+                </a>
+                <a href="mindmaps.html" class="mindmap-card reveal" data-reveal-delay="3">
+                    <div class="mindmap-empty"><span class="mm-node">史</span></div>
+                    <div class="mindmap-cap"><div class="mm-title">史记 · 人物图谱</div><div class="mm-sub">本纪 · 世家 · 列传</div></div>
+                </a>
+            </div>
+            <div style="text-align:center; margin-top:48px;" class="reveal">
+                <a href="mindmaps.html" class="btn btn-ghost">进入脑图陈列 <span class="arrow">→</span></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== 关于书斋 ===== -->
+    <section class="p-section p-section--paper" id="about" style="padding-top:0;">
+        <div class="u-container">
+            <div class="p-head reveal">
+                <span class="p-eyebrow">关于</span>
+                <h2 class="p-title">关于书斋</h2>
+                <div class="u-divider"><span></span></div>
+            </div>
+            <div class="about-rich reveal">
+                <p>静心书斋，是一处安放阅读与思考的精神角落。这里记录读书心得、梳理知识脉络、品味经典诗词，也把零散的灵感整理成可分享的文字。</p>
+                <p>读书，是与古今智者的长谈；笔记，是把这份长谈留存下来的方式。愿与每一位热爱阅读的同好，在书海中寻觅智慧，在诗行间感受美好。</p>
+                <div class="about-values">
+                    <div class="about-value"><span class="av-ico">研</span><div><h4>研读经典</h4><p>从源头汲取，慢读细品</p></div></div>
+                    <div class="about-value"><span class="av-ico">记</span><div><h4>输出笔记</h4><p>结构化沉淀，常学常新</p></div></div>
+                    <div class="about-value"><span class="av-ico">联</span><div><h4>连接同好</h4><p>分享与交流，彼此照亮</p></div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== 与我相连（社交 + 订阅） ===== -->
+    <section class="p-section p-section--ink" id="connect">
+        <div class="u-container">
+            <div class="p-head reveal">
+                <span class="p-eyebrow">stay connected</span>
+                <h2 class="p-title">与我相连</h2>
+                <p class="p-subtitle">在这些平台，遇见同一个静心书斋</p>
+                <div class="u-divider"><span></span></div>
+            </div>
+            <div class="connect-grid">
+                <!-- 微信公众号：点击弹出二维码（在 images/social/wechat-qr.png 放置你的二维码） -->
+                <a href="#" class="social-card reveal" data-wechat data-reveal-delay="1">
+                    <span class="corner">⌕</span>
+                    <span class="social-ico"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 4C6.9 4 3 7.35 3 11.4c0 2.3 1.27 4.32 3.3 5.62L5.7 21l3.65-1.9c.85.2 1.74.3 2.65.3 5.1 0 9-3.35 9-7.4S17.1 4 12 4Zm-3.2 6.05a1.15 1.15 0 1 1 0 2.3 1.15 1.15 0 0 1 0-2.3Zm6.4 0a1.15 1.15 0 1 1 0 2.3 1.15 1.15 0 0 1 0-2.3Z"/></svg></span>
+                    <span class="social-name">微信公众号</span>
+                    <span class="social-handle">扫码关注</span>
+                </a>
+                <!-- 抖音：把 href 换成你的主页链接 -->
+                <a href="#" target="_blank" rel="noopener" class="social-card reveal" data-reveal-delay="2">
+                    <span class="corner">↗</span>
+                    <span class="social-ico"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 3c.45 2.62 2.06 4.4 4.6 4.72v3.02c-1.66-.04-3.16-.6-4.6-1.66v6.42A5.73 5.73 0 1 1 8.27 9.8c.32 0 .63.03.93.08v3.1a2.64 2.64 0 1 0 1.8 2.5V3H14Z"/></svg></span>
+                    <span class="social-name">抖音</span>
+                    <span class="social-handle">@静心书斋</span>
+                </a>
+                <!-- 小红书：把 href 换成你的主页链接 -->
+                <a href="#" target="_blank" rel="noopener" class="social-card reveal" data-reveal-delay="3">
+                    <span class="corner">↗</span>
+                    <span class="social-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6.5C9.8 4.9 6.7 4.6 4 5.4v12c2.7-.8 5.8-.5 8 1.1 2.2-1.6 5.3-1.9 8-1.1v-12c-2.7-.8-5.8-.5-8 1.1Z"/><path d="M12 6.5v12.1"/></svg></span>
+                    <span class="social-name">小红书</span>
+                    <span class="social-handle">@静心书斋</span>
+                </a>
+                <!-- 知乎：把 href 换成你的主页链接 -->
+                <a href="#" target="_blank" rel="noopener" class="social-card reveal" data-reveal-delay="4">
+                    <span class="corner">↗</span>
+                    <span class="social-ico"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 4h14a2 2 0 0 1 2 2v8.5a2 2 0 0 1-2 2h-6.7L7 21v-4.5H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Zm4 4.4c-1 0-1.7.6-2 1.5l1.2.5c.12-.4.36-.7.74-.7.4 0 .62.26.62.62 0 .5-.42.9-1 1.5-.5.5-.74.96-.74 1.6v.3h1.32v-.2c0-.42.22-.7.7-1.16.62-.6 1.06-1.1 1.06-1.94 0-1.04-.82-1.72-1.92-1.72Zm5.2 0c-1 0-1.7.6-2 1.5l1.2.5c.12-.4.36-.7.74-.7.4 0 .62.26.62.62 0 .5-.42.9-1 1.5-.5.5-.74.96-.74 1.6v.3h1.32v-.2c0-.42.22-.7.7-1.16.62-.6 1.06-1.1 1.06-1.94 0-1.04-.82-1.72-1.92-1.72Z"/></svg></span>
+                    <span class="social-name">知乎</span>
+                    <span class="social-handle">@静心书斋</span>
+                </a>
+            </div>
+
+            <!-- 订阅 -->
+            <div class="subscribe-box reveal">
+                <h3>订阅书斋更新</h3>
+                <p>新笔记、新脑图、新诗词，第一时间送达</p>
+                <form class="subscribe-form" id="subscribeForm">
+                    <input type="email" placeholder="留下你的邮箱" aria-label="邮箱">
+                    <button type="submit" class="btn btn-gold">订阅 <span class="arrow">→</span></button>
+                </form>
+                <p class="subscribe-note" id="subscribeNote">我们尊重你的隐私，绝不打扰。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 高级页脚（由 site.js 统一注入，含微信二维码弹层） -->
+    <div id="site-footer"></div>
 
     <script>
         // ===== 配置 =====
@@ -1183,11 +1343,11 @@
             }
 
             showNavbar() {
-                this.navbar.classList.add('visible');
+                if (this.navbar) this.navbar.classList.add('visible');
             }
 
             hideNavbar() {
-                this.navbar.classList.remove('visible');
+                if (this.navbar) this.navbar.classList.remove('visible');
             }
 
             animateEntries() {
@@ -1222,5 +1382,9 @@
             scrollCtrl.init();
         });
     </script>
+
+    <!-- 数据与共享交互 -->
+    <script src="js/books.js"></script>
+    <script src="js/site.js"></script>
 </body>
 </html>

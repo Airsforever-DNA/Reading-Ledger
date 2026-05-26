@@ -3,97 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>书斋 - 静心书斋</title>
+    <title>读书笔记 - 静心书斋</title>
+    <meta name="description" content="静心书斋·读书笔记——研读、摘录与思考的沉淀，支持搜索与标签筛选。">
+    <meta name="theme-color" content="#1d1913">
 
-    <!-- 字体引入 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Zhi+Mang+Xing&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Iansui&display=swap" rel="stylesheet">
-    <link href="https://fonts.zeoseven.com/items/80/?format=css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/books.css">
-    <link rel="stylesheet" href="css/poetry.css?v=18">
+    <link rel="stylesheet" href="css/premium.css">
 </head>
-<body class="books-page">
-    <!-- 导航栏 -->
-    <nav class="navbar visible" id="navbar">
-        <div class="nav-logo">
-            <a href="index.html">静心书斋</a>
-        </div>
-        <ul class="nav-links">
-            <li><a href="index.html">首页</a></li>
-            <li><a href="chenghuaiweixiang.html">澄怀味象</a></li>
-            <li><a href="jingshizhiyong.html">经世致用</a></li>
-            <li><a href="shiciyaji.html">诗词雅集</a></li>
-            <li><a href="index.html#about">关于我</a></li>
-        </ul>
-    </nav>
+<body class="page-paper">
+    <!-- 导航（site.js 注入） -->
+    <div id="site-nav" data-active="notes"></div>
 
-    <!-- 主内容 -->
-    <main class="books-main">
-        <header class="books-header">
-            <h1 class="books-title">书斋</h1>
-            <p class="books-subtitle">修身养性，博闻强识</p>
-
-            <!-- 统计信息 -->
-            <div class="books-stats">
-                <span class="stat-item">
-                    共 <strong id="totalBooks">0</strong> 本藏书
-                </span>
-            </div>
-        </header>
-
-        <!-- 筛选/排序（预留） -->
-        <div class="books-toolbar">
-            <div class="sort-options">
-                <span>排序：</span>
-                <button class="sort-btn active" data-sort="date">按日期</button>
-                <button class="sort-btn" data-sort="title">按书名</button>
-            </div>
-        </div>
-
-        <!-- 书籍网格 -->
-        <div class="books-grid" id="booksGrid">
-            <!-- 由JS动态生成 -->
-        </div>
-
-        <!-- 空状态 -->
-        <div class="empty-state" id="emptyState" style="display: none;">
-            <p>书斋暂无藏书，敬请期待...</p>
-        </div>
-    </main>
-
-    <!-- 书籍列表区域 -->
-    <section class="books-list-section" id="books">
-        <div class="books-list-container">
-            <div class="books-list-header">
-                <span class="poetry-badge">书籍列表</span>
-                <h2 class="books-list-title">我的藏书</h2>
-                <p class="books-list-subtitle">记录阅读，沉淀思考</p>
+    <section class="p-section p-section--paper">
+        <div class="u-container">
+            <div class="p-head reveal">
+                <span class="p-eyebrow">reading notes</span>
+                <h1 class="p-title">读书笔记</h1>
+                <p class="p-subtitle">研读 · 摘录 · 思考的沉淀</p>
+                <div class="u-divider"><span></span></div>
             </div>
 
-            <div class="books-list-grid" id="booksList">
-                <!-- 由JS动态生成书籍列表 -->
+            <!-- 工具栏：搜索 + 排序 -->
+            <div class="toolbar reveal">
+                <div class="search-box">
+                    <svg class="s-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                        <circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.2-3.2"></path>
+                    </svg>
+                    <input id="noteSearch" type="search" placeholder="搜索书名、作者或标签…" autocomplete="off">
+                </div>
+                <div class="sort-mini">
+                    排序
+                    <button data-sort="date" class="active">最新</button>
+                    <button data-sort="title">书名</button>
+                </div>
             </div>
 
-            <!-- 空状态 -->
-            <div class="empty-state" id="emptyState" style="display: none;">
-                <p>暂无藏书，敬请期待...</p>
-            </div>
+            <!-- 标签筛选 -->
+            <div class="tag-bar reveal" id="tagBar"></div>
+
+            <!-- 笔记网格 -->
+            <div class="feed-grid" id="notesGrid" style="margin-top:34px;"></div>
+            <div class="notes-empty" id="notesEmpty" style="display:none;">没有匹配的笔记，换个关键词或标签试试。</div>
         </div>
     </section>
 
-    <!-- 页脚 -->
-    <footer class="footer">
-        <p>© 2024 静心书斋 | 修身养性，博闻强识</p>
-    </footer>
+    <!-- 页脚（site.js 注入） -->
+    <div id="site-footer"></div>
 
     <script src="js/books.js"></script>
+    <script src="js/site.js"></script>
     <script src="js/books-page.js"></script>
 </body>
 </html>
