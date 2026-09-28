@@ -42,13 +42,18 @@ function renderBookDetail(book) {
     document.getElementById('bookIsbn').textContent = book.isbn || '-';
     document.getElementById('bookDate').textContent = formatDate(book.date);
     
-    // 封面
+    // 封面（缺失或加载失败时换成书脊式占位，只触发一次）
     const coverEl = document.getElementById('bookCover');
-    coverEl.src = book.cover;
     coverEl.alt = book.title;
     coverEl.onerror = function() {
-        this.src = `https://via.placeholder.com/200x280/f5f5f0/666?text=${encodeURIComponent(book.title)}`;
+        this.onerror = null;
+        showCoverFallback(this, book);
     };
+    if (book.cover) {
+        coverEl.src = book.cover;
+    } else {
+        showCoverFallback(coverEl, book);
+    }
     
     // 内容概述
     document.getElementById('bookSummary').textContent = book.summary || '暂无概述';
@@ -58,6 +63,18 @@ function renderBookDetail(book) {
     
     // 经典回顾
     renderHighlights(book.highlights || []);
+}
+
+/**
+ * 封面书脊式占位（样式沿用列表页的 .note-cover-fallback）
+ */
+function showCoverFallback(coverEl, book) {
+    const fallback = document.createElement('div');
+    fallback.className = 'book-detail-cover book-detail-cover-fallback';
+    fallback.innerHTML = '<div class="note-cover-fallback"><span class="nc-title"></span><span class="nc-author"></span></div>';
+    fallback.querySelector('.nc-title').textContent = book.title;
+    fallback.querySelector('.nc-author').textContent = book.author || '';
+    coverEl.replaceWith(fallback);
 }
 
 /**
