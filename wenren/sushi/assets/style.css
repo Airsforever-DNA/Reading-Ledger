@@ -1,0 +1,90 @@
+/* 苏轼知识工程 · 统一样式 v1.0 */
+:root {
+  --ink: #2b2b2b;
+  --ink-light: #5a5a5a;
+  --paper: #f7f4ee;
+  --card: #ffffff;
+  --accent: #9a3b26;        /* 朱砂 */
+  --accent-soft: #c46a50;
+  --gold: #b8860b;
+  --pine: #3d5a4c;          /* 松绿 */
+  --line: #d8d0c0;
+  --serif: "Noto Serif SC", "Source Han Serif SC", "SimSun", serif;
+  --sans: "Microsoft YaHei", "PingFang SC", sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: var(--serif);
+  color: var(--ink);
+  background: var(--paper);
+  line-height: 1.75;
+}
+a { color: var(--pine); text-decoration: none; }
+a:hover { color: var(--accent); text-decoration: underline; }
+
+/* 顶部题头 */
+.masthead {
+  text-align: center; padding: 42px 20px 26px;
+  border-bottom: 3px double var(--line);
+}
+.masthead .seal {
+  display: inline-block; font-family: var(--serif); font-size: 30px; font-weight: 700;
+  color: var(--paper); background: var(--accent);
+  padding: 8px 14px; letter-spacing: 6px; border-radius: 4px; margin-bottom: 14px;
+}
+.masthead h1 { font-size: 26px; letter-spacing: 4px; color: var(--ink); }
+.masthead .sub { color: var(--ink-light); margin-top: 6px; font-size: 14px; }
+
+/* 布局 */
+.wrap { max-width: 1080px; margin: 0 auto; padding: 26px 20px 60px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 16px; }
+.card {
+  background: var(--card); border: 1px solid var(--line); border-radius: 8px;
+  padding: 18px 20px; box-shadow: 0 1px 3px rgba(60,50,30,.06);
+  transition: box-shadow .15s;
+}
+.card:hover { box-shadow: 0 3px 10px rgba(60,50,30,.12); }
+.card h3 { font-size: 17px; color: var(--pine); margin-bottom: 8px; border-left: 4px solid var(--accent); padding-left: 10px; }
+.card p, .card li { font-size: 14px; color: var(--ink-light); }
+.card ul { padding-left: 18px; margin-top: 6px; }
+
+/* 章节标题 */
+h2.section {
+  font-size: 21px; letter-spacing: 2px; color: var(--ink);
+  margin: 34px 0 14px; padding-bottom: 8px; border-bottom: 1px solid var(--line);
+}
+h2.section .num { color: var(--accent); margin-right: 8px; font-family: var(--sans); font-weight: 400; }
+
+/* 表格 */
+table { width: 100%; border-collapse: collapse; background: var(--card); font-size: 14px; }
+th { background: var(--pine); color: #fff; font-weight: 500; padding: 8px 10px; text-align: left; }
+td { padding: 7px 10px; border-bottom: 1px solid var(--line); color: var(--ink); }
+tr:hover td { background: #f2ede2; }
+
+/* 标签 */
+.tag { display: inline-block; font-family: var(--sans); font-size: 12px; padding: 1px 9px; border-radius: 10px; margin-right: 6px; }
+.tag-仕途 { background: #e8f0e6; color: var(--pine); }
+.tag-贬谪 { background: #f7e6e0; color: var(--accent); }
+.tag-家庭 { background: #f0e8ec; color: #7d4a68; }
+.tag-创作 { background: #f3ecd8; color: var(--gold); }
+.tag-交游 { background: #e3ecf0; color: #2d5d75; }
+.tag-其他 { background: #eee; color: #666; }
+
+/* 图表容器 */
+.chart { width: 100%; background: var(--card); border: 1px solid var(--line); border-radius: 8px; }
+#main-timeline, #main-graph, #main-works, #main-know { width: 100%; }
+
+/* 时间线（自绘备用） */
+.tl-item { display: flex; gap: 14px; padding: 10px 0; border-bottom: 1px dashed var(--line); }
+.tl-year { min-width: 92px; font-family: var(--sans); font-weight: 600; color: var(--accent); font-size: 14px; }
+.tl-body { font-size: 14.5px; }
+.tl-body .date { color: var(--ink-light); font-size: 12.5px; }
+
+footer {
+  text-align: center; color: var(--ink-light); font-size: 12.5px;
+  padding: 22px; border-top: 1px solid var(--line); font-family: var(--sans);
+}
+blockquote {
+  border-left: 3px solid var(--gold); background: #faf7ef;
+  padding: 10px 16px; margin: 12px 0; color: var(--ink); font-size: 15px;
+}

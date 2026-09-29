@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>苏轼知识工程</title>
+<link rel="stylesheet" href="assets/style.css">
+<style>
+  .stats { display: flex; gap: 14px; flex-wrap: wrap; margin: 18px 0 6px; }
+  .stat { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 12px 20px; text-align: center; min-width: 120px; }
+  .stat .n { font-size: 24px; font-weight: 700; color: var(--accent); }
+  .stat .l { font-size: 12.5px; color: var(--ink-light); }
+  .path { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 16px 20px; margin-bottom: 14px; }
+  .path h3 { font-size: 16px; color: var(--pine); margin-bottom: 6px; }
+  .path p { font-size: 14px; color: var(--ink-light); }
+  .path .step { display: inline-block; background: #f2ede2; border-radius: 4px; padding: 2px 8px; margin: 2px 4px 2px 0; font-size: 13px; color: var(--ink); }
+</style>
+</head>
+<body>
+<div style="background:#1f2a24;border-bottom:1px solid rgba(200,180,140,.25);padding:10px 18px;font-family:'Noto Sans SC','Microsoft YaHei',sans-serif;font-size:13px;letter-spacing:1px;text-align:center;">
+<a href="../../index.html" style="color:#c9bda0;text-decoration:none;">静心书斋</a>
+<span style="color:#6f6a5c;margin:0 8px;">›</span>
+<a href="../../wenren.html" style="color:#c9bda0;text-decoration:none;">文人墨客</a>
+<span style="color:#6f6a5c;margin:0 8px;">›</span>
+<a href="./index.html" style="color:#e0c87f;text-decoration:none;">苏轼知识工程</a>
+</div>
+
+<div class="masthead">
+  <span class="seal">蘇軾</span>
+  <h1>苏轼知识工程</h1>
+  <div class="sub">以实体藏书十一册为根基构建的专题知识网络 ｜ 生成于 2026-09-29</div>
+</div>
+<div class="wrap">
+
+  <div class="stats">
+    <div class="stat"><div class="n">11</div><div class="l">实体藏书（PDF）</div></div>
+    <div class="stat"><div class="n">90+</div><div class="l">内容文件</div></div>
+    <div class="stat"><div class="n">136</div><div class="l">生平事件</div></div>
+    <div class="stat"><div class="n">59/94</div><div class="l">人物/关系边</div></div>
+    <div class="stat"><div class="n">37+11</div><div class="l">诗词/文章解析</div></div>
+    <div class="stat"><div class="n">40</div><div class="l">轶事典故</div></div>
+  </div>
+
+  <h2 class="section"><span class="num">壹</span>八大板块</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>01 生平与年谱</h3>
+      <p>136 条编年事件（1037-1101），十人生阶段，三大贬谪期加密；作品层 44 篇代表作锚点。数据与页码溯源见 JSON。</p>
+      <ul>
+        <li><a href="01-生平与年谱/人生大事年表.html">人生大事年表（编年体全文）</a></li>
+        <li><a href="01-生平与年谱/人生与作品时间线.html">人生与作品时间线（交互图）</a>★</li>
+        <li>timeline-events.json（结构化数据）</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>02 人物关系</h3>
+      <p>59 位人物档案、94 条关系边，十大圈层：家人、师长、门生、政敌、方外、皇室、艺苑……</p>
+      <ul>
+        <li><a href="02-人物关系/人物关系图.html">人物关系图谱（力导向交互图）</a>★</li>
+        <li><a href="02-人物关系/人物关系总述.html">人物关系总述（分章叙述）</a></li>
+        <li>persons.json / relations.json</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>03 诗词解析</h3>
+      <p>词 15 首 + 诗 22 首深度解析（岭海期按「可信最大并集」口径收录 7 篇）：原文、系年、逐句笺注、赏析、关联网络、异文校记。</p>
+      <ul>
+        <li><a href="03-诗词解析/00-词作总览.html">词作总览（15 首系年表）</a></li>
+        <li><a href="03-诗词解析/00-诗作总览.html">诗作总览（15 首五阶段演变）</a></li>
+        <li>各篇解析 30 个（水调歌头 / 念奴娇 / 定风波 / 题西林壁……）</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>04 文章解析</h3>
+      <p>十篇经典文：前后赤壁赋、记承天寺夜游、石钟山记、留侯论、答谢民师书……七节结构全解析。</p>
+      <ul>
+        <li><a href="04-文章解析/00-文章总览.html">文章总览（十篇总表+互文地图）</a></li>
+        <li><a href="04-文章解析/潮州韩文公庙碑（全碑）.html">潮州韩文公庙碑（全碑独立页）</a></li>
+        <li><a href="04-文章解析/前赤壁赋.html">前赤壁赋（水月之喻专章）</a></li>
+        <li>各篇解析 10 个</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>05 知识图谱</h3>
+      <p>整个工程的可视化总图：旭日图 + 树图双视图，扇区直达各板块。</p>
+      <ul>
+        <li><a href="05-知识图谱/知识地图.html">知识地图（旭日图/树图）</a>★</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>06 轶事典故</h3>
+      <p>40 则轶事分七册：旷达 / 幽默 / 美食 / 书画 / 手足 / 师友 / 贬谪传说——出处三级分层（书中记载 / 笔记转述 / 民间流传）。</p>
+      <ul>
+        <li><a href="06-轶事典故/00-轶事总览.html">轶事总览（目录+出处统计）</a></li>
+        <li>七分册（每册 5-6 则）</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>07 评论文章</h3>
+      <p>四篇深度评论（各约 3500 字）：旷达哲学的精神结构 / 新旧党双重冲突 / 贬谪地图上的创作高峰 / 艺术世界。</p>
+      <ul>
+        <li><a href="07-评论文章/一蓑烟雨任平生——苏轼旷达哲学的精神结构.html">一蓑烟雨任平生</a></li>
+        <li><a href="07-评论文章/不肯归队的人——苏轼与新党旧党的双重冲突.html">不肯归队的人</a></li>
+        <li><a href="07-评论文章/从黄州到儋州——贬谪地图上的创作高峰.html">从黄州到儋州</a></li>
+        <li><a href="07-评论文章/天下第三行书之外——苏轼的艺术世界.html">天下第三行书之外</a></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>99 溯源核查</h3>
+      <p>全部内容的核查底账：11 册实体书登记、31 首作品网络核源（多源交叉）、宋史传、维基核查。</p>
+      <ul>
+        <li><a href="99-溯源/溯源总库.html">溯源总库（分级登记）</a></li>
+        <li><a href="99-溯源/网络采集-补充核源-main.html">补充核源（11 首多源交叉+异文）</a></li>
+        <li>网络采集 4 件（词/诗/宋史/维基）</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2 class="section"><span class="num">贰</span>推荐阅读路径</h2>
+  <div class="path">
+    <h3>速览路径（约 30 分钟）</h3>
+    <p><span class="step">时间线图</span>→<span class="step">人物关系图</span>→<span class="step">轶事总览</span>——先立骨架与血肉：一图看尽 66 年人生，一图看尽 59 人网络，40 则轶事见性情。</p>
+  </div>
+  <div class="path">
+    <h3>深度路径（半天）</h3>
+    <p><span class="step">大事年表</span>→<span class="step">词/诗总览</span>→<span class="step">代表作各篇精读</span>→<span class="step">文章十篇</span>——以年表为经、作品为纬，赤壁三咏（前后赋+念奴娇）同期对读见黄州心境。</p>
+  </div>
+  <div class="path">
+    <h3>研究路径</h3>
+    <p><span class="step">评论四篇</span>→<span class="step">人物关系总述</span>→<span class="step">溯源总库</span>——四篇评论各立论旨，总述供人物深查，溯源库供逐条核查（页码/URL 双轨）。</p>
+  </div>
+
+  <h2 class="section"><span class="num">叁</span>数据与口径说明</h2>
+  <div class="card" style="margin-top:4px">
+    <ul>
+      <li><b>数据根基</b>：实体书 11 册（本目录 ../书籍原本/），其中 6 册传记/研究类抽取全文 218 万字符（带页码标记）作素材，5 册扫描版全集作校核依据。</li>
+      <li><b>溯源分级</b>：A=实体书页码 ｜ B=高置信度网络源（维基文库/ctext/四库本/官媒，31 首全覆盖）｜ C=模型知识（照实标注）｜ D=民间流传（明确标注，不作文史依据）。</li>
+      <li><b>系年异说</b>：凡有争议处（海棠系年、念奴娇系年、西江月黄州/儋州说等）均并列诸说不武断，详见各篇解析。</li>
+      <li><b>交互页</b>：三张 HTML（时间线/关系图/知识地图）均为本地数据嵌入，双击直开、零网络依赖。</li>
+      <li><b>阅读版</b>：全部 markdown 均有同名 .html 渲染页（marked 本地渲染），本页链接已指向阅读版；.md 为原文源文件。</li>
+    </ul>
+  </div>
+
+  <footer>苏轼知识工程 ｜ 素材：苏轼专题藏书十一册 + 高置信度网络源 ｜ 构建：ZCode 多代理流水线（9+2 内容块 + 3 可视化块，两轮全审+增量审见 99-溯源）｜ 2026-09-29</footer>
+</div>
+</body>
+</html>

@@ -40,6 +40,7 @@
                 ${item('chenghuaiweixiang.html', 'classics', '澄怀味象')}
                 ${item('jingshizhiyong.html', 'practical', '经世致用')}
                 ${item('shiciyaji.html', 'poetry', '诗词雅集')}
+                ${item('wenren.html', 'wenren', '文人墨客')}
                 ${item('mindmaps.html', 'mindmaps', '脑图')}
                 ${item('books.html', 'notes', '笔记')}
                 ${item('index.html#connect', 'connect', '关注我', true)}
