@@ -29,10 +29,15 @@
 │   ├── main.js             # （旧）首页逻辑，现已由 index.html 内联脚本取代
 │   ├── quotes.js / images.js
 ├── images/
-│   ├── backgrounds/        # 🖼️ 首页轮播风景照
+│   ├── backgrounds/        # 🖼️ 首页轮播风景照（1920 宽 WebP）
 │   ├── covers/             # 📚 书籍封面
 │   ├── mindmaps/           # 🧠 脑图图片
 │   └── social/             # 📱 wechat-qr.png（公众号二维码）
+├── tools/
+│   ├── generate-images.py  # 扫描 images/backgrounds/，生成 js/images.js
+│   └── optimize-images.py  # 大图按显示尺寸缩放并转 WebP
+├── _incoming/              # 📥 上传的原始素材（不部署）
+├── _originals/             # 🗄️ 已上线图片的原图（不部署）
 └── README.md
 ```
 
@@ -40,13 +45,16 @@
 
 ### 1. 添加背景图片
 
-将你的风景照片放入 `images/backgrounds/` 文件夹，然后运行：
+首页轮播使用压缩后的 WebP（1920 宽），原图放在 `_originals/backgrounds/`。添加新图片：
 
 ```bash
+# 1. 把原图放进 _originals/backgrounds/，生成网页用的 WebP
+python tools/optimize-images.py -w 1920 -o images/backgrounds _originals/backgrounds/新图片.jpg
+# 2. 更新图片列表 js/images.js
 python tools/generate-images.py
 ```
 
-脚本会自动扫描图片并更新 `js/images.js`。
+注意：首页 `index.html` 目前读取的是页面内 `CONFIG.backgroundImages` 列表（路径经过 URL 编码），并不读取 `js/images.js`，新增图片后需要把路径同步加到该列表。
 
 ### 2. 添加书籍
 
@@ -154,6 +162,19 @@ colorThresholds: {
 
 1. 用 XMind / 幕布 / Markmap 等绘制脑图，导出为图片放入 `images/mindmaps/`。
 2. 在 `mindmaps.html` 中把对应卡片的占位 `<div class="mindmap-empty">…</div>` 换成 `<img src="images/mindmaps/你的图.png" alt="…">`，并设置卡片 `href`。
+
+## 🖼️ 图片压缩
+
+网页引用的大图都按显示尺寸压缩成 WebP，用 `tools/optimize-images.py` 生成（需要 `pip install Pillow`，另建议安装 libwebp 的 `cwebp` 命令行工具）：
+
+| 用途 | 参数 | 示例 |
+|------|------|------|
+| 首页轮播背景 | `-w 1920` | `python tools/optimize-images.py -w 1920 -o images/backgrounds _originals/backgrounds/xxx.jpg` |
+| 诗词雅集卡片图 | `-w 1400 -q 85` | `python tools/optimize-images.py -w 1400 -q 85 -o images _incoming/xxx概念图.png` |
+| 诗词详情页卡片背景 | `-w 2816`（保持原尺寸） | `python tools/optimize-images.py -w 2816 -o images _originals/xxx_背景.png` |
+| 首页入口圆形标签 | `-w 640` | `python tools/optimize-images.py -w 640 -o images _incoming/xxx标签.png` |
+
+`_incoming/` 和 `_originals/` 不会部署到网站（见 `.github/workflows/deploy-pages.yml`），页面里请只引用 `images/` 下压缩后的文件。
 
 ## 📝 待办事项
 

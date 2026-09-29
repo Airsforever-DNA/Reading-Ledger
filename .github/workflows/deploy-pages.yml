@@ -29,11 +29,17 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
+      # 只打包网站用到的文件：_incoming/（上传素材）和 _originals/（原图）不部署
+      - name: Assemble site
+        run: |
+          mkdir _site
+          rsync -a --exclude='/.git/' --exclude='/.github/' --exclude='/_site/' \
+            --exclude='/_incoming/' --exclude='/_originals/' ./ _site/
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # 上传仓库根目录下所有静态文件
-          path: '.'
+          path: '_site'
 
       - name: Deploy to GitHub Pages
         id: deployment
