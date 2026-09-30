@@ -16,7 +16,7 @@
 background:radial-gradient(ellipse at 50% 48%, #2c3a30 0%, #1e2822 45%, #171f1a 100%);"></div>
 <script src="../assets/echarts.min.js"></script>
 <script>
-const RG = {"nodes": [{"id": "lv-huiqing", "name": "吕惠卿", "value": 2, "x": 0, "y": 0, "symbolSize": 64, "itemStyle": {"color": "#9a3b26", "borderColor": "#f6f2e9", "borderWidth": 3, "shadowBlur": 24, "shadowColor": "rgba(224,200,127,.5)"}}, {"id": "su-shi", "name": "苏轼", "value": 1, "x": 1.2858791391047208e-14, "y": -210.0, "symbolSize": 26, "itemStyle": {"color": "#9aa8a0", "borderColor": "#f6f2e9", "borderWidth": 1.5}}, {"id": "wang-an-shi", "name": "王安石", "value": 1, "x": 1.2858791391047208e-14, "y": 210.0, "symbolSize": 26, "itemStyle": {"color": "#c88a6a", "borderColor": "#f6f2e9", "borderWidth": 1.5}}], "links": [{"source": "lv-huiqing", "target": "su-shi", "label": "新法干将·政敌", "note": "吕惠卿为王安石副手，推行新法与苏轼对立。", "evolved": ""}, {"source": "lv-huiqing", "target": "wang-an-shi", "label": "新法同志→反目", "note": "吕惠卿原为王安石第一副手，后反目。", "evolved": "熙宁七年 与王反目，王罢相。"}]};
+const RG = {"nodes": [{"id": "lv-huiqing", "name": "吕惠卿", "value": 2, "x": 0, "y": 0, "symbolSize": 64, "itemStyle": {"color": "#9a3b26", "borderColor": "#f6f2e9", "borderWidth": 3, "shadowBlur": 24, "shadowColor": "rgba(224,200,127,.5)"}}, {"id": "su-shi", "name": "苏轼", "value": 1, "x": 1.2858791391047208e-14, "y": -210.0, "symbolSize": 26, "itemStyle": {"color": "#9aa8a0", "borderColor": "#f6f2e9", "borderWidth": 1.5}}, {"id": "wang-an-shi", "name": "王安石", "value": 1, "x": 1.2858791391047208e-14, "y": 210.0, "symbolSize": 26, "itemStyle": {"color": "#c88a6a", "borderColor": "#f6f2e9", "borderWidth": 1.5}}], "links": [{"source": "lv-huiqing", "target": "su-shi", "label": "新法干将·政敌", "note": "吕惠卿为王安石副手，推行新法与苏轼对立。", "evolved": ""}, {"source": "lv-huiqing", "target": "wang-an-shi", "label": "新法同志→反目", "note": "吕惠卿原为王安石第一副手，后反目。", "evolved": "熙宁七年(1074) 与王反目，王罢相。"}]};
 const SELF_ID = "lv-huiqing";
 const rch = echarts.init(document.getElementById("radial"));
 rch.setOption({
@@ -39,7 +39,7 @@ rch.setOption({
 rch.on("click", function(pp) { if (pp.dataType === "node" && pp.data.id !== SELF_ID) window.location.href = pp.data.id + ".html"; });
 window.addEventListener("resize", function() { rch.resize(); });
 </script>
-  <div class="dg-card" style="margin:8px 0;padding:12px 18px;"><b style="color:var(--dg-accent);">新法干将·政敌</b><p style="margin-top:6px;">吕惠卿为王安石副手，推行新法与苏轼对立。</p></div><div class="dg-card" style="margin:8px 0;padding:12px 18px;"><b style="color:var(--dg-accent);">新法同志→反目</b> · 演变：熙宁七年 与王反目，王罢相。<p style="margin-top:6px;">吕惠卿原为王安石第一副手，后反目。</p></div>
+  <div class="dg-card" style="margin:8px 0;padding:12px 18px;"><b style="color:var(--dg-accent);">新法干将·政敌</b><p style="margin-top:6px;">吕惠卿为王安石副手，推行新法与苏轼对立。</p></div><div class="dg-card" style="margin:8px 0;padding:12px 18px;"><b style="color:var(--dg-accent);">新法同志→反目</b> · 演变：熙宁七年(1074) 与王反目，王罢相。<p style="margin-top:6px;">吕惠卿原为王安石第一副手，后反目。</p></div>
   <p style="margin:10px 0;"><a href="../graph.html" style="font-size:14px;">→ 在关系图谱中查看 吕惠卿 的位置</a></p>
   
 </div><footer class="dg-foot">东坡居士 · 苏轼知识工程 ｜ 静心书斋 · 文人墨客</footer></body></html>

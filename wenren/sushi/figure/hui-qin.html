@@ -10,13 +10,13 @@
 <script>function goback(){ if (history.length > 1 && document.referrer) history.back(); else location.href = '../dongpo.html'; }</script>
 <div class="dg-hero"><div class="kicker">人物志 · 方外·杭州孤山僧</div><h1>惠勤</h1><div class="meta">关系辐射 · 悬停连线人物见关系 · 点击进入其人物志</div><div class="wm">惠</div></div>
 <div class="dg-wrap">
-  <div class="dg-figure-head"><div class="dg-figure-seal">惠</div><div style="flex:1;"><p style="font-size:16px;">杭州西湖孤山僧，与弟惠思并称孤山二僧。善于作诗，欧阳修尝作《山中乐》三章赠之；苏轼赴杭州通判任前，欧阳修以「西湖有僧惠勤」荐之。熙宁四年十一月二十八日苏轼抵杭州，三日即往西湖孤山访惠勤、惠思二僧，作《腊日游孤山访惠勤惠思二僧》。</p></div></div>
+  <div class="dg-figure-head"><div class="dg-figure-seal">惠</div><div style="flex:1;"><p style="font-size:16px;">杭州西湖孤山僧，与弟惠思并称孤山二僧。善于作诗，欧阳修尝作《山中乐》三章赠之；苏轼赴杭州通判任前，欧阳修以「西湖有僧惠勤」荐之。熙宁四年(1071)十一月二十八日苏轼抵杭州，三日即往西湖孤山访惠勤、惠思二僧，作《腊日游孤山访惠勤惠思二僧》。</p></div></div>
   <div class="dg-sec-title"><span class="n">关系</span><span class="t">关系辐射图</span><span class="l"></span></div>
   <div id="radial" style="height:560px;border-radius:14px;border:1px solid #3a4438;
 background:radial-gradient(ellipse at 50% 48%, #2c3a30 0%, #1e2822 45%, #171f1a 100%);"></div>
 <script src="../assets/echarts.min.js"></script>
 <script>
-const RG = {"nodes": [{"id": "hui-qin", "name": "惠勤", "value": 1, "x": 0, "y": 0, "symbolSize": 64, "itemStyle": {"color": "#9a3b26", "borderColor": "#f6f2e9", "borderWidth": 3, "shadowBlur": 24, "shadowColor": "rgba(224,200,127,.5)"}}, {"id": "su-shi", "name": "苏轼", "value": 1, "x": 1.2858791391047208e-14, "y": -210.0, "symbolSize": 26, "itemStyle": {"color": "#9aa8a0", "borderColor": "#f6f2e9", "borderWidth": 1.5}}], "links": [{"source": "hui-qin", "target": "su-shi", "label": "杭州方外之交", "note": "熙宁四年苏轼赴杭州通判任三日即往西湖孤山访惠勤、惠思二僧，作《腊日游孤山访惠勤惠思二僧》。", "evolved": ""}]};
+const RG = {"nodes": [{"id": "hui-qin", "name": "惠勤", "value": 1, "x": 0, "y": 0, "symbolSize": 64, "itemStyle": {"color": "#9a3b26", "borderColor": "#f6f2e9", "borderWidth": 3, "shadowBlur": 24, "shadowColor": "rgba(224,200,127,.5)"}}, {"id": "su-shi", "name": "苏轼", "value": 1, "x": 1.2858791391047208e-14, "y": -210.0, "symbolSize": 26, "itemStyle": {"color": "#9aa8a0", "borderColor": "#f6f2e9", "borderWidth": 1.5}}], "links": [{"source": "hui-qin", "target": "su-shi", "label": "杭州方外之交", "note": "熙宁四年(1071)苏轼赴杭州通判任三日即往西湖孤山访惠勤、惠思二僧，作《腊日游孤山访惠勤惠思二僧》。", "evolved": ""}]};
 const SELF_ID = "hui-qin";
 const rch = echarts.init(document.getElementById("radial"));
 rch.setOption({
@@ -39,7 +39,7 @@ rch.setOption({
 rch.on("click", function(pp) { if (pp.dataType === "node" && pp.data.id !== SELF_ID) window.location.href = pp.data.id + ".html"; });
 window.addEventListener("resize", function() { rch.resize(); });
 </script>
-  <div class="dg-card" style="margin:8px 0;padding:12px 18px;"><b style="color:var(--dg-accent);">杭州方外之交</b><p style="margin-top:6px;">熙宁四年苏轼赴杭州通判任三日即往西湖孤山访惠勤、惠思二僧，作《腊日游孤山访惠勤惠思二僧》。</p></div>
+  <div class="dg-card" style="margin:8px 0;padding:12px 18px;"><b style="color:var(--dg-accent);">杭州方外之交</b><p style="margin-top:6px;">熙宁四年(1071)苏轼赴杭州通判任三日即往西湖孤山访惠勤、惠思二僧，作《腊日游孤山访惠勤惠思二僧》。</p></div>
   <p style="margin:10px 0;"><a href="../graph.html" style="font-size:14px;">→ 在关系图谱中查看 惠勤 的位置</a></p>
   
 </div><footer class="dg-foot">东坡居士 · 苏轼知识工程 ｜ 静心书斋 · 文人墨客</footer></body></html>
