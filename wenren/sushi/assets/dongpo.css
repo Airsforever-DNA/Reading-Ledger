@@ -39,7 +39,8 @@ a:hover { color: var(--dg-accent); border-bottom-color: var(--dg-accent); }
 
 /* ===== 诗词原文区（主题卡） ===== */
 .dg-poem-card { position: relative; background: var(--dg-card); border: 1px solid var(--dg-line);
-  border-radius: 16px; padding: 40px 34px; box-shadow: 0 2px 14px rgba(60,50,30,.07); overflow: hidden; }
+  border-radius: 16px; padding: 40px 34px; box-shadow: 0 2px 14px rgba(60,50,30,.07); overflow: visible; }
+.dg-poem-card::before { pointer-events: none; }
 .dg-poem-card::before { content: ""; position: absolute; inset: 0;
   background: linear-gradient(160deg, color-mix(in srgb, var(--dg-c1) 6%, transparent) 0%, transparent 45%),
     radial-gradient(ellipse at 88% -10%, color-mix(in srgb, var(--dg-c2) 14%, transparent) 0%, transparent 55%);
@@ -47,10 +48,11 @@ a:hover { color: var(--dg-accent); border-bottom-color: var(--dg-accent); }
 .dg-poem-title { text-align: center; font-size: 25px; letter-spacing: 4px; }
 .dg-poem-author { text-align: center; font-size: 13.5px; color: var(--dg-sub); margin-top: 8px; letter-spacing: 2px; }
 .dg-poem-body { margin-top: 26px; text-align: center; }
-.dg-line { display: block; font-size: 21px; letter-spacing: 2px; margin: 9px auto; position: relative; display: inline-block; }
-.dg-poem-body > br + .dg-line, .dg-poem-body .dg-line { display: block; }
-.dg-line.has-note { cursor: help; }
-.dg-line.has-note::after { content: "◈"; font-size: 9px; color: var(--dg-c2); vertical-align: super; margin-left: 3px; opacity: .8; }
+.dg-line { display: block; font-size: 21px; letter-spacing: 2px; margin: 9px auto; position: relative; width: fit-content; margin-inline: auto; padding: 2px 10px; border-radius: 8px; transition: background .25s; }
+.dg-line.has-note { cursor: pointer; }
+.dg-line.has-note:hover, .dg-line.has-note.open { background: color-mix(in srgb, var(--dg-c2) 16%, transparent); }
+.dg-line.has-note:hover::after, .dg-line.has-note.open::after { opacity: 1; transform: scale(1.25); }
+.dg-line.has-note::after { content: "◈"; font-size: 9px; color: var(--dg-c2); vertical-align: super; margin-left: 4px; opacity: .75; transition: transform .2s, opacity .2s; display: inline-block; }
 
 /* ===== 悬停弹窗（笺注） ===== */
 .dg-pop { position: absolute; left: 50%; transform: translateX(-50%) translateY(6px); bottom: calc(100% + 10px);
@@ -61,7 +63,10 @@ a:hover { color: var(--dg-accent); border-bottom-color: var(--dg-accent); }
 .dg-pop .q { color: var(--dg-c2); display: block; margin-bottom: 6px; font-size: 13px; }
 .dg-pop::after { content: ""; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
   border: 7px solid transparent; border-top-color: #262019; }
-.has-note:hover .dg-pop, .has-note:focus-visible .dg-pop { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+.has-note:hover .dg-pop, .has-note.open .dg-pop, .has-note:focus-visible .dg-pop { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+.has-note .dg-pop.down { bottom: auto; top: calc(100% + 12px); transform: translateX(-50%) translateY(-6px); }
+.has-note:hover .dg-pop.down, .has-note.open .dg-pop.down { transform: translateX(-50%) translateY(0); }
+.has-note .dg-pop.down::after { top: auto; bottom: 100%; border-top-color: transparent; border-bottom-color: #262019; }
 .dg-word { border-bottom: 1px dotted var(--dg-gold); cursor: help; position: relative; }
 .dg-word .dg-pop { width: min(420px, 84vw); }
 
