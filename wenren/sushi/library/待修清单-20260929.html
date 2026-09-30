@@ -1,0 +1,25 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>待修清单（Qi 验收中发现的缺陷，攒批最后一起改） · 东坡居士</title>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600&family=Noto+Sans+SC&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/dongpo.css">
+<style>
+.lib-body { max-width: 820px; margin: 26px auto 80px; padding: 30px 34px; background: var(--dg-card);
+  border: 1px solid var(--dg-line); border-radius: 14px; }
+.lib-body h1 { font-size: 24px; letter-spacing: 3px; margin: 16px 0 12px; }
+.lib-body h2 { font-size: 19px; margin: 24px 0 10px; color: var(--dg-pine); border-bottom: 1px solid var(--dg-line); padding-bottom: 6px; }
+.lib-body h3 { font-size: 16.5px; margin: 18px 0 8px; color: var(--dg-accent-soft, #c46a50); }
+.lib-body p { margin: 9px 0; font-size: 15.5px; }
+.lib-body li { margin: 5px 0; font-size: 15.5px; }
+.lib-body table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13.5px; }
+.lib-body th { background: var(--dg-pine); color: #fff; padding: 7px 10px; text-align: left; }
+.lib-body td { padding: 6px 10px; border-bottom: 1px solid var(--dg-line); }
+</style></head><body>
+<div class="dg-crumb"><a href="../../../index.html">静心书斋</a><span class="sep">›</span><a href="../../../shiciyaji.html">诗词雅集</a><span class="sep">›</span><a href="../dongpo.html">东坡居士</a><span class="sep">›</span><span class="cur">溯源核查</span></div>
+<div class="lib-body" id="content">正在渲染……</div>
+<script src="../assets/marked.min.js"></script>
+<script>
+const MD = "# 待修清单（Qi 验收中发现的缺陷，攒批最后一起改）\n\n> 逐条记录，等 Qi 全部验收后统一修复。\n\n## #1 人物关系图谱未加载成功（2026-09-29 Qi 报告）【已修复 2026-09-29】\n\n- **现象**：双击打开 `02-人物关系/人物关系图.html` 显示「未加载到 echarts」兜底提示，图表空白。\n- **诊断（已定位根因，未修）**：\n  - 文件第 46 行残留构建占位符 `__JS_START__`、第 215 行残留 `__JS_END__`——均为未定义标识符，JS 执行到第 46 行即抛 ReferenceError，全部图表逻辑（含 echarts.init）中断；\n  - echarts.min.js 本身完好（1,029,203 字节、node --check 通过）、相对路径正确、时间线页同引用方式渲染正常（headless 实测 2 canvas）——排除资源/路径因素；\n  - 来源：builder 第二轮「按修补后 JSON 重生成」时模板替换不彻底（第一轮曾有 `__PAGE_JS__` 占位符未替换缺陷并加了校验，但该校验未覆盖 `__JS_START__/__JS_END__` 这对占位符名——防复发校验盲区）。\n- **修复记录（2026-09-29）**：删除 L46 `__JS_START__` / L215 `__JS_END__` 两行；验证：占位符残留 0（四页顺检全 0）→ node --check 内嵌脚本 OK → headless 实测 canvas 1（修复前 0，echarts.init 成功执行的决定性证据）→ 截图 222KB+115 色彩桶（彩色节点渲染）；zai-vision 两轮超时改用像素级结构化验证（留痕）。\n- **原修法（保留备查）**：删除第 46 行 `__JS_START__` 与第 215 行 `__JS_END__` 两行（或重跑 `Documents/ZCode/sushi-graph-20260929/build_graph_html.py` 并先修复其替换逻辑）；修后 headless 复测 canvas 渲染 + 数据计数（59/94）；顺检 01/05 两页有无同类占位符残留（当前已查时间线页正常，知识地图页待顺检）。\n\n## #2（待 Qi 后续验收补充）\n\n## #2 md 渲染层（2026-09-29 Qi 拍板新增，已完成）\n\n- 72 个 md 全部生成同名 .html 阅读页（marked.min.js 本地化至 assets/，md 原文嵌入+客户端渲染+统一样式+面包屑+文内 .md 链接自动改指 .html）；A 档校验：72/72 生成、3 抽样嵌入往返一致、导航 14 处链接切换、知识地图重生成后 153 处 md 链接重写（零失效）、水调歌头页 headless 实测 marked 渲染成功（15 结构元素）。\n- 第五篇评论《千年慰藉》：Qi 决定不专门写，后续有感自补。\n";
+document.getElementById('content').innerHTML = marked.parse(MD);
+</script>
+<footer class="dg-foot">东坡居士 · 苏轼知识工程 ｜ 静心书斋 · 文人墨客</footer>
+</body></html>
