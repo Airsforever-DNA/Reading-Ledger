@@ -3,30 +3,52 @@
 <meta name="description" content="苏轼知识工程——生平编年、人物图谱、诗词文章逐句细读、轶事评论，交互漫游千年东坡。">
 <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600&family=Noto+Sans+SC&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/dongpo.css">
-<style>:root{--dg-c1:#243028;--dg-c2:#e0c87f;}
-.dp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:26px;}
-.dp-card{display:block;background:var(--dg-card);border:1px solid var(--dg-line);border-radius:14px;padding:24px 22px;color:inherit;border-bottom:1px solid var(--dg-line);transition:transform .2s,box-shadow .2s;position:relative;overflow:hidden;}
-.dp-card:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(60,50,30,.12);}
-.dp-card .g{font-family:'Ma Shan Zheng',cursive;font-size:40px;color:var(--dg-c2);opacity:.9;}
-.dp-card .t{font-size:17px;letter-spacing:2px;margin-top:10px;font-weight:600;}
-.dp-card .s{font-size:12.5px;color:var(--dg-sub);margin-top:6px;line-height:1.7;}
-.dp-quote{margin:44px auto 0;max-width:620px;text-align:center;font-size:17px;letter-spacing:2px;color:#4a4438;line-height:2.1;}
-.dp-quote .src{font-size:12.5px;color:#a89c82;display:block;margin-top:8px;}
-@media(max-width:760px){.dp-grid{grid-template-columns:1fr 1fr;}}
+<style>
+.dp-rows{max-width:860px;margin:30px auto 0;display:flex;flex-direction:column;gap:11px;padding:0 16px 70px;}
+.dp-row{display:flex;align-items:center;gap:18px;padding:16px 22px;background:var(--dg-card);border:1px solid var(--dg-line);
+  border-radius:13px;text-decoration:none;color:inherit;transition:transform .2s,box-shadow .2s,border-color .2s,padding-left .2s;}
+.dp-row:hover{transform:translateX(6px);box-shadow:0 8px 22px rgba(90,100,80,.16);border-color:#9a7b3f;padding-left:28px;}
+.dp-row .g{width:52px;height:52px;flex-shrink:0;border-radius:11px;display:flex;align-items:center;justify-content:center;
+  font-family:'Ma Shan Zheng',cursive;font-size:27px;color:#fff;box-shadow:0 3px 8px rgba(60,70,50,.2);}
+.dp-row .tx{flex:1;}
+.dp-row .t{font-size:18px;letter-spacing:2px;font-weight:600;color:#2c3626;}
+.dp-row .t .n{font-size:12px;color:#9a7b3f;font-weight:400;margin-left:8px;letter-spacing:1px;}
+.dp-row .s{display:block;font-size:12.5px;color:#7c7462;margin-top:4px;letter-spacing:.5px;}
+.dp-row .go{font-size:13px;color:#9a7b3f;letter-spacing:2px;flex-shrink:0;transition:transform .2s;}
+.dp-row:hover .go{transform:translateX(4px);}
 </style></head><body>
 <div class="dg-crumb"><a href="../../index.html">静心书斋</a><span class="sep">›</span><a href="../../shiciyaji.html">诗词雅集</a><span class="sep">›</span><span class="cur">东坡居士</span></div>
-<div class="dg-hero" style="padding:80px 24px 60px;"><div class="kicker">文人墨客 · 第一人</div><h1 style="font-size:44px;">东坡居士 · 苏轼</h1><div class="meta" style="font-size:14.5px;">1037–1101 · 北宋眉山 · 字子瞻 · 号东坡居士 · 谥文忠<br>诗、词、文、书、画皆为一代之冠，而一生三贬、愈贬愈旷达</div><div class="wm" style="font-size:300px;">蘇</div></div>
-<div class="dg-wrap">
-  <p class="dp-quote">「试问岭南应不好？却道：此心安处是吾乡。」<span class="src">—— 定风波·南海归赠王定国侍人寓娘</span></p>
-  <div class="dp-grid">
-    <a class="dp-card" href="poem/index.html"><span class="g">詞</span><div class="t">诗词解析 · 37 篇</div><div class="s">逐句悬停笺注、系年背景、赏析与关联网络，词 15 · 诗 22</div></a>
-    <a class="dp-card" href="prose/index.html"><span class="g">文</span><div class="t">文章解析 · 11 篇</div><div class="s">前后赤壁赋、石钟山记、韩文公庙碑全碑……全文悬停段落笺注</div></a>
-    <a class="dp-card" href="figure/index.html"><span class="g">人</span><div class="t">人物志 · 59 人</div><div class="s">家人师友门生政敌方外皇室艺苑，每人一页综合志</div></a>
-    <a class="dp-card" href="timeline-life.html"><span class="g">年</span><div class="t">人生大事年表</div><div class="s">136 事编年十阶段，人物作品皆可点击跳转</div></a>
-    <a class="dp-card" href="timeline-works.html"><span class="g">作</span><div class="t">作品时间线</div><div class="s">48 篇按编年排列，一键进入解析页</div></a>
-    <a class="dp-card" href="graph.html"><span class="g">網</span><div class="t">关系图谱</div><div class="s">59 人 94 边力导向图，点击人物进入人物志</div></a>
-    <a class="dp-card" href="library/anecdotes.html"><span class="g">趣</span><div class="t">轶事典故 · 40 则</div><div class="s">旷达、幽默、美食、书画、手足、师友、贬谪传说七册</div></a>
-    <a class="dp-card" href="library/essays.html"><span class="g">評</span><div class="t">评论文章 · 4 篇</div><div class="s">旷达哲学、党争困局、贬谪创作、艺术世界</div></a>
-    <a class="dp-card" href="figure/su-shi.html"><span class="g">傳</span><div class="t">苏轼综合志</div><div class="s">人物志中的苏轼本传页：档案·关系·编年一体</div></a>
-  </div>
-</div>{foot()}</body></html>
+<div class="dg-hero" style="position:relative;overflow:hidden;padding:74px 24px 56px;"><svg viewBox="0 0 900 260" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0;width:100%;height:100%;"><circle cx="660" cy="80" r="30" fill="#e0c87f" fill-opacity=".8"/><circle cx="673" cy="74" r="33" fill="#1e2a3d" fill-opacity=".9"/><circle cx="660" cy="80" r="58" fill="#e0c87f" fill-opacity=".07"/><circle cx="660" cy="80" r="92" fill="#e0c87f" fill-opacity=".04"/><path d="M0,200 q120,26 240,0 t240,0 t240,0 t240,0" fill="none" stroke="#e0c87f" stroke-width="1.4" stroke-opacity=".4"/><path d="M0,220 q140,22 280,0 t280,0 t280,0" fill="none" stroke="#e0c87f" stroke-width="1.1" stroke-opacity=".26"/><path d="M640,200 q22,10 44,0 l-8,8 h-28 z" fill="#e0c87f" fill-opacity=".5"/><line x1="662" y1="198" x2="662" y2="168" stroke="#e0c87f" stroke-width="1.5" stroke-opacity=".5"/><path d="M664,172 q14,8 2,24" fill="#e0c87f" fill-opacity=".3"/></svg><div style="position:relative;z-index:1;">
+<div class="kicker">文人墨客 · 第一人</div>
+<h1 style="font-size:42px;">东坡居士 · 苏轼</h1>
+<div class="meta" style="font-size:14.5px;">1037–1101 · 北宋眉山 · 字子瞻 · 号东坡居士 · 谥文忠<br>诗、词、文、书、画皆为一代之冠，而一生三贬、愈贬愈旷达</div></div></div>
+<p style="text-align:center;font-size:17px;letter-spacing:2px;color:#4a4438;max-width:620px;margin:34px auto 0;line-height:2;">「试问岭南应不好？却道：此心安处是吾乡。」<span style="display:block;font-size:12.5px;color:#a89c82;margin-top:6px;">—— 定风波·南海归赠王定国侍人寓娘</span></p>
+<div class="dp-rows"><a class="dp-row" href="poem/index.html">
+<span class="g" style="background:#7da7c9;">詞</span>
+<span class="tx"><span class="t">诗词解析 <span class="n">37 篇（词 15 · 诗 22）</span></span><span class="s">逐句悬停笺注 · 主题色块列表 · 系年背景与关联网络</span></span>
+<span class="go">进入 ⟶</span></a><a class="dp-row" href="prose/index.html">
+<span class="g" style="background:#8db89a;">文</span>
+<span class="tx"><span class="t">文章解析 <span class="n">11 篇</span></span><span class="s">前后赤壁赋、石钟山记、韩文公庙碑全碑……全文段落悬停笺注</span></span>
+<span class="go">进入 ⟶</span></a><a class="dp-row" href="figure/index.html">
+<span class="g" style="background:#c993a8;">人</span>
+<span class="tx"><span class="t">人物志 <span class="n">59 人 · 十大圈层</span></span><span class="s">列表可搜索 · 每人关系环图 + 编年纪事 + 作品链接</span></span>
+<span class="go">进入 ⟶</span></a><a class="dp-row" href="timeline-life.html">
+<span class="g" style="background:#a3bd7d;">年</span>
+<span class="tx"><span class="t">人生大事年表 <span class="n">136 事 · 十阶段</span></span><span class="s">交互编年图 + 宦游路线 · 左侧类型标注 · 事件流方向导航</span></span>
+<span class="go">进入 ⟶</span></a><a class="dp-row" href="timeline-works.html">
+<span class="g" style="background:#7fb3ba;">作</span>
+<span class="tx"><span class="t">作品时间线 <span class="n">48 篇编年</span></span><span class="s">图形化散点（词/诗/文三层）· 悬停首句 · 点击进解析页</span></span>
+<span class="go">进入 ⟶</span></a><a class="dp-row" href="graph.html">
+<span class="g" style="background:#9a93b5;">網</span>
+<span class="tx"><span class="t">关系图谱 <span class="n">59 人 · 94 边</span></span><span class="s">苏轼中心圈层环图 / 力导向双布局 · 点击人物进人物志</span></span>
+<span class="go">进入 ⟶</span></a><a class="dp-row" href="library/anecdotes.html">
+<span class="g" style="background:#d998ab;">趣</span>
+<span class="tx"><span class="t">轶事典故 · 博客 <span class="n">40 则 · 七册</span></span><span class="s">博客式连载：总目录 + 上下篇导航 + 出处可视化</span></span>
+<span class="go">进入 ⟶</span></a><a class="dp-row" href="library/essays.html">
+<span class="g" style="background:#c98d7d;">評</span>
+<span class="tx"><span class="t">评论文章 <span class="n">4 篇</span></span><span class="s">旷达哲学 · 党争困局 · 贬谪创作 · 艺术世界</span></span>
+<span class="go">进入 ⟶</span></a><a class="dp-row" href="figure/su-shi.html">
+<span class="g" style="background:#b5654f;">傳</span>
+<span class="tx"><span class="t">苏轼综合志 <span class="n">档案 · 关系 · 编年</span></span><span class="s">人物志中的苏轼本传页</span></span>
+<span class="go">进入 ⟶</span></a></div>
+<footer class="dg-foot">东坡居士 · 苏轼知识工程 ｜ 静心书斋 · 文人墨客</footer></body></html>
