@@ -6,30 +6,39 @@
 .ndot:hover .ndot-pop{opacity:1;visibility:visible;} foreignObject{pointer-events:none;} .ndot{pointer-events:auto;}
 .radial{background:var(--dg-card);border:1px solid var(--dg-line);border-radius:14px;padding:18px;display:flex;justify-content:center;}
 </style></head><body>
-<div class="dg-crumb"><a href="../../../index.html">静心书斋</a><span class="sep">›</span><a href="../../../shiciyaji.html">诗词雅集</a><span class="sep">›</span><a href="../dongpo.html">东坡居士</a><span class="sep">›</span><span class="cur">人物志 · 王弗</span></div>
+<div class="dg-crumb"><span style="float:left;"><a href="javascript:void(0)" onclick="goback()" style="color:#e0c87f;">⟨ 返回</a></span><a href="../../../index.html">静心书斋</a><span class="sep">›</span><a href="../../../shiciyaji.html">诗词雅集</a><span class="sep">›</span><a href="../dongpo.html">东坡居士</a><span class="sep">›</span><span class="cur">人物志 · 王弗</span></div>
+<script>function goback(){ if (history.length > 1 && document.referrer) history.back(); else location.href = '../dongpo.html'; }</script>
 <div class="dg-hero"><div class="kicker">人物志 · 家人·元配</div><h1>王弗</h1><div class="meta">关系辐射 · 悬停连线人物见关系 · 点击进入其人物志</div><div class="wm">王</div></div>
 <div class="dg-wrap">
   <div class="dg-figure-head"><div class="dg-figure-seal">王</div><div style="flex:1;"><p style="font-size:16px;">眉山青神王氏，处士王方之女，苏轼元配。少年聪慧，每苏轼读书，伴坐终日；能记父兄所议论而助苏轼识别宦场人物。</p></div></div>
   <div class="dg-sec-title"><span class="n">关系</span><span class="t">关系辐射图</span><span class="l"></span></div>
-  <div class="radial"><svg viewBox="0 0 360 336" style="width:100%;max-width:420px;overflow:visible;"><circle cx="180" cy="168" r="34" fill="var(--dg-c1)" opacity=".9"/><text x="180" y="175" text-anchor="middle" font-size="26" fill="var(--dg-c2)" font-family="Ma Shan Zheng,cursive">王</text><line x1="180" y1="134" x2="180" y2="58" stroke="#b0a488" stroke-width="1.2"/><g class="ndot" data-href="../figure/su-shi.html" style="cursor:pointer;">
-<a href="../figure/su-shi.html" xlink:href="../figure/su-shi.html"><circle cx="180" cy="36" r="21" fill="#fffdf8" stroke="var(--dg-c2)" stroke-width="1.5"/>
-<text x="180" y="42" text-anchor="middle" font-size="15" fill="#4a4438" font-family="'Noto Serif SC',serif">苏</text></a>
-<text x="180" y="74" text-anchor="middle" font-size="10.5" fill="#7c7462">苏轼</text>
-<foreignObject x="30" y="18.0" width="300" height="1" style="overflow:visible;">
-<div xmlns="http://www.w3.org/1999/xhtml" class="dg-pop ndot-pop" style="left:0;transform:none;bottom:auto;width:280px;text-align:left;"><b style="color:#e0c87f;">夫妻</b><br>王弗 1055 年适苏轼，1065 年卒于京师。<br>苏轼结发妻，少年贤内助，《亡妻王氏墓志铭》祭之。</div>
-</foreignObject></g><line x1="209" y1="185" x2="275" y2="223" stroke="#b0a488" stroke-width="1.2"/><g class="ndot" data-href="../figure/su-mai.html" style="cursor:pointer;">
-<a href="../figure/su-mai.html" xlink:href="../figure/su-mai.html"><circle cx="294" cy="234" r="21" fill="#fffdf8" stroke="var(--dg-c2)" stroke-width="1.5"/>
-<text x="294" y="240" text-anchor="middle" font-size="15" fill="#4a4438" font-family="'Noto Serif SC',serif">苏</text></a>
-<text x="294" y="272" text-anchor="middle" font-size="10.5" fill="#7c7462">苏迈</text>
-<foreignObject x="144" y="243.99999999999997" width="300" height="1" style="overflow:visible;">
-<div xmlns="http://www.w3.org/1999/xhtml" class="dg-pop ndot-pop" style="left:0;transform:none;bottom:auto;width:280px;text-align:left;"><b style="color:#e0c87f;">母子</b><br>王弗长子苏迈。</div>
-</foreignObject></g><line x1="151" y1="185" x2="85" y2="223" stroke="#b0a488" stroke-width="1.2"/><g class="ndot" data-href="../figure/su-zhe.html" style="cursor:pointer;">
-<a href="../figure/su-zhe.html" xlink:href="../figure/su-zhe.html"><circle cx="66" cy="234" r="21" fill="#fffdf8" stroke="var(--dg-c2)" stroke-width="1.5"/>
-<text x="66" y="240" text-anchor="middle" font-size="15" fill="#4a4438" font-family="'Noto Serif SC',serif">苏</text></a>
-<text x="66" y="272" text-anchor="middle" font-size="10.5" fill="#7c7462">苏辙</text>
-<foreignObject x="0" y="244.00000000000006" width="300" height="1" style="overflow:visible;">
-<div xmlns="http://www.w3.org/1999/xhtml" class="dg-pop ndot-pop" style="left:0;transform:none;bottom:auto;width:280px;text-align:left;"><b style="color:#e0c87f;">嫂嫂</b><br>苏辙敬嫂，与王弗感情甚好。</div>
-</foreignObject></g></svg></div>
+  <div id="radial" style="height:560px;border-radius:14px;border:1px solid #3a4438;
+background:radial-gradient(ellipse at 50% 48%, #2c3a30 0%, #1e2822 45%, #171f1a 100%);"></div>
+<script src="../assets/echarts.min.js"></script>
+<script>
+const RG = {"nodes": [{"id": "wang-fu", "name": "王弗", "value": 3, "x": 0, "y": 0, "symbolSize": 64, "itemStyle": {"color": "#9a3b26", "borderColor": "#f6f2e9", "borderWidth": 3, "shadowBlur": 24, "shadowColor": "rgba(224,200,127,.5)"}}, {"id": "su-shi", "name": "苏轼", "value": 1, "x": 1.2858791391047208e-14, "y": -210.0, "symbolSize": 26, "itemStyle": {"color": "#9aa8a0", "borderColor": "#f6f2e9", "borderWidth": 1.5}}, {"id": "su-mai", "name": "苏迈", "value": 1, "x": 181.86533479473212, "y": 104.99999999999997, "symbolSize": 26, "itemStyle": {"color": "#d48a7a", "borderColor": "#f6f2e9", "borderWidth": 1.5}}, {"id": "su-zhe", "name": "苏辙", "value": 1, "x": -181.8653347947321, "y": 105.00000000000007, "symbolSize": 26, "itemStyle": {"color": "#d48a7a", "borderColor": "#f6f2e9", "borderWidth": 1.5}}], "links": [{"source": "wang-fu", "target": "su-shi", "label": "夫妻", "note": "苏轼结发妻，少年贤内助，《亡妻王氏墓志铭》祭之。", "evolved": "王弗 1055 年适苏轼，1065 年卒于京师。"}, {"source": "wang-fu", "target": "su-mai", "label": "母子", "note": "王弗长子苏迈。", "evolved": ""}, {"source": "wang-fu", "target": "su-zhe", "label": "嫂嫂", "note": "苏辙敬嫂，与王弗感情甚好。", "evolved": ""}]};
+const SELF_ID = "wang-fu";
+const rch = echarts.init(document.getElementById("radial"));
+rch.setOption({
+  backgroundColor: "transparent",
+  tooltip: {backgroundColor: "#141a16", borderColor: "#4a5448", textStyle: {color: "#e8e0cd"}, extraCssText: "max-width:320px;white-space:normal;",
+    formatter: function(pp) {
+      if (pp.dataType === "edge") { var s = "<b style=\"color:#e0c87f;\">" + (pp.data.label || "") + "</b>";
+        if (pp.data.evolved) s += "<br><i style=\"color:#b8d090;\">" + pp.data.evolved + "</i>";
+        if (pp.data.note) s += "<br>" + pp.data.note; return s; }
+      return "<b style=\"color:#e0c87f;\">" + pp.data.name + "</b><br><i style=\"color:#b8ad93;\">点击进入人物志</i>";
+    }},
+  series: [{type: "graph", layout: "none", roam: true,
+    data: RG.nodes,
+    links: RG.links,
+    label: {show: true, color: "#e8e0cd", fontSize: 12, fontFamily: "Noto Serif SC", position: "bottom", distance: 5},
+    lineStyle: {color: "#8a9a88", width: 1.3, curveness: 0.1, opacity: .55},
+    emphasis: {focus: "adjacency", label: {fontSize: 14, color: "#e0c87f"}, lineStyle: {width: 2.6, opacity: 1, color: "#e0c87f"}}
+  }]
+});
+rch.on("click", function(pp) { if (pp.dataType === "node" && pp.data.id !== SELF_ID) window.location.href = pp.data.id + ".html"; });
+window.addEventListener("resize", function() { rch.resize(); });
+</script>
   <div class="dg-card" style="margin:8px 0;padding:12px 18px;"><b style="color:var(--dg-accent);">夫妻</b> · 演变：王弗 1055 年适苏轼，1065 年卒于京师。<p style="margin-top:6px;">苏轼结发妻，少年贤内助，《亡妻王氏墓志铭》祭之。</p></div><div class="dg-card" style="margin:8px 0;padding:12px 18px;"><b style="color:var(--dg-accent);">母子</b><p style="margin-top:6px;">王弗长子苏迈。</p></div><div class="dg-card" style="margin:8px 0;padding:12px 18px;"><b style="color:var(--dg-accent);">嫂嫂</b><p style="margin-top:6px;">苏辙敬嫂，与王弗感情甚好。</p></div>
   <p style="margin:10px 0;"><a href="../graph.html" style="font-size:14px;">→ 在关系图谱中查看 王弗 的位置</a></p>
   <div class="dg-sec-title"><span class="n">编年</span><span class="t">相关纪事</span><span class="l"></span></div><div class="dg-tl"><div class="dg-tl-item"><span class="dg-tl-year">1054</span><div class="dg-card" style="margin:6px 0 14px;padding:12px 16px;">至和元年 · 眉州眉山<br><a href="../figure/su-shi.html">苏轼</a>十八岁，娶眉山青神县乡贡进士王方之女<a href="../figure/wang-fu.html">王弗</a>为妻；<a href="../figure/wang-fu.html">王弗</a>敏而静，识人甚明。<div style="margin-top:6px;"></div></div></div><div class="dg-tl-item"><span class="dg-tl-year">1058</span><div class="dg-card" style="margin:6px 0 14px;padding:12px 16px;">嘉祐三年 · 眉州<br><a href="../figure/su-shi.html">苏轼</a>居眉山守制；研读《论语》《孟子》；与<a href="../figure/wang-fu.html">王弗</a>于乡。<div style="margin-top:6px;"></div></div></div><div class="dg-tl-item"><span class="dg-tl-year">1062</span><div class="dg-card" style="margin:6px 0 14px;padding:12px 16px;">嘉祐七年 · 凤翔<br><a href="../figure/su-shi.html">苏轼</a>到凤翔任签判；与<a href="../figure/wang-fu.html">王弗</a>同赴；判案明断；作《凤翔八观》《李太白仙诗卷后》等诗。<div style="margin-top:6px;"><span class="dg-tagline">凤翔八观</span> <span class="dg-tagline">李太白仙诗卷后</span></div></div></div><div class="dg-tl-item"><span class="dg-tl-year">1065</span><div class="dg-card" style="margin:6px 0 14px;padding:12px 16px;">治平二年 · 凤翔→京师<br>凤翔任满返京；五月<a href="../figure/wang-fu.html">王弗</a>卒于京师，年二十七；遗孤<a href="../figure/su-mai.html">苏迈</a>年十一。<div style="margin-top:6px;"></div></div></div><div class="dg-tl-item"><span class="dg-tl-year">1066</span><div class="dg-card" style="margin:6px 0 14px;padding:12px 16px;">治平三年（续） · 眉山<br><a href="../figure/su-shi.html">苏轼</a>于眉山安葬<a href="../figure/wang-fu.html">王弗</a>；读《易传》；时<a href="../figure/su-xun.html">苏洵</a>在京与<a href="../figure/ouyang-xiu.html">欧阳修</a>论学。<div style="margin-top:6px;"></div></div></div></div>

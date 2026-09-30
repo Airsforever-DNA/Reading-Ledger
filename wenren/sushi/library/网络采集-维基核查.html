@@ -19,7 +19,9 @@
 <script src="../assets/marked.min.js"></script>
 <script>
 const MD = "# 苏轼维基百科核查\n\n> 本文件为\"苏轼知识工程\"网络采集产物，采集时间：2026-09-29\n> 来源：https://zh.wikipedia.org/wiki/苏轼\n\n---\n\n## 基础信息\n\n| 项目 | 内容 | 来源 |\n|------|------|------|\n| 生卒日期 | 1037年1月8日—1101年8月24日 | zh.wikipedia.org |\n| 逝世地点 | 常州 | zh.wikipedia.org |\n| 安葬地点 | 郏县小峨眉山 | zh.wikipedia.org |\n| 主要官职 | 端明殿学士兼翰林学士、礼部郎中、户部侍郎、兵部尚书 | zh.wikipedia.org |\n| 谥号 | 文忠 | zh.wikipedia.org |\n\n---\n\n## 补充信息\n\n| 项目 | 内容 |\n|------|------|\n| 字 | 子瞻 |\n| 号 | 东坡居士 |\n| 籍贯 | 眉州眉山（今四川眉山） |\n| 父亲 | 苏洵 |\n| 弟弟 | 苏辙 |\n| 合称 | 三苏（苏洵、苏轼、苏辙） |\n\n---\n\n**来源**：https://zh.wikipedia.org/wiki/苏轼\n**采集时间**：2026-09-29\n";
-document.getElementById('content').innerHTML = marked.parse(MD);
+document.getElementById('content').innerHTML = marked.parse(MD)
+  .replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>')
+  .replace(/\*\*/g, '');
 </script>
 <footer class="dg-foot">东坡居士 · 苏轼知识工程 ｜ 静心书斋 · 文人墨客</footer>
 </body></html>
