@@ -1,0 +1,14 @@
+# 密钥 / 凭证 —— 绝不要提交
+.env
+.env.*
+*.pem
+*.key
+credentials.json
+secrets.json
+
+# Python
+__pycache__/
+*.py[cod]
+
+# 系统
+.DS_Store
